@@ -1,1 +1,33 @@
 /* You can add global styles to this file, and also import other style files */
+html,
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+main {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  svg {
+    max-width: 400px;
+  }
+}
+
+.phone-number {
+  display: block;
+  padding: 0.5rem;
+  margin: 1rem auto;
+  border-radius: 100px;
+  background: #393185;
+  text-decoration: none;
+  color: white;
+  transition: 0.2s ease-in;
+  border: 1px solid #393185;
+  &:hover {
+    background: white;
+    color: #393185;
+  }
+}
