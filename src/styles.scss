@@ -12,6 +12,7 @@ main {
   text-align: center;
 
   svg {
+    width: 100%;
     max-width: 400px;
   }
 }
@@ -26,6 +27,7 @@ main {
   color: white;
   transition: 0.2s ease-in;
   border: 1px solid #393185;
+
   &:hover {
     background: white;
     color: #393185;
