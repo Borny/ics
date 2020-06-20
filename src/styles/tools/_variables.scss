@@ -1,0 +1,53 @@
+///////////
+// COLORS
+///////////
+
+$white: #ffffff;
+$black: #000000;
+
+$minsk: #393185;
+
+$cod-gray: #191919;
+
+$color-primary: $minsk;
+$color-secondary: $cod-gray;
+// $color-secondary: $yellow-sea;
+// $color-tertiary: $mirage;
+
+//////////
+// FONTS
+//////////
+
+// Roboto
+$fontPoppins: "Poppins",
+"Roboto",
+sans-serif;
+
+$fontOswald: "Oswald",
+"Roboto",
+sans-serif;
+
+////////////////
+// FONT WEIGHT
+////////////////
+
+$fontWeightLight: 300;
+$fontWeightBase: 400;
+$fontWeightSemi: normal;
+$fontWeightBold: bold;
+$fontWeightBolder: bolder;
+
+/////////////////
+// Z-INDEX
+/////////////////
+$zindex-header: 50;
+$zindex-modal: 100;
+
+/////////////////
+// SCREEN SIZES
+/////////////////
+
+$screen-xs: 480px;
+$screen-sm: 768px;
+$screen-md: 992px;
+$screen-lg: 1200px;
