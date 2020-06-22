@@ -63,15 +63,18 @@ textarea {
   font-family: $fontPoppins;
 }
 
+// HEADINGS
 h1,
 h2 {
   font-family: $fontOswald;
 }
 
+// LINKS
 a {
   text-decoration: none;
   border: none;
   outline: none;
+  color: inherit;
 }
 
 li {

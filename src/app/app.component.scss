@@ -1,1 +1,48 @@
+@import '../styles/tools/variables';
+@import '../styles/tools/mixins';
 
+.main-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.sidenav-container {
+  flex: 1 auto;
+}
+
+.nav-item {
+  font-size: 1rem;
+  border-bottom: 1px solid $color-primary;
+
+  &.active,
+  &:active {
+    color: $white;
+    background: $color-primary;
+  }
+
+  @include screen-sm {
+    border: none;
+    padding: 0 1rem;
+
+    .nav-link {
+
+      &.active,
+      &:active {
+        border-bottom: 2px solid $white;
+      }
+    }
+  }
+}
+
+// DESKTOP
+nav {
+  ul {
+    display: flex;
+  }
+}

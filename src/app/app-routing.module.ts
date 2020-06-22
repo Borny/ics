@@ -3,7 +3,7 @@ import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'home',
     loadChildren: () => import('./views/home/home.module').then(m => m.HomeViewModule)
   },
   {
@@ -23,8 +23,13 @@ const routes: Routes = [
     loadChildren: () => import('./views/contact/contact.module').then(m => m.ContactViewModule)
   },
   {
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full'
+  },
+  {
     path: '**',
-    redirectTo: '',
+    redirectTo: 'home',
     pathMatch: 'full'
   }
 ];
