@@ -1,7 +1,7 @@
 <div class="main-container">
   <mat-toolbar color="primary" class="toolbar">
     <!-- MOBILE -->
-    <ics-logo *ngIf="mobileQuery.matches"></ics-logo>
+    <ics-logo *ngIf="mobileQuery.matches" color="white"></ics-logo>
     <!-- <button mat-icon-button (click)="snav.toggle() && toggle()"> -->
     <button *ngIf="mobileQuery.matches" mat-icon-button (click)="toggleNav()">
       <mat-icon>{{ navToggle?.opened ? "close" : "menu" }}</mat-icon>
@@ -19,17 +19,17 @@
         </li>
         <li class="nav-item">
           <a routerLink="/about" routerLinkActive="active" class="nav-link"
-            >About</a
+            >A propos de nous</a
           >
         </li>
         <li class="nav-item">
           <a routerLink="/programs" routerLinkActive="active" class="nav-link"
-            >Programs</a
+            >Nos programmes</a
           >
         </li>
         <li class="nav-item">
           <a routerLink="/media" routerLinkActive="active" class="nav-link"
-            >Media</a
+            >Medias</a
           >
         </li>
         <li class="nav-item">
@@ -50,15 +50,7 @@
           (click)="toggleNav()"
           routerLink="/home"
           routerLinkActive="active"
-          >Home</a
-        >
-        <a
-          mat-list-item
-          class="nav-item"
-          (click)="toggleNav()"
-          routerLink="/programs"
-          routerLinkActive="active"
-          >Programs</a
+          >Accueil</a
         >
         <a
           mat-list-item
@@ -66,7 +58,15 @@
           (click)="toggleNav()"
           routerLink="/about"
           routerLinkActive="active"
-          >About</a
+          >A propos de nous</a
+        >
+        <a
+          mat-list-item
+          class="nav-item"
+          (click)="toggleNav()"
+          routerLink="/programs"
+          routerLinkActive="active"
+          >Nos programmes</a
         >
         <a
           mat-list-item
@@ -74,7 +74,7 @@
           (click)="toggleNav()"
           routerLink="/media"
           routerLinkActive="active"
-          >Media</a
+          >Medias</a
         >
         <a
           mat-list-item
