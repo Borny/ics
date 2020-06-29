@@ -1,15 +1,22 @@
 <div class="main-container">
   <mat-toolbar color="primary" class="toolbar">
     <!-- MOBILE -->
-    <ics-logo *ngIf="mobileQuery.matches" color="white"></ics-logo>
+    <div
+      *ngIf="mobileQuery.matches"
+      routerLink="/home"
+      (click)="toggleNav()"
+      class="logo-container"
+    >
+      <ics-logo color="white"></ics-logo>
+    </div>
     <!-- <button mat-icon-button (click)="snav.toggle() && toggle()"> -->
     <button *ngIf="mobileQuery.matches" mat-icon-button (click)="toggleNav()">
       <mat-icon>{{ navToggle?.opened ? "close" : "menu" }}</mat-icon>
     </button>
     <!-- DESKTOP -->
-    <h1 *ngIf="!mobileQuery.matches" class="title">
+    <div *ngIf="!mobileQuery.matches" class="title">
       <a routerLink="/home">ICS</a>
-    </h1>
+    </div>
     <nav *ngIf="!mobileQuery.matches">
       <ul>
         <li class="nav-item">
@@ -89,7 +96,7 @@
 
     <mat-sidenav-content>
       <router-outlet></router-outlet>
+      <ics-footer></ics-footer>
     </mat-sidenav-content>
   </mat-sidenav-container>
-  <ics-footer></ics-footer>
 </div>

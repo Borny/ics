@@ -1,0 +1,10 @@
+@import '../../../styles/tools/variables';
+@import '../../../styles/tools/mixins';
+
+button {
+  padding: 1rem;
+  border-radius: 100px;
+  background: $color-primary;
+  color: $white;
+  box-shadow: 5px 5px 6px rgba($black, 0.16);
+}

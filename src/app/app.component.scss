@@ -10,6 +10,15 @@
 .toolbar {
   display: flex;
   justify-content: space-between;
+  min-height: 56px;
+
+  @include screen-sm {
+    min-height: 64px;
+  }
+}
+
+.logo-container {
+  width: 40px;
 }
 
 .sidenav-container {

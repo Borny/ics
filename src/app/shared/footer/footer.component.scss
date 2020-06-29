@@ -6,9 +6,18 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background: $white;
+
+  @include screen-xs {
+    font-size: 0.8rem;
+  }
 
   @include screen-sm {
     flex-direction: row;
+  }
+
+  @include screen-md {
+    font-size: 1rem;
   }
 }
 

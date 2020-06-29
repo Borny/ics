@@ -1,0 +1,79 @@
+@import "../../../styles/tools/variables";
+@import "../../../styles/tools/mixins";
+
+:host {
+  // display: flex;
+  // flex-direction: column;
+  // min-height: 100%;
+}
+
+.hero {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  height: 100%;
+  background: url(../../../assets/mobile/tico-bananeira-mobile.jpg);
+  background-size: cover;
+
+  @include screen-sm {
+    background-image: url(../../../assets/desktop/tico-bananeira-desktop.jpg);
+  }
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+
+  @include screen-sm {
+    width: 30%;
+  }
+}
+
+.welcome {
+  text-align: center;
+  padding: 1rem;
+}
+
+.description {
+  background: url(../../../assets/mobile/meia-lua-mobile.jpg);
+  background-size: cover;
+  padding: 1rem;
+  text-align: center;
+
+  @include screen-sm {
+    background-image: url(../../../assets/desktop/meia-lua-desktop.jpg);
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    @include screen-sm {
+      flex-direction: row;
+    }
+  }
+
+  &__item {
+    background: $white;
+    padding: 1rem;
+    margin: 0 0 1rem;
+    text-align: center;
+
+    @include screen-sm {
+      margin: 0 1rem 1rem;
+      flex: 1;
+    }
+  }
+
+  &__title {
+    color: $color-primary;
+    font-size: 1.2rem;
+  }
+
+  &__content {}
+}

@@ -6,24 +6,21 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { MaterialModule } from './angular-material/angular-material.module';
 
+import { SharedModule } from './shared/shared.module';
+
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './shared/header/header.component';
-import { FooterComponent } from './shared/footer/footer.component';
-import { IcsLogoComponent } from './shared/ics-logo/ics-logo.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    HeaderComponent,
-    FooterComponent,
-    IcsLogoComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
     RouterModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MaterialModule
+    MaterialModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]
