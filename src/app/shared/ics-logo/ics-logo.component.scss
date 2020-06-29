@@ -1,8 +1,26 @@
+@import "../../../styles/tools/variables";
+
 .logo-container {
   width: 40px;
   height: 100%;
+  display: flex;
+  align-items: center;
 
   svg {
     width: 100%;
+
+    &.white {
+      .st0,
+      .st3 {
+        fill: $white;
+      }
+    }
+
+    &.minsk {
+      .st0,
+      .st3 {
+        fill: $color-primary;
+      }
+    }
   }
 }
