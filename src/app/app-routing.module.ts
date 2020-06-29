@@ -23,6 +23,10 @@ const routes: Routes = [
     loadChildren: () => import('./views/contact/contact.module').then(m => m.ContactViewModule)
   },
   {
+    path: 'terms-of-service',
+    loadChildren: () => import('./views/terms-of-service/terms-of-service.module').then(m => m.TermsOfServiceViewModule)
+  },
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'

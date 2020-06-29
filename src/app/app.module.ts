@@ -8,12 +8,14 @@ import { MaterialModule } from './angular-material/angular-material.module';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './shared/header/header.component';
+import { FooterComponent } from './shared/footer/footer.component';
 import { IcsLogoComponent } from './shared/ics-logo/ics-logo.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
+    FooterComponent,
     IcsLogoComponent
   ],
   imports: [

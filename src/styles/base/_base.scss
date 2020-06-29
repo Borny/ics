@@ -31,6 +31,10 @@ body {
 
   @media (min-width: $screen-sm) {
     font-size: 1em;
+
+    p {
+      font-size: 1em;
+    }
   }
 }
 
@@ -75,6 +79,7 @@ a {
   border: none;
   outline: none;
   color: inherit;
+  transition: .2s ease-in;
 }
 
 li {

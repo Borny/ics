@@ -1,0 +1,68 @@
+@import '../../../styles/tools/variables';
+@import '../../../styles/tools/mixins';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  @include screen-sm {
+    flex-direction: row;
+  }
+}
+
+.social {
+  display: flex;
+  justify-content: center;
+  margin: 1rem auto 0;
+
+  @include screen-sm {
+    margin: 0;
+    order: 2;
+    flex: 1;
+  }
+}
+
+.icon-container {
+  display: flex;
+  padding: 0 1rem;
+
+  &:hover {
+    svg {
+      fill: lighten($color-primary, 20%);
+    }
+  }
+
+  svg {
+    transition: .2s ease-in;
+    fill: $color-primary;
+  }
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin: 1rem auto;
+
+
+  @include screen-sm {
+    flex-direction: row;
+    order: 1;
+    flex: 3;
+    justify-content: center;
+
+    p,
+    a {
+      padding: 0 0.3rem;
+    }
+
+    a {
+      &:hover {
+        color: $color-primary;
+      }
+
+    }
+  }
+}
