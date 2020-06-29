@@ -1,4 +1,3 @@
-
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 @import '~@angular/material/theming';
@@ -12,7 +11,37 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$ics-primary: mat-palette($mat-indigo);
+$custom-theme-primary: (50:#665BC2,
+  100:#584CBD,
+  200:#4D42B3,
+  300: #473DA4,
+  400:#403795,
+  500:#393185,
+  600: #342C77,
+  700: #2D2768,
+  800: #272159,
+  900: #201C4A,
+  A100: #8c9eff,
+  A200: #536dfe,
+  A400: #3d5afe,
+  A700: #304ffe,
+  contrast: (50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $light-primary-text,
+    400: $light-primary-text,
+    500: $light-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    A100: $dark-primary-text,
+    A200: $light-primary-text,
+    A400: $light-primary-text,
+    A700: $light-primary-text,
+  ));
+
+$ics-primary: mat-palette($custom-theme-primary);
 $ics-accent: mat-palette($mat-pink, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
@@ -32,6 +61,3 @@ $ics-theme: mat-light-theme($ics-primary, $ics-accent, $ics-warn);
 
 @import './styles/base/normalize';
 @import './styles/base/base';
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
