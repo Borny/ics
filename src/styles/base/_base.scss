@@ -79,6 +79,7 @@ a {
   outline: none;
   color: inherit;
   transition: .2s ease-in;
+  cursor: pointer;
 }
 
 li {
@@ -92,6 +93,14 @@ button,
 .btn {
   outline: none;
   border: none;
+
+  @media (min-width: $screen-xs) {
+    font-size: 0.9em;
+  }
+
+  @media (min-width: $screen-sm) {
+    font-size: 1em;
+  }
 }
 
 // CANCELS OUTLINE INPUT
@@ -125,6 +134,17 @@ textarea {
 
 .color-primary-font {
   color: $color-primary;
+}
+
+.title-xl {
+  font-family: $fontOswald;
+  font-size: 3rem;
+  text-align: center;
+  color: $color-primary;
+
+  @include screen-sm {
+    font-size: 4rem;
+  }
 }
 
 //////////

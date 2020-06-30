@@ -4,33 +4,37 @@
   </div>
 </section>
 <section class="welcome">
-  <h1 class="color-primary-font">
-    Bienvenue sur le site de International Capoeira School France
-  </h1>
+  <div class="section__content">
+    <h1 class="color-primary-font">
+      Bienvenue sur le site de International Capoeira School France
+    </h1>
+  </div>
 </section>
 <section class="description">
-  <div class="description__list">
-    <div class="description__item">
-      <p class="description__title">Agilité</p>
-      <p class="description__content">
-        La capoeira fait travailler l'agilité ainsi que l'équilibre
-      </p>
+  <div class="section__content">
+    <div class="description__list">
+      <div class="description__item">
+        <p class="description__title">Agilité</p>
+        <p class="description__content">
+          La capoeira fait travailler l'agilité ainsi que l'équilibre
+        </p>
+      </div>
+      <div class="description__item">
+        <p class="description__title">Force</p>
+        <p class="description__content">
+          La capoeira fait travailler le poids de corps
+        </p>
+      </div>
+      <div class="description__item">
+        <p class="description__title">Musicalité</p>
+        <p class="description__content">
+          La capoeira fait travailler les instruments et le chant
+        </p>
+      </div>
     </div>
-    <div class="description__item">
-      <p class="description__title">Force</p>
-      <p class="description__content">
-        La capoeira fait travailler le poids de corp
-      </p>
-    </div>
-    <div class="description__item">
-      <p class="description__title">Musicalité</p>
-      <p class="description__content">
-        La capoeira fait travailler les instruments et le chant
-      </p>
-    </div>
+    <atom-button
+      [text]="navigateProgramButtonText"
+      (clickEvent)="onNavigate($event)"
+    ></atom-button>
   </div>
-  <atom-button
-    [text]="navigateProgramButtonText"
-    (clickEvent)="onNavigate($event)"
-  ></atom-button>
 </section>

@@ -61,3 +61,5 @@ $ics-theme: mat-light-theme($ics-primary, $ics-accent, $ics-warn);
 
 @import './styles/base/normalize';
 @import './styles/base/base';
+
+@import './styles/components/tabs';

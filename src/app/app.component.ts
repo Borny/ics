@@ -28,6 +28,10 @@ export class AppComponent implements OnInit, OnDestroy {
     this.mobileQuery.removeListener(this._mobileQueryListener);
   }
 
+  public closeNav(): void {
+    this.navToggle.close();
+  }
+
   public toggleNav(): void {
     this.navToggle.toggle();
 

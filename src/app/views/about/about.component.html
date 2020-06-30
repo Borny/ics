@@ -1,1 +1,223 @@
-<h1>About</h1>
+<main class="main">
+  <p *ngIf="mobileQuery.matches" class="title-xl">
+    International Capoeira School
+  </p>
+  <section class="section__content">
+    <div class="hero">
+      <p *ngIf="!mobileQuery.matches" class="title-xl">
+        International Capoeira School
+      </p>
+      <div class="logo-container">
+        <ics-logo [showSubTitle]="true" [color]="'white'"></ics-logo>
+      </div>
+    </div>
+    <mat-tab-group
+      mat-align-tabs="center"
+      [backgroundColor]="'primary'"
+      mat-stretch-tabs
+    >
+      <mat-tab label="Capoeira">
+        <div class="tab__content">
+          <h1>La Capoeira</h1>
+          <p>
+            La capoeira est une forme d'art afro-brésilien qui combine des
+            éléments de danse, de musique, d'acrobaties et d'arts martiaux créée
+            au Brésil au XVIe siècle principalement par des descendants
+            d'esclaves africains aux influences indigènes brésiliennes. La
+            capoeira a une histoire longue et controversée, car la documentation
+            historique au Brésil était très rare à l'époque coloniale. Les
+            preuves, les études et la tradition orale laissent peu de doutes sur
+            ses racines brésiliennes, mais il est impossible d'identifier avec
+            précision la région brésilienne exacte ou le moment où elle a
+            commencé à prendre forme. Elle est connue pour ces mouvements
+            rapides et complexes, utilisant principalement la puissance, la
+            vitesse et l'effet de levier pour les mouvements des jambes. Le mot
+            capoeira vient probablement de la langue Tupi, se référant aux zones
+            de faible végétation à l'intérieur du Brésil.
+          </p>
+          <p>
+            Aujourd'hui, la capoeira s’exprime plus comme un jeu qu’un combat.
+            C’est une danse, c'est un sport ... Dans la manière de la pratiquer
+            elle est mélange ; Elle allie en effet l’activité physique
+            (exceptionnel système d’auto défense et d’exercices
+            cardiovasculaires) et la musique (par le chant accompagné de
+            battements de mains et par la formation instrumentale - le berimbau,
+            le pandeiro, l’atabaque,…).
+          </p>
+          <p>
+            La capoeira rassemble tous ces éléments d’origine, ce qui lui donne
+            une exceptionnelle richesse artistique, mélodique et dynamique, un
+            énorme potentiel évolutif, et enfin une large gamme d’applications
+            sportives, chorégraphiques, thérapeutiques, éducatives etc., qui va
+            de simples jeux aux frontières des arts martiaux et self défense.
+          </p>
+          <p>
+            Elle peut être pratiquée à tous les âges, quel que soit son état
+            physique ou mental, chacun y trouve sa place grâce à la diversité de
+            sa pratique (sportive, musicale, thérapeutique ) et avance à son
+            propre rythme en fonction de ses propres capacités.
+          </p>
+        </div>
+        <div class="bottom-image"></div>
+      </mat-tab>
+      <mat-tab label="ICS">
+        <div class="tab__content">
+          <h1>
+            International Capoeira School
+          </h1>
+          <p>
+            En 2019, l’Association Culturelle Cordão de Ouro Ile-de-France
+            (ACDO) a officiellement rejoint l’International Capoeira School
+            (ICS). Cette affiliation est due à l'affinité tant théorique que
+            pratique entre le travail qui était developpé par notre institution
+            au travail réalisé par ICS et son coordinateur et fondateur Mestre
+            Esquilo.
+          </p>
+          <p>
+            L'International Capoeira School ou École Internationale de Capoeira
+            a été créée pour diffuser la méthodologie développée par Mestre
+            Esquilo, en capoeira, au Brésil et à travers le monde, ainsi que des
+            cours, des ateliers, des voyages et tout sujet lié à son travail au
+            sein de la capoeira.
+          </p>
+          <p>
+            En 2011, à Charlotte NC, Mestre Esquilo a entamé une nouvelle phase
+            de son travail. Charlotte Capoeira fait maintenant partie de l'École
+            Internationale de Capoeira et du groupe Cordão de Ouro lié à Mestre
+            Esquilo. Ce projet a élargi encore les horizons de la capoeira,
+            fournissant aux étudiants du monde entier des outils pour avoir,
+            même virtuellement, un soutien concernant la planification des
+            cours, des événements et tous les détails qui s’impliquent la
+            profession de capoeiriste. Aujourd'hui, le siège principal de
+            l'école est situé dans la ville de Sete Lagoas, dans l’état de Minas
+            Gerais au Brésil, avec des affiliés dans plusieurs villes et pays du
+            monde.
+          </p>
+          <p>
+            En France le siège de l'école est situé dans la ville de Colombes,
+            en partenariat avec les villes de Colombes, Bois Colombes et Paris.
+            L’école s’identifie sous le nom de International Capoeira School
+            France (ICS France). Nous sommes partenaire aussi de plusieurs
+            institutions reconnues en France comme par exemple le Rectorat de
+            Paris et l’Ambassade du Brésil.
+          </p>
+          <p>
+            Nous développons des projet cultureles avec certaines des
+            principales Institutions d’éducation privées et publiques de Paris
+            et d’Ile-de-France.
+          </p>
+        </div>
+        <div class="profile__container">
+          <div class="profile__item">
+            <div class="profile__info">
+              <img
+                src="../../../assets/edinho-profile.jpg"
+                alt="contramestre edinho"
+              />
+              <div>
+                <p class="profile__name">Ederson Gonçalves</p>
+                <h2 class="profile__grade">Contramestre Edinho</h2>
+              </div>
+            </div>
+            <div class="profile__description">
+              <p>
+                Contramestre Edinho a commencé à pratiquer la capoeira en 1994 a
+                l’âge de 11 ans au sein d’un project social de la ville de
+                Patrocinio – Brésil, avec Mestre Ney.
+              </p>
+              <p>
+                Contramestre Edinho a donnné ses premiers cours en 2004 dans
+                quelques villes de la région du Triangulo Mineiro, dans l’etat
+                du Minas Gerais (Brésil).
+              </p>
+              <p>
+                Parmi les différents projets développés au cours de cette
+                période, nous pouvons souligner quelques projets et partenariats
+                tels que des partenariats pédagogiques avec des écoles publiques
+                et privées, le Programme Arte Viva au sein du département
+                culturel de la ville de Patrocinio, des programmes
+                socio-éducatifs avec le département action sociale de la ville
+                de Cruzeiro do Fortaleza, la capoeira pour les handicapés en
+                partenariat avec APAE (Association des Parents et Amis des
+                Handicapés). Il a été le fondateur et propriétaire de l'Académie
+                Cordão de Ouro de Patrocinio, entre 2008 et 2011.
+              </p>
+              <p>
+                En 2011, lorsqu'il a quitté le Brésil pour vivre en France, il a
+                conclu son travail sur le territoire brésilien avec la
+                participation de plus de 2000 étudiants dont des enfants, des
+                adultes, des adolescents et des étudiants en situation de
+                handicap.
+              </p>
+              <p>
+                En 2011, installé en région parisienne, il commence à développer
+                des projets avec l’ACDO (Association Cordao de Ouro
+                Ile-de-France, aujourd’hui IAB, Institut d’arts Brésiliens). Il
+                travaille également en partenariat avec des institutions
+                culturelles et éducatives privées et publiques.
+              </p>
+              <p>
+                En 2017, il reçoit le grade de Contramestre durant les
+                commémorations de 50 ans du Groupe Cordão de Ouro à São Paulo –
+                Brésil, des mains du Grand Mestre Suassuna.
+              </p>
+              <p>
+                Depuis 2019 il fait partir de l’International Capoeira School,
+                une extension de l’ecole Cordão de Ouro coordonnée par Mestre
+                Esquilo.
+              </p>
+            </div>
+          </div>
+          <div class="profile__item">
+            <div class="profile__info">
+              <img
+                src="../../../assets/esquilo-profile.jpg"
+                alt="mestre esquilo"
+              />
+              <div>
+                <p class="profile__name">Bruno Melo</p>
+                <h2 class="profile__grade">Mestre Esquilo</h2>
+              </div>
+            </div>
+            <div class="profile__description">
+              <p>
+                Mestre Esquilo, Bruno Antonio de Araujo Melo, a commencé sa
+                formation de capoeira à l'âge de 10 ans. Il se consacre
+                résolument à l'art de la capoeira depuis 23 ans. Mestre Esquilo
+                parcourt le monde pour partager ses connaissances et sa passion
+                pour la capoeira et les arts brésiliens connexes. Il s'est
+                rendu, entre autres, en Israël, en Allemagne, en Angleterre, en
+                France, en Espagne, en Égypte, en Russie, en Turquie, en
+                Argentine et en Colombie et a vécu aux Etats-Unis.
+              </p>
+              <p>
+                Mestre Esquilo a reçu le grade de Mestre 1er degré en 2010,
+                Mestre 2ème degré en 2013 et Mestre 3eme degré en 2017 par son
+                maître, Mestre Suassuna. Il a joué un rôle important dans la
+                croissance de la capoeira à l'échelle internationale et en
+                particulier dans le développement de la capoeira en Israël.
+              </p>
+              <p>
+                Mestre Esquilo a composé et produit 5 CD, dont la production de
+                Case of Capoeira de Mestre Suassana mettant en vedette divers
+                maîtres de la capoeira.
+              </p>
+              <p>
+                Mestre Esquilo espère que ceux qui suivent ses ateliers et ses
+                conférences comprennent que la capoeira ne concerne pas
+                seulement les mouvements, mais plutôt l'incorporation de la
+                musique, des mouvements et de la culture qui font cette forme
+                d'art unique. Mestre Esquilo partage sa passion pour la Capoeira
+                avec fierté et un enthousiasme contagieux. Il s'efforce de
+                montrer à ses élèves et à son public que la capoeira est plus
+                qu'un mouvement; c'est une forme d'art unique qui intègre la
+                musique, le mouvement et la culture.
+              </p>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+      <!-- <mat-tab label="L'équipe"> <h1>L'équipe</h1> </mat-tab> -->
+    </mat-tab-group>
+  </section>
+</main>

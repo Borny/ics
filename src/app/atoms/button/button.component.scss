@@ -2,9 +2,18 @@
 @import '../../../styles/tools/mixins';
 
 button {
-  padding: 1rem;
+  padding: 1rem 2rem;
   border-radius: 100px;
   background: $color-primary;
   color: $white;
   box-shadow: 5px 5px 6px rgba($black, 0.16);
+  transition: 0.2s ease-in;
+
+  &:hover,
+  &:active {
+    background: $white;
+    color: $color-primary;
+    font-weight: $fontWeightBold;
+
+  }
 }
