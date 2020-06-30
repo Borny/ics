@@ -1,0 +1,54 @@
+<div class="session__container" [ngClass]="style">
+  <div *ngIf="sessionsKids; else adults" class="session__content">
+    <div class="session__info">
+      <p class="session__city">{{ sessionsKids.address.city }}</p>
+      <div class="session__address">
+        <p>
+          {{ sessionsKids.address.venue }}
+        </p>
+        <p>
+          {{ sessionsKids.address.street }}
+        </p>
+        <p>
+          {{ sessionsKids.address.zipcode }}
+        </p>
+      </div>
+      <div class="session__schedules">
+        <p class="session__day">{{ sessionsKids.schedule.day }}</p>
+        <ul>
+          <li *ngFor="let group of sessionsKids.schedule.groups">
+            <span class="session__age">{{ group.age }}</span> -
+            {{ group.startTime }}-{{ group.endTime }}
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- <div class="session__map">
+      <p>{{ session.map }}</p>
+    </div> -->
+  </div>
+  <ng-template #adults>
+    <div class="session__content">
+      <div class="session__info">
+        <p class="session__city">{{ sessionsAdults.address.city }}</p>
+        <div class="session__address">
+          <p>{{ sessionsAdults.address.venue }}</p>
+          <p>{{ sessionsAdults.address.street }}</p>
+          <p>{{ sessionsAdults.address.zipcode }}</p>
+        </div>
+        <div
+          *ngFor="let categ of sessionsAdults.schedule"
+          class="session__schedules"
+        >
+          <p class="session__category">{{ categ.category }}</p>
+          <ul>
+            <li *ngFor="let time of categ.time">
+              <span class="session__day">{{ time.day }}</span> -
+              {{ time.startTime }}-{{ time.endTime }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>

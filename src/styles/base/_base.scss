@@ -147,6 +147,14 @@ textarea {
   }
 }
 
+.uppercase {
+  text-transform: uppercase;
+}
+
+.color-primary {
+  color: $color-primary;
+}
+
 //////////
 // HACKS
 //////////

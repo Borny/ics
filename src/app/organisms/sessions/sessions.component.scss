@@ -1,0 +1,44 @@
+@import "../../../styles/tools/variables";
+@import "../../../styles/tools/mixins";
+
+.session__content {
+  max-width: $screen-md;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.session__city {
+  margin: 0 0 1rem;
+  font-size: 1.2rem;
+  font-weight: $fontWeightBold;
+}
+
+.session__address {
+  margin: 0 0 1rem;
+}
+
+.session__schedules {
+  margin: 0 0 1rem;
+}
+
+.session__day,
+.session__age,
+.session__category {
+  font-weight: $fontWeightBold;
+}
+
+.even {
+  background: $white;
+
+  .session__city,
+  .session__day,
+  .session__age {
+    color: $color-primary;
+  }
+
+}
+
+.odd {
+  background: $color-primary;
+  color: $white;
+}
