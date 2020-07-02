@@ -14,10 +14,10 @@ const routes: Routes = [
     path: 'about',
     loadChildren: () => import('./views/about/about.module').then(m => m.AboutViewModule)
   },
-  {
-    path: 'media',
-    loadChildren: () => import('./views/media/media.module').then(m => m.MediaViewModule)
-  },
+  // {
+  //   path: 'media',
+  //   loadChildren: () => import('./views/media/media.module').then(m => m.MediaViewModule)
+  // },
   {
     path: 'contact',
     loadChildren: () => import('./views/contact/contact.module').then(m => m.ContactViewModule)
@@ -25,6 +25,10 @@ const routes: Routes = [
   {
     path: 'terms-of-service',
     loadChildren: () => import('./views/terms-of-service/terms-of-service.module').then(m => m.TermsOfServiceViewModule)
+  },
+  {
+    path: 'subscription',
+    loadChildren: () => import('./views/subscription/subscription.module').then(m => m.SubscriptionViewModule)
   },
   {
     path: '',

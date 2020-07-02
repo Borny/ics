@@ -13,6 +13,7 @@ import { SessionsAdults } from '../../models/sessionsAdults.model';
 export class ProgramView implements OnInit {
 
   public contactBtnText = 'Nous contacter';
+  public subscriptionBtnText = 'Inscription';
 
   public sessionsKids: SessionsKids[] =
     [
@@ -153,7 +154,10 @@ export class ProgramView implements OnInit {
 
   ngOnInit() { }
 
-  public onNavigate(event: Event): void {
+  public onNavigateContact(event: Event): void {
     this.router.navigateByUrl('/contact');
+  }
+  public onNavigateSubscription(event: Event): void {
+    this.router.navigateByUrl('/subscription');
   }
 }
