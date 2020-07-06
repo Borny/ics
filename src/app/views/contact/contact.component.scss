@@ -1,0 +1,58 @@
+@import "../../../styles/tools/variables";
+@import "../../../styles/tools/mixins";
+
+.main {
+  background: $white;
+}
+
+.contact-header {
+  padding: 1rem;
+
+  &__content {
+    text-align: center;
+    margin: 2rem 0;
+  }
+}
+
+.logo-container {
+  width: 80px;
+  margin: 0 auto;
+
+  @include screen-sm {
+    width: 130px;
+  }
+}
+
+.contact-form__container {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  width: 100%;
+  max-width: 400px;
+  // align-content: center;
+
+  .btn {
+    margin: 1rem auto;
+  }
+}
+
+.contact-message-successful {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+  padding: 1rem;
+
+  .btn {
+    display: flex;
+    justify-content: center;
+    margin: 1rem;
+  }
+}

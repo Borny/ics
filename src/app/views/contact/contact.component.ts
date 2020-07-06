@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+
+import { ContactService } from '../../services/contact/contact.service';
+import { Message } from '../../models/message.model';
 
 @Component({
   selector: 'contact',
@@ -6,7 +11,44 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./contact.component.scss']
 })
 export class ContactView implements OnInit {
-  constructor() { }
 
-  ngOnInit(): void { }
+  public homeBtnText = 'Accueil';
+  public programBtnText = 'Nos programmes';
+  public isLoading = false;
+  public isMessageSent = false;
+  public contactForm: FormGroup = new FormGroup({});
+
+  constructor(private router: Router, private contactService: ContactService) { }
+
+  ngOnInit(): void {
+    this.contactForm.addControl('lastName', new FormControl(null, Validators.required));
+    this.contactForm.addControl('firstName', new FormControl(null, Validators.required));
+    this.contactForm.addControl('email', new FormControl(null, [Validators.required, Validators.email]));
+    this.contactForm.addControl('message', new FormControl(null, Validators.required));
+  }
+
+  public onSubmit(): void {
+    if (this.contactForm.invalid) {
+      return;
+    }
+    this.isLoading = true;
+    const messageValues: Message = {
+      lastName: this.contactForm.value.lastName,
+      firstName: this.contactForm.value.firstName,
+      email: this.contactForm.value.email,
+      messageContent: this.contactForm.value.message
+    };
+    console.log(messageValues);
+
+    this.contactService.postMessage(messageValues);
+
+  }
+
+  public onNavigateHome(event: Event): void {
+    this.router.navigateByUrl('/home');
+  }
+
+  public onNavigatePrograms(event: Event): void {
+    this.router.navigateByUrl('/programs');
+  }
 }

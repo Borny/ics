@@ -8,7 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 
 export class IcsLogoComponent implements OnInit {
   @Input() color: string;
-  @Input() showSubTitle: boolean;
+  @Input() showSubTitle = false;
 
   constructor() { }
 

@@ -1,6 +1,10 @@
 @import '../../../styles/tools/variables';
 @import '../../../styles/tools/mixins';
 
+:host {
+  text-align: center; // centers the button
+}
+
 button {
   padding: 1rem 2rem;
   border-radius: 100px;
@@ -15,5 +19,9 @@ button {
     color: $color-primary;
     font-weight: $fontWeightBold;
 
+  }
+
+  &:disabled {
+    opacity: 0.3;
   }
 }

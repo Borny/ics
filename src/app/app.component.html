@@ -7,7 +7,7 @@
       (click)="closeNav()"
       class="logo-container"
     >
-      <ics-logo color="white"></ics-logo>
+      <ics-logo [color]="'white'"></ics-logo>
     </div>
     <!-- <button mat-icon-button (click)="snav.toggle() && toggle()"> -->
     <button *ngIf="mobileQuery.matches" mat-icon-button (click)="toggleNav()">
