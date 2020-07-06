@@ -13,8 +13,15 @@
   </section>
   <section class="contact-form__container">
     <mat-spinner *ngIf="isLoading"></mat-spinner>
+    <!-- <p *ngIf="!isLoading && isSendMessageFailed"> -->
+    <p
+      class="error-message"
+      *ngIf="!isLoading && isSendMessageFailed && !isMessageSent"
+    >
+      Votre message n'a pas pu être envoyé. Veuillez réessayer.
+    </p>
     <form
-      *ngIf="!isLoading"
+      *ngIf="!isLoading && !isMessageSent"
       class="contact-form"
       [formGroup]="contactForm"
       (ngSubmit)="onSubmit()"

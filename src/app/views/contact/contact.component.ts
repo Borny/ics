@@ -16,6 +16,7 @@ export class ContactView implements OnInit {
   public programBtnText = 'Nos programmes';
   public isLoading = false;
   public isMessageSent = false;
+  public isSendMessageFailed = false;
   public contactForm: FormGroup = new FormGroup({});
 
   constructor(private router: Router, private contactService: ContactService) { }
@@ -38,9 +39,19 @@ export class ContactView implements OnInit {
       email: this.contactForm.value.email,
       messageContent: this.contactForm.value.message
     };
-    console.log(messageValues);
 
-    this.contactService.postMessage(messageValues);
+    this.contactService.postMessage(messageValues)
+      .subscribe(
+        (response) => {
+          console.log('contact message response:', response);
+          this.isLoading = false;
+          this.isMessageSent = true;
+        },
+        (error) => {
+          this.isLoading = false;
+          this.isSendMessageFailed = true;
+          console.log('error:', error);
+        });
 
   }
 
