@@ -23,5 +23,8 @@ button {
 
   &:disabled {
     opacity: 0.3;
+    background: $color-primary;
+    color: $white;
+    font-weight: $fontWeightBase;
   }
 }
