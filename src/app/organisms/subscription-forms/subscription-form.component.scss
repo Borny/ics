@@ -1,0 +1,42 @@
+@import '../../../styles/tools/variables';
+@import '../../../styles/tools/mixins';
+
+
+.form-section__label {
+  padding: 0.5rem 1rem;
+  background: $color-primary;
+  color: $white;
+
+  @include screen-sm {
+    padding: 0.5rem 2rem;
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-flow: column;
+  padding: 1rem;
+
+  @include screen-sm {
+    padding: 1rem 3rem;
+  }
+}
+
+
+// RADIO BUTTONS
+.checkbox-list,
+.radio-group {
+  display: flex;
+  flex-flow: column;
+  padding: 1rem;
+  justify-content: stretch;
+}
+
+.radio-button,
+.checkbox-item {
+  padding: 0.5rem 0;
+
+  @include screen-sm {
+    padding: 0.5rem 2rem;
+  }
+}

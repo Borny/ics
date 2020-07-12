@@ -8,7 +8,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatCardModule } from '@angular/material/card';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   exports: [
@@ -20,7 +26,13 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatListModule,
     MatTabsModule,
     MatInputModule,
-    MatProgressSpinnerModule
+    MatCheckboxModule,
+    MatProgressSpinnerModule,
+    MatRadioModule,
+    MatCardModule,
+    MatExpansionModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ]
 })
 export class MaterialModule { }

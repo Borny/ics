@@ -78,7 +78,7 @@ a {
   border: none;
   outline: none;
   color: inherit;
-  transition: .2s ease-in;
+  transition: 0.2s ease-in;
   cursor: pointer;
 }
 
@@ -153,6 +153,18 @@ textarea {
 
 .color-primary {
   color: $color-primary;
+}
+
+.bold {
+  font-weight: $fontWeightBold;
+}
+
+.mat-expansion-panel-body {
+  padding: 0 !important;
+}
+
+.mat-checkbox-layout {
+  white-space: initial !important;
 }
 
 //////////
