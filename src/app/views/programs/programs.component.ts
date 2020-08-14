@@ -67,6 +67,35 @@ export class ProgramView implements OnInit {
       },
       {
         address: {
+          city: 'Colombes',
+          venue: 'Ecole Maintenon',
+          street: '44, rue Saint Denis',
+          zipcode: 92700,
+        },
+        schedule:
+        {
+          day: 'Adolescents',
+          groups: [
+            {
+              age: 'Lundi',
+              startTime: '18:45',
+              endTime: '19:45',
+            },
+            {
+              age: 'Mercredi',
+              startTime: '19:30',
+              endTime: '20:30'
+            },
+            {
+              age: 'Vendredi',
+              startTime: '19:30',
+              endTime: '21:00'
+            }
+          ]
+        }
+      },
+      {
+        address: {
           city: 'Bois Colombes',
           venue: 'Dojo Jean Jaurès',
           street: 'Avenue du Vaudreuil',
