@@ -59,7 +59,7 @@
     padding: 1rem;
     max-width: $screen-sm;
     margin: 0 auto;
-    border: 1px solid $color-secondary;
+    // border: 1px solid $color-secondary;
     border-radius: 4px;
   }
 }
@@ -71,10 +71,10 @@
 
 .mat-expansion-panel {
   @include screen-sm {
-    // padding: 1rem;
+    // padding: 0 3rem;
     max-width: $screen-sm;
-    margin: 0 auto;
-    border: 1px solid $color-secondary;
+    margin: 1rem auto;
+    // border: 1px solid $color-secondary;
     border-radius: 4px;
   }
 }

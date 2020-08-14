@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
@@ -7,16 +7,9 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
   styleUrls: ['../subscription-form.component.scss']
 })
 export class AdultSubscriptionFormComponent implements OnInit {
+  @Output() sendAdultForm: EventEmitter<any> = new EventEmitter<any>();
 
   public subscriptionForm: FormGroup = new FormGroup({});
-
-  // public locations: any[] = [
-  //   'Colombes - Adolescents (lundi 19h, mercredi 19h30, vendredi 19h30)',
-  //   'Colombes - enfants MS et GS (samedi 10h15)',
-  //   'Colombes - enfants 6-10 ans (samedi 11h)',
-  //   'Bois-Colombes - enfants MS et GS (mercredi 17h)',
-  //   'Bois-Colombes - enfants 6-10 ans (mercredi 18h)'
-  // ];
 
   constructor() { }
 
@@ -25,10 +18,25 @@ export class AdultSubscriptionFormComponent implements OnInit {
     this.subscriptionForm.addControl('memberFirstName', new FormControl(null, Validators.required));
     this.subscriptionForm.addControl('birthdate', new FormControl(null, Validators.required));
     this.subscriptionForm.addControl('email', new FormControl(null, Validators.required));
-    this.subscriptionForm.addControl('phone', new FormControl(null, Validators.required));
+    this.subscriptionForm.addControl('phone', new FormControl(null, Validators.minLength(10)));
     this.subscriptionForm.addControl('details', new FormControl(null));
   }
 
-  public onSubmit(): void { }
+  // ngOnInit(): void {
+  //   this.subscriptionForm.addControl('memberLastName', new FormControl(null, Validators.required));
+  //   this.subscriptionForm.addControl('memberFirstName', new FormControl(null));
+  //   this.subscriptionForm.addControl('birthdate', new FormControl(null));
+  //   this.subscriptionForm.addControl('email', new FormControl(null));
+  //   this.subscriptionForm.addControl('phone', new FormControl(null));
+  //   this.subscriptionForm.addControl('details', new FormControl(null));
+  // }
+
+  public onSubmit(): void {
+    if (this.subscriptionForm.invalid) {
+      return;
+    }
+    this.sendAdultForm.emit(this.subscriptionForm.value);
+    console.log(this.subscriptionForm.value);
+  }
 
 }

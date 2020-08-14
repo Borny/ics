@@ -13,7 +13,6 @@
   </section>
   <section class="contact-form__container">
     <mat-spinner *ngIf="isLoading"></mat-spinner>
-    <!-- <p *ngIf="!isLoading && isSendMessageFailed"> -->
     <p
       class="error-message"
       *ngIf="!isLoading && isSendMessageFailed && !isMessageSent"
@@ -68,7 +67,7 @@
           >Veuillez renseigner votre email</mat-error
         >
       </mat-form-field>
-      <mat-form-field appearance="fill">
+      <mat-form-field>
         <mat-label>Message</mat-label>
         <textarea
           matInput

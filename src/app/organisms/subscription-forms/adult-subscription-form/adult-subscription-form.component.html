@@ -40,12 +40,18 @@
           >Veuillez renseigner le prénom</mat-error
         >
       </mat-form-field>
-      <mat-form-field class="example-full-width" appearance="fill">
+      <mat-form-field appearance="fill">
         <mat-label>Date de naissance</mat-label>
-        <input matInput [matDatepicker]="picker" />
+        <input
+          matInput
+          [matDatepicker]="picker"
+          formControlName="birthdate"
+          required
+          disabled
+        />
         <mat-datepicker-toggle matSuffix [for]="picker">
         </mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
+        <mat-datepicker #picker disabled="false"></mat-datepicker>
         <mat-error
           *ngIf="
             subscriptionForm.get('birthdate').invalid &&
@@ -58,7 +64,7 @@
         <mat-label>E-mail</mat-label>
         <input
           matInput
-          type="eail"
+          type="email"
           name="email"
           formControlName="email"
           required
@@ -74,7 +80,7 @@
         <mat-label>Téléphone</mat-label>
         <input
           matInput
-          type="number"
+          type="text"
           name="phone"
           formControlName="phone"
           required
@@ -83,7 +89,7 @@
           *ngIf="
             subscriptionForm.get('phone').invalid && subscriptionForm.touched
           "
-          >Veuillez renseigner votre email</mat-error
+          >Veuillez renseigner votre numéro de téléphone</mat-error
         >
       </mat-form-field>
     </div>
@@ -91,7 +97,7 @@
   <div class="form-section">
     <p class="form-section__label">Informations supplémentaires</p>
     <div class="form-group">
-      <mat-form-field appearance="fill">
+      <mat-form-field>
         <mat-label>Détails</mat-label>
         <textarea matInput name="details" formControlName="details"></textarea>
       </mat-form-field>

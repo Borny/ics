@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { SubscriptionService } from '../../services/subscription/subscription.service';
+
 enum subscriptionType {
   SubscriptionFirst,
   SubscriptionRenewal,
@@ -14,7 +16,8 @@ enum subscriptionType {
 export class SubscriptionView implements OnInit {
 
   public isLoading = false;
-
+  public formSentSuccess = false;
+  public formSentFailed = false;
 
   public showFirstForm: boolean;
   public showSecondForm: boolean;
@@ -37,14 +40,14 @@ export class SubscriptionView implements OnInit {
     },
     {
       title: 'Inscription adultes : ',
-      option: 'Adulte',
+      option: 'Inscription Adulte',
       description: 'ateliers, festival mai 2021',
       price: 350,
       subscriptionType: subscriptionType.SubscriptionAdult
     }
   ];
 
-  constructor() { }
+  constructor(private subscriptionService: SubscriptionService) { }
 
   ngOnInit() {
 
@@ -53,6 +56,7 @@ export class SubscriptionView implements OnInit {
   public addSubscription(event: Event): void {
 
   }
+
   public dealOptionHandler(event): void {
     console.log(event.value.subscriptionType);
     switch (event.value.subscriptionType) {
@@ -72,5 +76,68 @@ export class SubscriptionView implements OnInit {
         this.showThirdForm = true;
         break;
     }
+  }
+
+  public sendFirstForm(event: Event): void {
+    console.log(event);
+    this.isLoading = true;
+    this.showFirstForm = false;
+    this.showSecondForm = false;
+    this.showThirdForm = false;
+    this.subscriptionService.sendFirstForm(event)
+      .subscribe(
+        response => {
+          console.log(response);
+          this.isLoading = false;
+          this.formSentSuccess = true;
+        },
+        error => {
+          console.log('send form error :', error);
+          this.isLoading = false;
+          this.formSentFailed = true;
+        }
+      );
+  }
+
+  public sendRenewalForm(event: Event): void {
+    console.log(event);
+    this.isLoading = true;
+    this.showFirstForm = false;
+    this.showSecondForm = false;
+    this.showThirdForm = false;
+    this.subscriptionService.sendRenewalForm(event)
+      .subscribe(
+        response => {
+          console.log(response);
+          this.isLoading = false;
+          this.formSentSuccess = true;
+        },
+        error => {
+          console.log('send form error :', error);
+          this.isLoading = false;
+          this.formSentFailed = true;
+        }
+      );
+  }
+
+  public sendAdultForm(event: Event): void {
+    console.log('send adult form :', event);
+    this.isLoading = true;
+    this.showFirstForm = false;
+    this.showSecondForm = false;
+    this.showThirdForm = false;
+    this.subscriptionService.sendAdultForm(event)
+      .subscribe(
+        response => {
+          console.log('adult form response :', response);
+          this.isLoading = false;
+          this.formSentSuccess = true;
+        },
+        error => {
+          console.log('adult form error :', error);
+          this.isLoading = false;
+          this.formSentFailed = true;
+        }
+      );
   }
 }

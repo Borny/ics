@@ -5,7 +5,11 @@
 >
   <div class="form-section">
     <p class="form-section__label">Tranche d'âge</p>
-    <mat-radio-group class="radio-group" aria-label="Selectionnez une formule">
+    <mat-radio-group
+      class="radio-group"
+      aria-label="Selectionnez une formule"
+      formControlName="ageGroup"
+    >
       <mat-radio-button
         *ngFor="let ageGroup of ageGroups"
         class="radio-button"
@@ -16,14 +20,17 @@
       </mat-radio-button>
     </mat-radio-group>
   </div>
-  <div class="form-section">
+  <div class="form-section" *ngIf="lessons.length">
     <p class="form-section__label">Lieux</p>
     <ul class="checkbox-list">
-      <li *ngFor="let location of locations" class="checkbox-item">
-        <mat-checkbox>{{ location }}</mat-checkbox>
+      <li *ngFor="let lesson of lessons" class="checkbox-item">
+        <mat-checkbox [formControlName]="lesson.name">{{
+          lesson.location
+        }}</mat-checkbox>
       </li>
     </ul>
   </div>
+
   <div class="form-section">
     <p class="form-section__label">Adhérent</p>
     <div class="form-group">
@@ -61,12 +68,17 @@
           >Veuillez renseigner le prénom</mat-error
         >
       </mat-form-field>
-      <mat-form-field class="example-full-width" appearance="fill">
+      <mat-form-field appearance="fill" class="date-picker">
         <mat-label>Date de naissance</mat-label>
-        <input matInput [matDatepicker]="picker" />
+        <input
+          matInput
+          [matDatepicker]="picker"
+          formControlName="birthdate"
+          disabled
+        />
         <mat-datepicker-toggle matSuffix [for]="picker">
         </mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
+        <mat-datepicker #picker disabled="false"></mat-datepicker>
         <mat-error
           *ngIf="
             subscriptionForm.get('birthdate').invalid &&
@@ -94,7 +106,7 @@
             subscriptionForm.get('guardianLastName').invalid &&
             subscriptionForm.touched
           "
-          >Veuillez renseigner le nom</mat-error
+          >Veuillez renseigner le nom du représentant légal</mat-error
         >
       </mat-form-field>
       <mat-form-field>
@@ -111,14 +123,14 @@
             subscriptionForm.get('guardianFirstName').invalid &&
             subscriptionForm.touched
           "
-          >Veuillez renseigner le prénom</mat-error
+          >Veuillez renseigner le prénom du représentant légal</mat-error
         >
       </mat-form-field>
       <mat-form-field>
         <mat-label>E-mail</mat-label>
         <input
           matInput
-          type="eail"
+          type="email"
           name="email"
           formControlName="email"
           required
@@ -127,7 +139,7 @@
           *ngIf="
             subscriptionForm.get('email').invalid && subscriptionForm.touched
           "
-          >Veuillez renseigner votre email</mat-error
+          >Veuillez renseigner un email</mat-error
         >
       </mat-form-field>
       <mat-form-field>
@@ -143,7 +155,7 @@
           *ngIf="
             subscriptionForm.get('phone').invalid && subscriptionForm.touched
           "
-          >Veuillez renseigner votre email</mat-error
+          >Veuillez renseigner un numéro de téléphone</mat-error
         >
       </mat-form-field>
     </div>
@@ -151,7 +163,7 @@
   <div class="form-section">
     <p class="form-section__label">Informations supplémentaires</p>
     <div class="form-group">
-      <mat-form-field appearance="fill">
+      <mat-form-field>
         <mat-label>Détails</mat-label>
         <textarea matInput name="details" formControlName="details"></textarea>
       </mat-form-field>

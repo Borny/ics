@@ -28,12 +28,12 @@ export class ProgramView implements OnInit {
           day: 'Samedi',
           groups: [
             {
-              age: '4-6 ans',
+              age: '4-5 ans',
               startTime: '14:00',
               endTime: '14:50',
             },
             {
-              age: '7-12 ans',
+              age: '6-10 ans',
               startTime: '15:00',
               endTime: '16:00',
             },
@@ -53,19 +53,14 @@ export class ProgramView implements OnInit {
           groups: [
             {
               age: '4-5 ans',
-              startTime: '10:15',
+              startTime: '10:10',
               endTime: '11:00',
             },
             {
-              age: '6-8 ans',
+              age: '6-10 ans',
               startTime: '11:00',
-              endTime: '-11:50',
-            },
-            {
-              age: '>9 ans',
-              startTime: '12:00',
-              endTime: '13:00',
-            },
+              endTime: '12:00',
+            }
           ],
         },
         // map: 'url  colombes map',
@@ -81,12 +76,12 @@ export class ProgramView implements OnInit {
           day: 'Mercredi',
           groups: [
             {
-              age: '4-6 ans',
-              startTime: '17:00',
+              age: '4-5 ans',
+              startTime: '17:10',
               endTime: '18:00',
             },
             {
-              age: '7-10 ans',
+              age: '6-10 ans',
               startTime: '18:00',
               endTime: '19:00',
             }
@@ -116,13 +111,13 @@ export class ProgramView implements OnInit {
               },
               {
                 day: 'Mercredi',
-                startTime: '19:20',
-                endTime: '20:20'
+                startTime: '19:30',
+                endTime: '20:30'
               },
               {
                 day: 'Vendredi',
-                startTime: '19:00',
-                endTime: '20:30'
+                startTime: '19:30',
+                endTime: '21:00'
               }
             ],
           },
@@ -141,8 +136,8 @@ export class ProgramView implements OnInit {
               },
               {
                 day: 'Vendredi',
-                startTime: '19:00',
-                endTime: '20:30'
+                startTime: '19:30',
+                endTime: '21:00'
               }
             ],
           }
@@ -158,6 +153,6 @@ export class ProgramView implements OnInit {
     this.router.navigateByUrl('/contact');
   }
   public onNavigateSubscription(event: Event): void {
-    this.router.navigateByUrl('/subscription');
+    this.router.navigateByUrl('/inscription');
   }
 }

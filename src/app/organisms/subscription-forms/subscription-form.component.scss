@@ -1,7 +1,6 @@
 @import '../../../styles/tools/variables';
 @import '../../../styles/tools/mixins';
 
-
 .form-section__label {
   padding: 0.5rem 1rem;
   background: $color-primary;
@@ -22,6 +21,10 @@
   }
 }
 
+.btn {
+  margin: 0 auto 2rem;
+  display: block;
+}
 
 // RADIO BUTTONS
 .checkbox-list,
@@ -39,4 +42,8 @@
   @include screen-sm {
     padding: 0.5rem 2rem;
   }
+}
+
+.date-picker {
+  width: 200px;
 }

@@ -47,34 +47,41 @@
     </div>
   </section>
   <section>
-    <mat-expansion-panel *ngIf="showFirstForm" [expanded]="true">
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
+    <p *ngIf="!isLoading && formSentSuccess">Form sent successfully</p>
+    <p *ngIf="!isLoading && formSentFailed">Form wasn't sent...</p>
+    <mat-expansion-panel *ngIf="showFirstForm && !isLoading" [expanded]="true">
       <mat-expansion-panel-header>
         <mat-panel-title>
           Formulaire d'inscription Enfant / Adolescent 290€
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <first-subscription-form></first-subscription-form>
-      <atom-button
+      <first-subscription-form
+        (sendFirstForm)="sendFirstForm($event)"
+      ></first-subscription-form>
+      <!-- <atom-button
         class="btn"
         [text]="'Ajouter une inscription'"
         (click)="addSubscription($event)"
-      ></atom-button>
+      ></atom-button> -->
     </mat-expansion-panel>
-    <mat-expansion-panel *ngIf="showSecondForm" [expanded]="true">
+    <mat-expansion-panel *ngIf="showSecondForm && !isLoading" [expanded]="true">
       <mat-expansion-panel-header>
         <mat-panel-title>
           Formulaire de ré-inscription Enfant / Adolescent 250€
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <renewal-subscription-form></renewal-subscription-form>
+      <renewal-subscription-form         (sendRenewalForm)="sendRenewalForm($event)"></renewal-subscription-form>
     </mat-expansion-panel>
-    <mat-expansion-panel *ngIf="showThirdForm" [expanded]="true">
+    <mat-expansion-panel *ngIf="showThirdForm && !isLoading" [expanded]="true">
       <mat-expansion-panel-header>
         <mat-panel-title>
           Formulaire d'inscription Adulte 350€
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <adult-subscription-form></adult-subscription-form>
+      <adult-subscription-form
+        (sendAdultForm)="sendAdultForm($event)"
+      ></adult-subscription-form>
     </mat-expansion-panel>
   </section>
   <!-- <section class="subscription-amount">
