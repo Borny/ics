@@ -14,6 +14,6 @@ export class HomeView {
   }
 
   public onNavigate(event: Event): void {
-    this.router.navigateByUrl('/programs');
+    this.router.navigateByUrl('/programmes');
   }
 }

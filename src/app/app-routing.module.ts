@@ -7,11 +7,11 @@ const routes: Routes = [
     loadChildren: () => import('./views/home/home.module').then(m => m.HomeViewModule)
   },
   {
-    path: 'programs',
+    path: 'programmes',
     loadChildren: () => import('./views/programs/programs.module').then(m => m.ProgramsViewModule)
   },
   {
-    path: 'about',
+    path: 'ics',
     loadChildren: () => import('./views/about/about.module').then(m => m.AboutViewModule)
   },
   // {
