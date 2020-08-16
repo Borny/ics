@@ -9,7 +9,7 @@ const routes: Routes = [
     component: HomeView
   },
   {
-    path: 'home',
+    path: 'accueil',
     redirectTo: '',
     pathMatch: 'full'
   }

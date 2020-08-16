@@ -3,7 +3,7 @@
     <!-- MOBILE -->
     <div
       *ngIf="mobileQuery.matches"
-      routerLink="/home"
+      routerLink="/accueil"
       (click)="closeNav()"
       class="logo-container"
     >
@@ -15,12 +15,12 @@
     </button>
     <!-- DESKTOP -->
     <div *ngIf="!mobileQuery.matches" class="title">
-      <a routerLink="/home">ICS</a>
+      <a routerLink="/accueil">ICS</a>
     </div>
     <nav *ngIf="!mobileQuery.matches">
       <ul>
         <li class="nav-item">
-          <a routerLink="/home" routerLinkActive="active" class="nav-link"
+          <a routerLink="/accueil" routerLinkActive="active" class="nav-link"
             >Accueil</a
           >
         </li>
@@ -55,7 +55,7 @@
           mat-list-item
           class="nav-item"
           (click)="toggleNav()"
-          routerLink="/home"
+          routerLink="/accueil"
           routerLinkActive="active"
           >Accueil</a
         >

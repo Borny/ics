@@ -55,7 +55,7 @@ export class ContactView implements OnInit {
   }
 
   public onNavigateHome(event: Event): void {
-    this.router.navigateByUrl('/home');
+    this.router.navigateByUrl('/accueil');
   }
 
   public onNavigatePrograms(event: Event): void {
