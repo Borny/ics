@@ -52,7 +52,6 @@ export class ContactView implements OnInit {
           this.isSendMessageFailed = true;
           console.log('error:', error);
         });
-
   }
 
   public onNavigateHome(event: Event): void {

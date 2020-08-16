@@ -13,7 +13,6 @@
   </section>
   <section class="contact-form__container">
     <mat-spinner *ngIf="isLoading"></mat-spinner>
-    <!-- <p *ngIf="!isLoading && isSendMessageFailed"> -->
     <p
       class="error-message"
       *ngIf="!isLoading && isSendMessageFailed && !isMessageSent"
@@ -33,6 +32,7 @@
           type="text"
           name="lastName"
           formControlName="lastName"
+          required
         />
         <mat-error
           *ngIf="contactForm.get('lastName').invalid && contactForm.touched"
@@ -46,6 +46,7 @@
           type="text"
           name="firstName"
           formControlName="firstName"
+          required
         />
         <mat-error
           *ngIf="contactForm.get('firstName').invalid && contactForm.touched"
@@ -54,15 +55,26 @@
       </mat-form-field>
       <mat-form-field>
         <mat-label>E-mail</mat-label>
-        <input matInput type="email" name="email" formControlName="email" />
+        <input
+          matInput
+          type="email"
+          name="email"
+          formControlName="email"
+          required
+        />
         <mat-error
           *ngIf="contactForm.get('email').invalid && contactForm.touched"
           >Veuillez renseigner votre email</mat-error
         >
       </mat-form-field>
-      <mat-form-field appearance="fill">
+      <mat-form-field>
         <mat-label>Message</mat-label>
-        <textarea matInput name="message" formControlName="message"></textarea>
+        <textarea
+          matInput
+          name="message"
+          formControlName="message"
+          required
+        ></textarea>
         <mat-error
           *ngIf="contactForm.get('message').invalid && contactForm.touched"
           >Veuillez écrire un message</mat-error

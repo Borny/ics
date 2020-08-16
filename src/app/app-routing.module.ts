@@ -27,7 +27,7 @@ const routes: Routes = [
     loadChildren: () => import('./views/terms-of-service/terms-of-service.module').then(m => m.TermsOfServiceViewModule)
   },
   {
-    path: 'subscription',
+    path: 'inscription',
     loadChildren: () => import('./views/subscription/subscription.module').then(m => m.SubscriptionViewModule)
   },
   {
