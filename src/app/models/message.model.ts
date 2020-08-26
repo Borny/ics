@@ -3,4 +3,5 @@ export interface Message {
   firstName: string;
   email: string;
   messageContent: string;
+  recaptcha: string;
 }

@@ -7,6 +7,8 @@ import { ContactRoutingModule } from './contact-routing.module';
 import { SharedModule } from '../../shared/shared.module';
 import { ContactView } from './contact.component';
 
+import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
+
 @NgModule({
   declarations: [
     ContactView
@@ -16,7 +18,9 @@ import { ContactView } from './contact.component';
     ContactRoutingModule,
     SharedModule,
     MaterialModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RecaptchaModule,
+    RecaptchaFormsModule
   ],
   exports: [],
   providers: [],

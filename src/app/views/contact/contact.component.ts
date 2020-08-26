@@ -26,6 +26,7 @@ export class ContactView implements OnInit {
     this.contactForm.addControl('firstName', new FormControl(null, Validators.required));
     this.contactForm.addControl('email', new FormControl(null, [Validators.required, Validators.email]));
     this.contactForm.addControl('message', new FormControl(null, Validators.required));
+    this.contactForm.addControl('recaptcha', new FormControl(null, Validators.required));
   }
 
   public onSubmit(): void {
@@ -37,20 +38,28 @@ export class ContactView implements OnInit {
       lastName: this.contactForm.value.lastName,
       firstName: this.contactForm.value.firstName,
       email: this.contactForm.value.email,
-      messageContent: this.contactForm.value.message
+      messageContent: this.contactForm.value.message,
+      recaptcha: this.contactForm.value.recaptcha
     };
+
+    console.log(messageValues)
 
     this.contactService.postMessage(messageValues)
       .subscribe(
         (response) => {
           console.log('contact message response:', response);
           this.isLoading = false;
-          this.isMessageSent = true;
+          if (response.success) {
+            this.isMessageSent = true;
+          } else {
+            this.isSendMessageFailed = true;
+            this.contactForm.controls.recaptcha.reset();
+          }
         },
         (error) => {
           this.isLoading = false;
           this.isSendMessageFailed = true;
-          console.log('error:', error);
+          this.contactForm.controls.recaptcha.reset();
         });
   }
 
@@ -60,5 +69,9 @@ export class ContactView implements OnInit {
 
   public onNavigatePrograms(event: Event): void {
     this.router.navigateByUrl('/programmes');
+  }
+
+  public resolved(captchaResponse: string) {
+    console.log(`Resolved captcha with response: ${captchaResponse}`);
   }
 }

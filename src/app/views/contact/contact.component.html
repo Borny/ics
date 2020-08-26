@@ -8,9 +8,7 @@
       inscriptions ou pour d'autres informations.
       <br />
       WhatsApp :
-      <a class="phone-number" href="tel:+33695616167">
-        06 95 61 61 67
-      </a>
+      <a class="phone-number" href="tel:+33695616167"> 06 95 61 61 67 </a>
       <br />
       contact@icsfrance.fr
     </p>
@@ -87,6 +85,13 @@
           >Veuillez écrire un message</mat-error
         >
       </mat-form-field>
+      <div class="recaptcha">
+        <re-captcha
+          (resolved)="resolved($event)"
+          formControlName="recaptcha"
+          required
+        ></re-captcha>
+      </div>
       <atom-button
         class="btn"
         type="submit"
