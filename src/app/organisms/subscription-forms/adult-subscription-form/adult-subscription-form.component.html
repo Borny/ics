@@ -40,7 +40,7 @@
           >Veuillez renseigner le prénom</mat-error
         >
       </mat-form-field>
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="fill" class="date-picker">
         <mat-label>Date de naissance</mat-label>
         <input
           matInput
@@ -95,17 +95,31 @@
     </div>
   </div>
   <div class="form-section">
+    <p class="form-section__label">Droit à l'image</p>
+    <div class="form-group">
+      <mat-checkbox formControlName="imageRights"
+        >J'autorise ACDO et ACDOIDFP, groupe ICS France, à utiliser mon image à
+        des fins de communication des activités du groupe ICS
+        France</mat-checkbox
+      >
+    </div>
+  </div>
+  <div class="form-section">
     <p class="form-section__label">Informations supplémentaires</p>
     <div class="form-group">
       <mat-form-field>
         <mat-label>Détails</mat-label>
-        <textarea matInput name="details" formControlName="details"></textarea>
+        <textarea
+          matInput
+          name="extraInfo"
+          formControlName="extraInfo"
+        ></textarea>
       </mat-form-field>
     </div>
   </div>
   <atom-button
     class="btn"
-    type="submit"
+    [type]="'submit'"
     [text]="'Envoyer'"
     [isDisabled]="subscriptionForm.invalid"
   >
