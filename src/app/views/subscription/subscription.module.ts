@@ -6,16 +6,14 @@ import { MaterialModule } from '../../angular-material/angular-material.module';
 import { SharedModule } from '../../shared/shared.module';
 import { SubscriptionRoutingModule } from './subscription-routing.module';
 import { SubscriptionView } from './subscription.component';
-import { FirstSubscriptionFormComponent } from '../../organisms/subscription-forms/first-subscription-form/first-subscription-form.component';
-import { RenewalSubscriptionFormComponent } from '../../organisms/subscription-forms/renewal-subscription-form/renewal-subscription-form.component';
 import { AdultSubscriptionFormComponent } from '../../organisms/subscription-forms/adult-subscription-form/adult-subscription-form.component';
+import { KidsSubscriptionFormComponent } from '../../organisms/subscription-forms/kids-subscription-form/kids-subscription-form.component';
 
 @NgModule({
   declarations: [
     SubscriptionView,
-    FirstSubscriptionFormComponent,
-    RenewalSubscriptionFormComponent,
-    AdultSubscriptionFormComponent
+    AdultSubscriptionFormComponent,
+    KidsSubscriptionFormComponent
   ],
   imports: [
     CommonModule,
@@ -25,8 +23,7 @@ import { AdultSubscriptionFormComponent } from '../../organisms/subscription-for
     ReactiveFormsModule
   ],
   exports: [
-    FirstSubscriptionFormComponent,
-    RenewalSubscriptionFormComponent,
+    KidsSubscriptionFormComponent,
     AdultSubscriptionFormComponent
   ],
   providers: [],

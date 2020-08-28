@@ -7,7 +7,7 @@
   <section class="deal-card__container">
     <div class="deal-card__wrapper">
       <div class="deal-card__group">
-        <mat-card class="deal-card" *ngFor="let deal of deals">
+        <mat-card class="deal-card" *ngFor="let deal of classDeals">
           <mat-card-content class="deal-card__content"
             ><span class="color-primary bold">{{ deal.title }}</span>
             {{ deal.description }}</mat-card-content
@@ -36,10 +36,10 @@
         aria-label="Selectionnez une formule"
       >
         <mat-radio-button
-          *ngFor="let deal of deals"
+          *ngFor="let deal of classDeals"
           class="radio-button"
           [value]="deal"
-          (change)="dealOptionHandler($event)"
+          (change)="classDealOptionHandler($event)"
         >
           {{ deal.option }}
         </mat-radio-button>
@@ -56,9 +56,9 @@
           Formulaire d'inscription Enfant / Adolescent 290€
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <first-subscription-form
-        (sendFirstForm)="sendFirstForm($event)"
-      ></first-subscription-form>
+      <kids-subscription-form
+        (sendKidsForm)="sendFirstForm($event)"
+      ></kids-subscription-form>
       <!-- <atom-button
         class="btn"
         [text]="'Ajouter une inscription'"
@@ -71,12 +71,14 @@
           Formulaire de ré-inscription Enfant / Adolescent 250€
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <renewal-subscription-form         (sendRenewalForm)="sendRenewalForm($event)"></renewal-subscription-form>
+      <kids-subscription-form
+        (sendKidsForm)="sendRenewalForm($event)"
+      ></kids-subscription-form>
     </mat-expansion-panel>
     <mat-expansion-panel *ngIf="showThirdForm && !isLoading" [expanded]="true">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          Formulaire d'inscription Adulte 350€
+          Formulaire d'inscription Adulte 320€
         </mat-panel-title>
       </mat-expansion-panel-header>
       <adult-subscription-form
@@ -84,6 +86,14 @@
       ></adult-subscription-form>
     </mat-expansion-panel>
   </section>
+
+  <atom-button (click)="getAdultFormData()" [text]="'fetch'"> </atom-button>
+
+  <div *ngIf="showAdultData">
+    <div *ngFor="let data of adultData">
+      <p>{{ data.birthdate }}</p>
+    </div>
+  </div>
   <!-- <section class="subscription-amount">
     <div class="subscription-amount__container">
       <p class="bold">Montant total:</p>
