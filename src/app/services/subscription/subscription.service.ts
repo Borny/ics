@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
+import { AdultFormData } from '../../models/adultFormData.model';
+import { KidsFormData } from '../../models/kidsFormData.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,19 +17,20 @@ export class SubscriptionService {
 
   constructor(private http: HttpClient) { }
 
-  public sendFirstForm(formValues: any): Observable<any> {
+  public sendFirstForm(formValues: KidsFormData): Observable<any> {
     return this.http.post(`${this.FIRST_SUBSCRIPTION_URL}`, formValues);
   }
 
-  public sendRenewalForm(formValues: any): Observable<any> {
+  public sendRenewalForm(formValues: KidsFormData): Observable<any> {
     return this.http.post(`${this.FIRST_SUBSCRIPTION_URL}`, formValues);
   }
 
-  public sendAdultForm(formValues: any): Observable<any> {
-    // const birthdateEdit = formValues.birthdate.toLocaleDateString();
-    // formValues.birthdate = birthdateEdit;
-    console.log(formValues.birthdate.toLocaleDateString());
+  public sendAdultForm(formValues: AdultFormData): Observable<any> {
     return this.http.post(`${this.ADULT_SUBSCRIPTION_URL}`, formValues);
+  }
+
+  public getAdultFormData(): Observable<any> {
+    return this.http.get(`${this.ADULT_SUBSCRIPTION_URL}`);
   }
 
 }
