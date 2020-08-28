@@ -47,3 +47,13 @@
 .date-picker {
   width: 200px;
 }
+
+.legal-guardian-checkbox {
+  margin: 1rem auto;
+}
+
+.img-rights-checkbox {
+  .mat-checkbox-inner-container {
+    margin-top: 4px;
+  }
+}
