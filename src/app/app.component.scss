@@ -11,6 +11,19 @@
   display: flex;
   justify-content: space-between;
   min-height: 56px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: $zindex-header;
+
+  @include screen-sm {
+    min-height: 64px;
+  }
+}
+
+.spacer {
+  min-height: 56px;
 
   @include screen-sm {
     min-height: 64px;
