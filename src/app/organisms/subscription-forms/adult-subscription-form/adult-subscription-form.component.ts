@@ -21,7 +21,7 @@ export class AdultSubscriptionFormComponent implements OnInit {
     this.subscriptionForm.addControl('email', new FormControl(null, Validators.required));
     this.subscriptionForm.addControl('phone', new FormControl(null, Validators.minLength(10)));
     this.subscriptionForm.addControl('imageRights', new FormControl(false));
-    this.subscriptionForm.addControl('extraInfo', new FormControl(null));
+    this.subscriptionForm.addControl('extraInfo', new FormControl(''));
   }
 
   // ngOnInit(): void {

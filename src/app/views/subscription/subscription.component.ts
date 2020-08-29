@@ -5,6 +5,7 @@ import { AdultFormData } from '../../models/adultFormData.model';
 import { KidsFormData } from '../../models/kidsFormData.model';
 import { ClassDeals } from '../../models/classDeals.model';
 import { SubscriptionType } from '../../models/subscriptionType.enum';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'subscription',
@@ -14,12 +15,13 @@ import { SubscriptionType } from '../../models/subscriptionType.enum';
 export class SubscriptionView implements OnInit {
 
   public isLoading = false;
+  public showDealOptions = true;
   public formSentSuccess = false;
   public formSentFailed = false;
 
-  // Optimize
-  public showAdultData = false;
-  public adultData: any[] = [];
+  public readonly HOME_BTN_TEXT = 'Accueil';
+  public readonly PROGRAM_BTN_TEXT = 'Nos programmes';
+  public readonly RELOAD_BTN_TEXT = 'Rafraîchir';
 
   public showFirstForm: boolean;
   public showSecondForm: boolean;
@@ -49,7 +51,9 @@ export class SubscriptionView implements OnInit {
     }
   ];
 
-  constructor(private subscriptionService: SubscriptionService) { }
+  constructor(
+    private subscriptionService: SubscriptionService,
+    private router: Router) { }
 
   ngOnInit() {
   }
@@ -80,6 +84,7 @@ export class SubscriptionView implements OnInit {
 
   public sendFirstForm(formData: KidsFormData): void {
     this.isLoading = true;
+    this.showDealOptions = false;
     this.showFirstForm = false;
     this.showSecondForm = false;
     this.showThirdForm = false;
@@ -100,6 +105,7 @@ export class SubscriptionView implements OnInit {
 
   public sendRenewalForm(formData: KidsFormData): void {
     this.isLoading = true;
+    this.showDealOptions = false;
     this.showFirstForm = false;
     this.showSecondForm = false;
     this.showThirdForm = false;
@@ -120,6 +126,7 @@ export class SubscriptionView implements OnInit {
 
   public sendAdultForm(data: AdultFormData): void {
     this.isLoading = true;
+    this.showDealOptions = false;
     this.showFirstForm = false;
     this.showSecondForm = false;
     this.showThirdForm = false;
@@ -136,5 +143,20 @@ export class SubscriptionView implements OnInit {
           this.formSentFailed = true;
         }
       );
+  }
+
+  // NAVIGATION
+
+  public onNavigateHome(event: Event): void {
+    this.router.navigateByUrl('/accueil');
+  }
+
+  public onNavigatePrograms(event: Event): void {
+    this.router.navigateByUrl('/programmes');
+  }
+
+  // Reload page
+  public onReloadPage(event: Event): void {
+    location.reload();
   }
 }
