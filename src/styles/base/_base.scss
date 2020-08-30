@@ -167,6 +167,13 @@ textarea {
   white-space: initial !important;
 }
 
+// Override the radio buttons on the subscription page
+.deal-options__content {
+  .mat-radio-outer-circle {
+    border-color: $white;
+  }
+}
+
 //////////
 // HACKS
 //////////
