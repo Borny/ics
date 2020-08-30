@@ -21,7 +21,7 @@ export class SubscriptionView implements OnInit {
 
   public readonly HOME_BTN_TEXT = 'Accueil';
   public readonly PROGRAM_BTN_TEXT = 'Nos programmes';
-  public readonly RELOAD_BTN_TEXT = 'Rafraîchir';
+  public readonly RELOAD_BTN_TEXT = 'Réessayer';
 
   public showFirstForm: boolean;
   public showSecondForm: boolean;

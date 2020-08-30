@@ -56,9 +56,8 @@
 .deal-options__content {
   @include screen-sm {
     padding: 1rem;
-    max-width: $screen-sm;
+    max-width: $screen-md;
     margin: 0 auto;
-    // border: 1px solid $color-secondary;
     border-radius: 4px;
   }
 }
@@ -121,13 +120,21 @@
   flex-flow: column;
   padding: 1rem;
   justify-content: stretch;
+  align-items: center;
+
+  @include screen-md {
+    flex-flow: row;
+    justify-content: space-evenly;
+  }
 }
 
 .radio-button {
-  border: 2px solid $color-primary;
-  padding: 0.5rem;
   border-radius: 100px;
   margin: 0 0 1rem;
+  padding: 0.5rem 1rem;
+  min-width: 280px;
+  background-color: $color-primary;
+  color: $white;
 }
 
 .subscription-amount__container {
