@@ -74,7 +74,7 @@ export class KidsSubscriptionFormComponent implements OnInit {
     }
     // Editing the birthdate format
     this.subscriptionForm.patchValue({
-      birthdate: this.subscriptionForm.value.birthdate.toLocaleDateString()
+      birthdate: this.subscriptionForm.value.birthdate.toLocaleDateString('fr-FR')
     });
 
     // Mapping the locations values

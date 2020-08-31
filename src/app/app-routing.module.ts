@@ -31,6 +31,10 @@ const routes: Routes = [
     loadChildren: () => import('./views/subscription/subscription.module').then(m => m.SubscriptionViewModule)
   },
   {
+    path: 'admin',
+    loadChildren: () => import('./views/admin/admin.module').then(m => m.AdminViewModule)
+  },
+  {
     path: '',
     redirectTo: 'accueil',
     pathMatch: 'full'

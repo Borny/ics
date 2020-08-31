@@ -39,7 +39,7 @@ export class AdultSubscriptionFormComponent implements OnInit {
     }
     // Editing the birthdate format
     this.subscriptionForm.patchValue({
-      birthdate: this.subscriptionForm.value.birthdate.toLocaleDateString()
+      birthdate: this.subscriptionForm.value.birthdate.toLocaleDateString('fr-FR')
     });
     this.sendAdultForm.emit(this.subscriptionForm.value);
   }

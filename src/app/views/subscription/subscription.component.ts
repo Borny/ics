@@ -85,9 +85,7 @@ export class SubscriptionView implements OnInit {
   public sendFirstForm(formData: KidsFormData): void {
     this.isLoading = true;
     this.showDealOptions = false;
-    this.showFirstForm = false;
-    this.showSecondForm = false;
-    this.showThirdForm = false;
+    this._hideAllForms();
     this.subscriptionService.sendFirstForm(formData)
       .subscribe(
         response => {
@@ -106,9 +104,7 @@ export class SubscriptionView implements OnInit {
   public sendRenewalForm(formData: KidsFormData): void {
     this.isLoading = true;
     this.showDealOptions = false;
-    this.showFirstForm = false;
-    this.showSecondForm = false;
-    this.showThirdForm = false;
+    this._hideAllForms();
     this.subscriptionService.sendRenewalForm(formData)
       .subscribe(
         response => {
@@ -127,9 +123,7 @@ export class SubscriptionView implements OnInit {
   public sendAdultForm(data: AdultFormData): void {
     this.isLoading = true;
     this.showDealOptions = false;
-    this.showFirstForm = false;
-    this.showSecondForm = false;
-    this.showThirdForm = false;
+    this._hideAllForms();
     this.subscriptionService.sendAdultForm(data)
       .subscribe(
         response => {
@@ -159,4 +153,11 @@ export class SubscriptionView implements OnInit {
   public onReloadPage(event: Event): void {
     location.reload();
   }
+
+  private _hideAllForms(): void {
+    this.showFirstForm = false;
+    this.showSecondForm = false;
+    this.showThirdForm = false;
+  }
+
 }
