@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'atom-button',
-  templateUrl: 'button.component.html',
+  templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss']
 })
 
