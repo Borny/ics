@@ -35,7 +35,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     MatCardModule,
     MatExpansionModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'fr-FR' }

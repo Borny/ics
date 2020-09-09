@@ -1,9 +1,7 @@
 <main class="main">
   <section class="section__content">
     <div class="hero">
-      <p class="title-xl uppercase">
-        Nos Programmes
-      </p>
+      <p class="title-xl uppercase">Nos Programmes</p>
     </div>
     <mat-tab-group
       mat-align-tabs="center"
@@ -43,15 +41,14 @@
         />
         <atom-button
           class="btn"
-          [text]="contactBtnText"
+          [type]="'button'"
+          [text]="CONTACT_BTN_TEXT"
           (clickEvent)="onNavigateContact($event)"
         ></atom-button>
       </mat-tab>
       <mat-tab label="Enfants">
         <div class="tab__content">
-          <h1>
-            Enfants
-          </h1>
+          <h1>Enfants</h1>
           <p class="color-primary">Camaradinhas</p>
           <p>
             Les mouvements de base de la capoeira sont adaptés et enseignés aux
@@ -98,15 +95,14 @@
         ></organism-sessions>
         <atom-button
           class="btn"
-          [text]="subscriptionBtnText"
-          (clickEvent)="onNavigateSubscription($event)"
+          [type]="'button'"
+          [text]="SUBSCRIPTIONS_BTN_TEXT"
+          (clickEvent)="onNavigateSubscriptions($event)"
         ></atom-button>
       </mat-tab>
       <mat-tab label="Ados-Adultes">
         <div class="tab__content">
-          <h1>
-            Adultes / Adolescents
-          </h1>
+          <h1>Adultes / Adolescents</h1>
           <p class="color-primary">Pour le corps et pour l’esprit</p>
           <p>
             Le dialogue corporel, l’improvisation, l’équilibre, tout comme les
@@ -157,8 +153,8 @@
         ></organism-sessions>
         <atom-button
           class="btn"
-          [text]="subscriptionBtnText"
-          (clickEvent)="onNavigateSubscription($event)"
+          [text]="SUBSCRIPTIONS_BTN_TEXT"
+          (clickEvent)="onNavigateSubscriptions($event)"
         ></atom-button>
       </mat-tab>
     </mat-tab-group>

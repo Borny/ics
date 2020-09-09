@@ -26,14 +26,6 @@
           routerLinkActive="active"
           >Nos programmes</a
         >
-        <!-- <a
-          mat-list-item
-          class="nav-item"
-          (click)="toggleNav()"
-          routerLink="/media"
-          routerLinkActive="active"
-          >Medias</a
-        > -->
         <a
           mat-list-item
           class="nav-item"
@@ -42,6 +34,16 @@
           routerLinkActive="active"
           >Contact</a
         >
+        <div *ngIf="isUserAuthenticated" class="btn__container">
+          <button
+            mat-flat-button
+            (click)="onLogout()"
+            type="button"
+            color="accent"
+          >
+            {{ LOGOUT_BTN_TEXT }}
+          </button>
+        </div>
       </mat-nav-list>
     </mat-sidenav>
 
@@ -54,9 +56,8 @@
           (click)="closeNav()"
           class="logo-container"
         >
-          <ics-logo [color]="'white'"></ics-logo>
+          <ics-logo [color]="LOGO_COLOR"></ics-logo>
         </div>
-        <!-- <button mat-icon-button (click)="snav.toggle() && toggle()"> -->
         <button
           *ngIf="mobileQuery.matches"
           mat-icon-button
@@ -91,11 +92,6 @@
                 >Nos programmes</a
               >
             </li>
-            <!-- <li class="nav-item">
-              <a routerLink="/media" routerLinkActive="active" class="nav-link"
-                >Medias</a
-              >
-            </li> -->
             <li class="nav-item">
               <a
                 routerLink="/contact"
@@ -103,6 +99,16 @@
                 class="nav-link"
                 >Contact</a
               >
+            </li>
+            <li *ngIf="isUserAuthenticated" class="nav-item btn__container">
+              <button
+                mat-raised-button
+                (click)="onLogout()"
+                type="button"
+                color="accent"
+              >
+                {{ LOGOUT_BTN_TEXT }}
+              </button>
             </li>
           </ul>
         </nav>

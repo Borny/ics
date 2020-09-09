@@ -12,8 +12,8 @@ import { SessionsAdults } from '../../models/sessionsAdults.model';
 
 export class ProgramView implements OnInit {
 
-  public contactBtnText = 'Nous contacter';
-  public subscriptionBtnText = 'Inscription';
+  public readonly CONTACT_BTN_TEXT = 'Nous contacter';
+  public readonly SUBSCRIPTIONS_BTN_TEXT = 'Inscriptions';
 
   public sessionsKids: SessionsKids[] =
     [
@@ -182,7 +182,7 @@ export class ProgramView implements OnInit {
     this.router.navigateByUrl('/contact');
   }
 
-  public onNavigateSubscription(event: Event): void {
-    this.router.navigateByUrl('/inscription');
+  public onNavigateSubscriptions(event: Event): void {
+    this.router.navigateByUrl('/inscriptions');
   }
 }

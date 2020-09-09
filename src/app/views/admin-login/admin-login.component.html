@@ -1,53 +1,57 @@
 <h1 class="color-primary-font">Admin Login</h1>
-<mat-spinner *ngIf="isLoading"></mat-spinner>
-<div class="error-message__container" *ngIf="!isLoading && loginFailed">
-  <p class="error-message__content">
-    Une erreur est survenue, veuillez réessayer
-  </p>
-  <atom-button
-    class="btn"
-    [type]="'button'"
-    [text]="RELOAD_BTN_TEXT"
-    (click)="onReload()"
-  ></atom-button>
+<div class="form__container">
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <div class="error-message__container" *ngIf="!isLoading && loginFailed">
+    <p class="error-message__content">
+      Une erreur est survenue, veuillez réessayer
+    </p>
+    <atom-button
+      class="btn"
+      [type]="'button'"
+      [text]="RELOAD_BTN_TEXT"
+      (click)="onReload()"
+    ></atom-button>
+  </div>
+  <mat-card *ngIf="!isLoading && !loginFailed">
+    <form class="login-form" (submit)="onLogin(loginForm)" #loginForm="ngForm">
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          type="email"
+          name="loginEmail"
+          ngModel
+          #loginEmail="ngModel"
+          placeholder="Email"
+          required
+          email
+        />
+        <mat-error *ngIf="loginEmail.invalid && loginForm.touched"
+          >Veuillez renseigner votre email</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Mot de passe</mat-label>
+        <input
+          matInput
+          type="password"
+          name="loginPassword"
+          placeholder="Mot de passe"
+          ngModel
+          #loginPassword="ngModel"
+          required
+          minlength="6"
+        />
+        <mat-error *ngIf="loginPassword.invalid && loginForm.touched"
+          >Veuillez renseigner un mot de passe</mat-error
+        >
+      </mat-form-field>
+      <atom-button
+        class="btn"
+        [type]="'submit'"
+        [text]="CONNECT_BTN_TEXT"
+        [isDisabled]="loginForm.invalid"
+      ></atom-button>
+    </form>
+  </mat-card>
 </div>
-<form
-  *ngIf="!isLoading"
-  class="login-form"
-  [formGroup]="loginForm"
-  (ngSubmit)="onSubmit()"
->
-  <mat-form-field>
-    <mat-label>Email</mat-label>
-    <input
-      matInput
-      type="email"
-      name="loginEmail"
-      formControlName="loginEmail"
-      required
-    />
-    <mat-error *ngIf="loginForm.get('loginEmail').invalid && loginForm.touched"
-      >Veuillez renseigner votre email</mat-error
-    >
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Mot de passe</mat-label>
-    <input
-      matInput
-      type="password"
-      name="loginPassword"
-      formControlName="loginPassword"
-      required
-    />
-    <mat-error
-      *ngIf="loginForm.get('loginPassword').invalid && loginForm.touched"
-      >Veuillez renseigner un mot de passe</mat-error
-    >
-  </mat-form-field>
-  <atom-button
-    class="btn"
-    [type]="'submit'"
-    [text]="CONNECT_BTN_TEXT"
-    [isDisabled]="loginForm.invalid"
-  ></atom-button>
-</form>

@@ -37,13 +37,13 @@ export class AdminView implements OnInit {
       .subscribe(
         response => {
           console.log('Adult data :', response);
-          this.adultData = response.data;
           this.isLoading = false;
+          this.adultData = response.data;
         },
         err => {
           console.log('get adult data error :', err);
-          this.adultError = true;
           this.isLoading = false;
+          this.adultError = true;
         }
       );
   }

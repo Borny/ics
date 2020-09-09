@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 
+import { AuthGuard } from './guards/auth.guard';
+
 const routes: Routes = [
   {
     path: 'accueil',
@@ -14,10 +16,6 @@ const routes: Routes = [
     path: 'ics',
     loadChildren: () => import('./views/about/about.module').then(m => m.AboutViewModule)
   },
-  // {
-  //   path: 'media',
-  //   loadChildren: () => import('./views/media/media.module').then(m => m.MediaViewModule)
-  // },
   {
     path: 'contact',
     loadChildren: () => import('./views/contact/contact.module').then(m => m.ContactViewModule)
@@ -27,12 +25,13 @@ const routes: Routes = [
     loadChildren: () => import('./views/terms-of-service/terms-of-service.module').then(m => m.TermsOfServiceViewModule)
   },
   {
-    path: 'inscription',
+    path: 'inscriptions',
     loadChildren: () => import('./views/subscription/subscription.module').then(m => m.SubscriptionViewModule)
   },
   {
     path: 'admin',
-    loadChildren: () => import('./views/admin/admin.module').then(m => m.AdminViewModule)
+    loadChildren: () => import('./views/admin/admin.module').then(m => m.AdminViewModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'admin-login',
@@ -53,6 +52,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
   exports: [RouterModule],
-  providers: []
+  providers: [AuthGuard]
 })
 export class AppRoutingModule { }

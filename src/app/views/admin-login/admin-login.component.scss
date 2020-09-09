@@ -6,10 +6,10 @@
   flex-flow: column;
   justify-content: center;
   align-items: center;
-  height: calc(100% - (56px + 132px));
+  min-height: calc(100% - (56px + 132px));
 
   @include screen-sm {
-    height: calc(100% - (64px + 78px));
+    min-height: calc(100% - (64px + 114px));
   }
 }
 
@@ -17,15 +17,26 @@ h1 {
   margin: 3rem auto 0;
 }
 
-.login-form,
-.error-message__container {
+mat-card {
+  width: 100%;
+  max-width: $screen-xs;
+}
+
+.form__container {
   display: flex;
   flex-flow: column;
   flex: 1;
   justify-content: center;
+  align-items: center;
   width: 100%;
   max-width: 300px;
   margin: 0 auto;
+
+  .login-form {
+    display: flex;
+    flex-flow: column;
+    width: 100%;
+  }
 
   .error-message__content {
     text-align: center;

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 import { SharedModule } from '../../shared/shared.module';
 import { MaterialModule } from '../../angular-material/angular-material.module';
@@ -14,7 +14,7 @@ import { AdminLoginRoutingModule } from './admin-login-routing.module';
   ],
   imports: [
     CommonModule,
-    ReactiveFormsModule,
+    FormsModule,
     AdminLoginRoutingModule,
     MaterialModule,
     SharedModule
