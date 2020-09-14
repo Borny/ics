@@ -96,9 +96,15 @@
         <atom-button
           class="btn"
           [type]="'button'"
+          [text]="CONTACT_BTN_TEXT"
+          (clickEvent)="onNavigateContact($event)"
+        ></atom-button>
+        <!-- <atom-button
+          class="btn"
+          [type]="'button'"
           [text]="SUBSCRIPTIONS_BTN_TEXT"
           (clickEvent)="onNavigateSubscriptions($event)"
-        ></atom-button>
+        ></atom-button> -->
       </mat-tab>
       <mat-tab label="Ados-Adultes">
         <div class="tab__content">
@@ -153,9 +159,15 @@
         ></organism-sessions>
         <atom-button
           class="btn"
+          [type]="'button'"
+          [text]="CONTACT_BTN_TEXT"
+          (clickEvent)="onNavigateContact($event)"
+        ></atom-button>
+        <!-- <atom-button
+          class="btn"
           [text]="SUBSCRIPTIONS_BTN_TEXT"
           (clickEvent)="onNavigateSubscriptions($event)"
-        ></atom-button>
+        ></atom-button> -->
       </mat-tab>
     </mat-tab-group>
   </section>

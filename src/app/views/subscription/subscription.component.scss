@@ -5,7 +5,6 @@
   display: flex;
   flex-flow: column;
   justify-content: center;
-  align-items: center;
   min-height: calc(100% - (56px + 132px));
 
   @include screen-sm {
