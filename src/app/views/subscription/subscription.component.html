@@ -1,94 +1,115 @@
-<main class="main">
-  <section class="contact-header">
-    <p class="title-xl">
-      {{ "Inscription" | uppercase }}
-    </p>
-  </section>
-  <section class="deal-card__container">
-    <div class="deal-card__wrapper">
-      <div class="deal-card__group">
-        <mat-card class="deal-card" *ngFor="let deal of deals">
-          <mat-card-content class="deal-card__content"
-            ><span class="color-primary bold">{{ deal.title }}</span>
-            {{ deal.description }}</mat-card-content
-          >
-          <mat-card-footer class="deal-card__footer"
-            ><span class="bold color-primary"
-              >{{ deal.price }}€</span
-            ></mat-card-footer
-          >
-        </mat-card>
-      </div>
-      <mat-card class="deal-card">
+<section class="contact-header">
+  <p class="title-xl">
+    {{ "Inscriptions" | uppercase }}
+  </p>
+</section>
+<section class="deal-card__container">
+  <div class="deal-card__wrapper">
+    <div class="deal-card__group">
+      <mat-card class="deal-card" *ngFor="let deal of classDeals">
         <mat-card-content class="deal-card__content"
-          >Bénéficiez de <span class="color-primary bold">-10%</span> sur le
-          montant total pour toute inscription supplémentaire pour les adherents
-          d'une même famille
-        </mat-card-content>
+          ><span class="color-primary bold">{{ deal.title }}</span>
+          {{ deal.description }}</mat-card-content
+        >
+        <mat-card-footer class="deal-card__footer"
+          ><span class="bold color-primary"
+            >{{ deal.price }}€</span
+          ></mat-card-footer
+        >
       </mat-card>
     </div>
-  </section>
-  <section class="deal-options">
-    <div class="deal-options__content">
-      <p class="deal-options__title">Choisissez une formule</p>
-      <mat-radio-group
-        class="radio-group"
-        aria-label="Selectionnez une formule"
+    <mat-card class="deal-card">
+      <mat-card-content class="deal-card__content"
+        >Bénéficiez de <span class="color-primary bold">-10%</span> sur le
+        montant total pour toute inscription supplémentaire pour les adherents
+        d'une même famille
+      </mat-card-content>
+    </mat-card>
+  </div>
+</section>
+<section class="deal-options" *ngIf="!isLoading && showDealOptions">
+  <div class="deal-options__content">
+    <p class="deal-options__title">Choisissez une formule</p>
+    <mat-radio-group class="radio-group" aria-label="Selectionnez une formule">
+      <mat-radio-button
+        *ngFor="let deal of classDeals"
+        class="radio-button"
+        [value]="deal"
+        (change)="classDealOptionHandler($event)"
       >
-        <mat-radio-button
-          *ngFor="let deal of deals"
-          class="radio-button"
-          [value]="deal"
-          (change)="dealOptionHandler($event)"
-        >
-          {{ deal.option }}
-        </mat-radio-button>
-      </mat-radio-group>
-    </div>
-  </section>
-  <section>
-    <mat-spinner *ngIf="isLoading"></mat-spinner>
-    <p *ngIf="!isLoading && formSentSuccess">Form sent successfully</p>
-    <p *ngIf="!isLoading && formSentFailed">Form wasn't sent...</p>
-    <mat-expansion-panel *ngIf="showFirstForm && !isLoading" [expanded]="true">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          Formulaire d'inscription Enfant / Adolescent 290€
-        </mat-panel-title>
-      </mat-expansion-panel-header>
-      <first-subscription-form
-        (sendFirstForm)="sendFirstForm($event)"
-      ></first-subscription-form>
-      <!-- <atom-button
+        {{ deal.option }}
+      </mat-radio-button>
+    </mat-radio-group>
+  </div>
+</section>
+<section class="forms__container">
+  <mat-spinner class="spinner" *ngIf="isLoading"></mat-spinner>
+  <p class="message" *ngIf="!isLoading && formSentSuccess">
+    Merci, l'inscription a bien été effectuée.
+  </p>
+  <p class="message" *ngIf="!isLoading && formSentFailed">
+    Une erreur est survenue. Veuillez réessayer.
+  </p>
+  <div class="btn-container" *ngIf="!isLoading && formSentSuccess">
+    <atom-button
+      *ngIf="formSentSuccess"
+      class="btn"
+      [text]="HOME_BTN_TEXT"
+      (clickEvent)="onNavigateHome($event)"
+    ></atom-button>
+    <atom-button
+      *ngIf="formSentSuccess"
+      class="btn"
+      [text]="PROGRAM_BTN_TEXT"
+      (clickEvent)="onNavigatePrograms($event)"
+    ></atom-button>
+  </div>
+  <div class="btn-container" *ngIf="!isLoading && formSentFailed">
+    <atom-button
+      *ngIf="formSentFailed"
+      class="btn"
+      [text]="RELOAD_BTN_TEXT"
+      (clickEvent)="onReloadPage($event)"
+    ></atom-button>
+  </div>
+  <mat-expansion-panel *ngIf="showFirstForm && !isLoading" [expanded]="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Formulaire d'inscription Enfant / Adolescent 290€
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <kids-subscription-form
+      (sendKidsForm)="sendFirstForm($event)"
+    ></kids-subscription-form>
+    <!-- <atom-button
         class="btn"
         [text]="'Ajouter une inscription'"
         (click)="addSubscription($event)"
       ></atom-button> -->
-    </mat-expansion-panel>
-    <mat-expansion-panel *ngIf="showSecondForm && !isLoading" [expanded]="true">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          Formulaire de ré-inscription Enfant / Adolescent 250€
-        </mat-panel-title>
-      </mat-expansion-panel-header>
-      <renewal-subscription-form         (sendRenewalForm)="sendRenewalForm($event)"></renewal-subscription-form>
-    </mat-expansion-panel>
-    <mat-expansion-panel *ngIf="showThirdForm && !isLoading" [expanded]="true">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          Formulaire d'inscription Adulte 350€
-        </mat-panel-title>
-      </mat-expansion-panel-header>
-      <adult-subscription-form
-        (sendAdultForm)="sendAdultForm($event)"
-      ></adult-subscription-form>
-    </mat-expansion-panel>
-  </section>
-  <!-- <section class="subscription-amount">
+  </mat-expansion-panel>
+  <mat-expansion-panel *ngIf="showSecondForm && !isLoading" [expanded]="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Formulaire de ré-inscription Enfant / Adolescent 250€
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <kids-subscription-form
+      (sendKidsForm)="sendRenewalForm($event)"
+    ></kids-subscription-form>
+  </mat-expansion-panel>
+  <mat-expansion-panel *ngIf="showThirdForm && !isLoading" [expanded]="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title> Formulaire d'inscription Adulte 320€ </mat-panel-title>
+    </mat-expansion-panel-header>
+    <adult-subscription-form
+      (sendAdultForm)="sendAdultForm($event)"
+    ></adult-subscription-form>
+  </mat-expansion-panel>
+</section>
+<!-- <section class="subscription-amount">
     <div class="subscription-amount__container">
       <p class="bold">Montant total:</p>
       <p class="bold color-primary">€</p>
       <atom-button class="btn" [text]="'Valider'"></atom-button>
     </div>
   </section> -->
-</main>

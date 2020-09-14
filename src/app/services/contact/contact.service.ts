@@ -10,7 +10,6 @@ import { Message } from '../../models/message.model';
 })
 export class ContactService {
 
-
   private readonly CONTACT_URL = environment.apiUrl + '/contact';
 
   constructor(private http: HttpClient) { }

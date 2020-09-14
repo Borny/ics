@@ -1,3 +1,5 @@
+@use "sass:color";
+
 ///////////
 // COLORS
 ///////////
@@ -11,6 +13,10 @@ $cod-gray: #191919;
 
 $color-primary: $minsk;
 $color-secondary: $cod-gray;
+
+$color-primary-light: color.scale($minsk, $lightness: 70%);
+$grey-dark: darken($cod-gray, 0.5);
+
 // $color-secondary: $yellow-sea;
 // $color-tertiary: $mirage;
 
@@ -19,13 +25,9 @@ $color-secondary: $cod-gray;
 //////////
 
 // Roboto
-$fontPoppins: "Poppins",
-"Roboto",
-sans-serif;
+$fontPoppins: 'Poppins', 'Roboto', sans-serif;
 
-$fontOswald: "Oswald",
-"Roboto",
-sans-serif;
+$fontOswald: 'Oswald', 'Roboto', sans-serif;
 
 ////////////////
 // FONT WEIGHT

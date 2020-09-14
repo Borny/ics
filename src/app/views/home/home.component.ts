@@ -8,12 +8,18 @@ import { Router } from '@angular/router';
 })
 
 export class HomeView {
-  public navigateProgramButtonText = 'Découvrez nos programmes';
+
+  public readonly SUBSCRIPTIONS_BTN_TEXT = 'Inscriptions';
+  public readonly PROGRAMS_BTN_TEXT = 'Découvrez nos programmes';
 
   constructor(private router: Router) {
   }
 
-  public onNavigate(event: Event): void {
+  public onNavigatePrograms(event: Event): void {
     this.router.navigateByUrl('/programmes');
+  }
+
+  public onNavigateSubscriptions(event: Event): void {
+    this.router.navigateByUrl('/inscriptions');
   }
 }

@@ -45,7 +45,6 @@
 .nav-item {
   font-size: 1rem;
   border-bottom: 1px solid $color-primary;
-
   &.active,
   &:active {
     color: $white;
@@ -68,9 +67,16 @@
   }
 }
 
+.btn__container {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+}
+
 // DESKTOP
 nav {
   ul {
     display: flex;
+    align-items: center;
   }
 }

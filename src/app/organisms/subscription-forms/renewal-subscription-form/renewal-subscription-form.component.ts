@@ -1,12 +1,9 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
-enum AgeGroups {
-  FIRST = 'Enfant né entre 2014 et 2015',
-  SECOND = 'Enfant né entre 2011 et 2013',
-  THIRD = 'Enfant né entre 2008 et 2010',
-  FOURTH = 'Adolescent (12 ans et plus)'
-}
+import { AgeGroups } from '../../../models/ageGroup.enum';
+import { Lesson } from '../../../models/lesson.model';
+import { requireCheckboxesToBeCheckedValidator } from '../../../validators/checkbox';
 
 @Component({
   selector: 'renewal-subscription-form',
@@ -14,18 +11,46 @@ enum AgeGroups {
   styleUrls: ['../subscription-form.component.scss']
 })
 export class RenewalSubscriptionFormComponent implements OnInit {
-  @Output() sendRenewalForm: EventEmitter<any> = new EventEmitter();
+  @Output() sendFirstForm: EventEmitter<any> = new EventEmitter();
 
   public subscriptionForm: FormGroup = new FormGroup({});
+  public locationsForm: FormGroup = new FormGroup({}, { validators: requireCheckboxesToBeCheckedValidator() });
 
-  public ageGroups: any[] = [
+  public showSecondLegalGuardian = false;
+
+  public ageGroups: AgeGroups[] = [
     AgeGroups.FIRST,
     AgeGroups.SECOND,
-    AgeGroups.THIRD,
-    AgeGroups.FOURTH
+    AgeGroups.THIRD
   ];
 
-  public lessons: any[] = [];
+  public lessonsToDisplay: Lesson[] = [];
+
+  private _lessons: Lesson[] = [
+    {
+      location: 'Bois-Colombes - enfants MS et GS (mercredi 17h)',
+      name: 'location1'
+    },
+    {
+      location: 'Bois-Colombes - enfants 6-10 ans (mercredi 18h)',
+      name: 'location2'
+    },
+    {
+      location: 'Colombes - enfants MS et GS (samedi 10h15)',
+      name: 'location3'
+    },
+    {
+      location: 'Colombes - enfants 6-10 ans (samedi 11h)',
+      name: 'location4'
+    }
+  ];
+
+  private _secondGuardianControls: string[] = [
+    'secondGuardianFirstName',
+    'secondGuardianLastName',
+    'secondGuardianEmail',
+    'secondGuardianPhone'
+  ];
 
   constructor() { }
 
@@ -38,78 +63,102 @@ export class RenewalSubscriptionFormComponent implements OnInit {
     this.subscriptionForm.addControl('guardianFirstName', new FormControl(null, Validators.required));
     this.subscriptionForm.addControl('email', new FormControl(null, [Validators.required, Validators.email]));
     this.subscriptionForm.addControl('phone', new FormControl(null, [Validators.required, Validators.minLength(10)]));
-    this.subscriptionForm.addControl('details', new FormControl(null));
+    this.subscriptionForm.addControl('imageRights', new FormControl(false));
+    this.subscriptionForm.addControl('extraInfo', new FormControl(''));
   }
 
   public onSubmit(): void {
     if (this.subscriptionForm.invalid) {
       return;
     }
-    console.log(this.subscriptionForm.value.birthdate.toLocaleDateString());
-    this.sendRenewalForm.emit(this.subscriptionForm.value);
-    console.log(this.subscriptionForm.value);
+    // Editing the birthdate format
+    this.subscriptionForm.patchValue({
+      birthdate: this.subscriptionForm.value.birthdate.toLocaleDateString()
+    });
+
+    // Mapping the locations values
+    if (this.locationsForm.contains('location1')) {
+      this.locationsForm.patchValue({
+        location1: this._lessons[0].location
+      });
+    }
+    if (this.locationsForm.contains('location2')) {
+      this.locationsForm.patchValue({
+        location2: this._lessons[1].location
+      });
+    }
+    if (this.locationsForm.contains('location3')) {
+      this.locationsForm.patchValue({
+        location3: this._lessons[2].location
+      });
+    }
+    if (this.locationsForm.contains('location4')) {
+      this.locationsForm.patchValue({
+        location4: this._lessons[3].location
+      });
+    }
+
+    this.sendFirstForm.emit(this.subscriptionForm.value);
+    console.log('form values :', this.subscriptionForm.value);
   }
 
   public ageGroupOptionHandler(event: { value: AgeGroups; }) {
-    console.log(event.value);
-    this.removeLocationControl();
+    // console.log(event.value);
     switch (event.value) {
       case AgeGroups.FIRST:
-        this.lessons = [];
-        this.lessons.push(
-          {
-            location: 'Bois-Colombes - enfants MS et GS (mercredi 17h)',
-            name: 'location1'
-          },
-          {
-            location: 'Colombes - enfants MS et GS (samedi 10h15)',
-            name: 'location3'
-          },
-        );
-        this.subscriptionForm.addControl('location1', new FormControl(null));
-        this.subscriptionForm.addControl('location3', new FormControl(null));
+        this.locationsForm.addControl(this._lessons[0].name, new FormControl(false));
+        this.locationsForm.addControl(this._lessons[2].name, new FormControl(false));
+        this.subscriptionForm.addControl('locations', this.locationsForm);
+        this.lessonsToDisplay = [];
+        this.lessonsToDisplay.push(this._lessons[0]);
+        this.lessonsToDisplay.push(this._lessons[2]);
         break;
       case AgeGroups.SECOND:
-        this.lessons = [];
-        this.lessons.push(
-          {
-            location: 'Bois-Colombes - enfants MS et GS (mercredi 17h)',
-            name: 'location1'
-          },
-          {
-            location: 'Colombes - enfants MS et GS (samedi 10h15)',
-            name: 'location3'
-          },
-
-        );
-        this.subscriptionForm.addControl('location1', new FormControl(null));
-        this.subscriptionForm.addControl('location3', new FormControl(null));
+        this.locationsForm.addControl(this._lessons[1].name, new FormControl(false));
+        this.locationsForm.addControl(this._lessons[3].name, new FormControl(false));
+        this.subscriptionForm.addControl('locations', this.locationsForm);
+        this.lessonsToDisplay = [];
+        this.lessonsToDisplay.push(this._lessons[1]);
+        this.lessonsToDisplay.push(this._lessons[3]);
         break;
       case AgeGroups.THIRD:
-        this.lessons = [];
-        this.lessons.push(
-          {
-            location: 'Bois-Colombes - enfants 6-10 ans (mercredi 18h)',
-            name: 'location2'
-          },
-          {
-            location: 'Colombes - enfants 6-10 ans (samedi 11h)',
-            name: 'location4'
-          }
-        );
-        this.subscriptionForm.addControl('location2', new FormControl(null));
-        this.subscriptionForm.addControl('location4', new FormControl(null));
-        break;
-      case AgeGroups.FOURTH:
-        this.lessons = [];
+        if (this.subscriptionForm.contains('locations')) {
+          this.subscriptionForm.removeControl('locations');
+        }
+        this.lessonsToDisplay = [];
         break;
     }
   }
 
-  private removeLocationControl(): void {
-    this.subscriptionForm.removeControl('location1');
-    this.subscriptionForm.removeControl('location2');
-    this.subscriptionForm.removeControl('location3');
-    this.subscriptionForm.removeControl('location4');
+  public toggleShowSecondLegalGuardian(checked: boolean): void {
+    this.showSecondLegalGuardian = checked;
+    checked
+      ?
+      this._addControl(this._secondGuardianControls)
+      :
+      this._removeControl(this._secondGuardianControls);
+  }
+
+  // private removeLocationControl(): void {
+  //   this.removeControl(this.locationControls);
+  // }
+
+  private _addControl(controls: string[], required?: boolean): void {
+    controls.forEach(control => {
+      this.subscriptionForm.addControl(control, new FormControl(null));
+      if (required) {
+        this.subscriptionForm.controls[control].setValidators([Validators.required]);
+      }
+      if (control === 'email' || control === 'secondGuardianEmail') {
+        this.subscriptionForm.controls[control].setValidators([Validators.required, Validators.email]);
+      }
+      if (control === 'phone' || control === 'secondGuardianPhone') {
+        this.subscriptionForm.controls[control].setValidators([Validators.required, Validators.minLength(10)]);
+      }
+    });
+  }
+
+  private _removeControl(controls: string[]): void {
+    controls.forEach(control => this.subscriptionForm.removeControl(control));
   }
 }

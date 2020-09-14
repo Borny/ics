@@ -1,6 +1,17 @@
 @import '../../../styles/tools/variables';
 @import '../../../styles/tools/mixins';
 
+:host {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  min-height: calc(100% - (56px + 132px));
+
+  @include screen-sm {
+    min-height: calc(100% - (64px + 114px));
+  }
+}
+
 .deal-card__container {
   background: $color-primary;
   padding: 1rem;
@@ -54,12 +65,10 @@
 }
 
 .deal-options__content {
-
   @include screen-sm {
     padding: 1rem;
-    max-width: $screen-sm;
+    max-width: $screen-md;
     margin: 0 auto;
-    // border: 1px solid $color-secondary;
     border-radius: 4px;
   }
 }
@@ -67,6 +76,34 @@
 .deal-options__title {
   text-align: center;
   font-weight: $fontWeightBold;
+}
+
+.forms__container {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+
+  .spinner,
+  .message {
+    margin: 4rem auto;
+  }
+
+  .btn-container {
+    display: flex;
+    flex-flow: column;
+    margin: 0 auto 4rem;
+
+    @include screen-sm {
+      flex-flow: row;
+      justify-content: center;
+    }
+  }
+
+  .btn {
+    display: flex;
+    justify-content: center;
+    margin: 1rem;
+  }
 }
 
 .mat-expansion-panel {
@@ -86,7 +123,6 @@
   text-align: center;
   display: flex;
   justify-content: center;
-
 }
 
 // RADIO BUTTONS
@@ -95,13 +131,21 @@
   flex-flow: column;
   padding: 1rem;
   justify-content: stretch;
+  align-items: center;
+
+  @include screen-md {
+    flex-flow: row;
+    justify-content: space-evenly;
+  }
 }
 
 .radio-button {
-  border: 2px solid $color-primary;
-  padding: 0.5rem;
   border-radius: 100px;
   margin: 0 0 1rem;
+  padding: 0.5rem 1rem;
+  min-width: 280px;
+  background-color: $color-primary;
+  color: $white;
 }
 
 .subscription-amount__container {

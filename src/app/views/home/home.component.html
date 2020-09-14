@@ -32,9 +32,13 @@
         </p>
       </div>
     </div>
-    <atom-button
-      [text]="navigateProgramButtonText"
-      (clickEvent)="onNavigate($event)"
-    ></atom-button>
+    <div class="btn__container">
+      <atom-button
+        class="btn"
+        [text]="PROGRAMS_BTN_TEXT"
+        (clickEvent)="onNavigatePrograms($event)"
+        [type]="'button'"
+      ></atom-button>
+    </div>
   </div>
 </section>

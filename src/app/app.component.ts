@@ -1,5 +1,8 @@
 import { MediaMatcher } from '@angular/cdk/layout';
 import { Component, ViewChild, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
+
+import { AuthService } from './services/auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -11,20 +14,37 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public mobileQuery: MediaQueryList;
   public toggleIconName = 'menu';
+  public isUserAuthenticated = false;
+
+  public readonly LOGOUT_BTN_TEXT = 'Log out';
+  public readonly LOGO_COLOR = 'white';
+
+  private authListenerSubs: Subscription;
 
   private readonly SCREEN_SM = '(max-width: 768px)';
 
-  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
+  constructor(
+    private authService: AuthService,
+    private changeDetectorRef: ChangeDetectorRef,
+    private media: MediaMatcher) {
     this.mobileQuery = media.matchMedia(this.SCREEN_SM);
-    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
   }
 
   ngOnInit(): void {
-    console.log('_mobileQuery ;', this.mobileQuery)
+    this.isUserAuthenticated = this.authService.getIsAuth();
+    this.authListenerSubs = this.authService.getAuthStatus()
+      .subscribe(
+        isAuthenticated => {
+          this.isUserAuthenticated = isAuthenticated;
+          console.log(this.isUserAuthenticated);
+        });
+
+    this.authService.autoAuthUser();
   }
 
   ngOnDestroy(): void {
+    this.authListenerSubs.unsubscribe();
     this.mobileQuery.removeListener(this._mobileQueryListener);
   }
 
@@ -34,12 +54,16 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public toggleNav(): void {
     this.navToggle.toggle();
-
-    // TODO: delete logs
-    console.log('mobileQuery ;', this.mobileQuery)
-    console.log('open', this.navToggle.opened)
-    console.log('this.navToggle', this.navToggle)
   }
 
-  private _mobileQueryListener(): void { }
+  public onLogout(): void {
+    this.authService.logout();
+    if (this.mobileQuery.matches) {
+      this.navToggle.toggle();
+    }
+  }
+
+  private _mobileQueryListener(): void {
+    return this.changeDetectorRef.detectChanges();
+  }
 }

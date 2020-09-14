@@ -1,0 +1,22 @@
+.link-btn {
+  padding: 0.5rem 1.5rem;
+  border-radius: 100px;
+  background: $color-primary;
+  color: $white;
+  box-shadow: 5px 5px 6px rgba($black, 0.16);
+  transition: 0.2s ease-in;
+
+  &:hover,
+  &:active {
+    background: $white;
+    color: $color-primary;
+    font-weight: $fontWeightBold;
+  }
+
+  &:disabled {
+    opacity: 0.3;
+    background: $color-primary;
+    color: $white;
+    font-weight: $fontWeightBase;
+  }
+}

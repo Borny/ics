@@ -11,21 +11,23 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$custom-theme-primary: (50:#665BC2,
-  100:#584CBD,
-  200:#4D42B3,
-  300: #473DA4,
-  400:#403795,
-  500:#393185,
-  600: #342C77,
-  700: #2D2768,
+$custom-theme-primary: (
+  50: #665bc2,
+  100: #584cbd,
+  200: #4d42b3,
+  300: #473da4,
+  400: #403795,
+  500: #393185,
+  600: #342c77,
+  700: #2d2768,
   800: #272159,
-  900: #201C4A,
+  900: #201c4a,
   A100: #8c9eff,
   A200: #536dfe,
   A400: #3d5afe,
   A700: #304ffe,
-  contrast: (50: $dark-primary-text,
+  contrast: (
+    50: $dark-primary-text,
     100: $dark-primary-text,
     200: $dark-primary-text,
     300: $light-primary-text,
@@ -39,7 +41,8 @@ $custom-theme-primary: (50:#665BC2,
     A200: $light-primary-text,
     A400: $light-primary-text,
     A700: $light-primary-text,
-  ));
+  ),
+);
 
 $ics-primary: mat-palette($custom-theme-primary);
 $ics-accent: mat-palette($mat-pink, A200, A100, A400);
@@ -63,3 +66,4 @@ $ics-theme: mat-light-theme($ics-primary, $ics-accent, $ics-warn);
 @import './styles/base/base';
 
 @import './styles/components/tabs';
+@import './styles/components/button';
