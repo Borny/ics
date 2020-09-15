@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://infinite-beyond-40054.herokuapp.com'
+  apiUrl: 'https://icsfrance.herokuapp.com/api'
 };
