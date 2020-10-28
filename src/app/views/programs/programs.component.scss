@@ -1,5 +1,5 @@
-@import "../../../styles/tools/variables";
-@import "../../../styles/tools/mixins";
+@import '../../../styles/tools/variables';
+@import '../../../styles/tools/mixins';
 
 .main {
   background: $white;
@@ -24,7 +24,6 @@
       margin: 12rem auto 0;
     }
   }
-
 }
 
 .tab__content {
@@ -44,14 +43,16 @@
     margin: 0 auto;
     padding: 0 1rem 1rem;
   }
+}
 
+.tab__img {
+  width: 100%;
 }
 
 .bottom-image {
   width: 100%;
   min-height: 150px;
   background-size: cover;
-
 
   &.school {
     background-image: url(../../../assets/edinho-kid.jpg);

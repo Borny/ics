@@ -36,6 +36,7 @@
           </p>
         </div>
         <img
+          class="tab__img"
           src="../../../assets/edinho-kid.jpg"
           alt="contramestre edinho et enfant"
         />
@@ -87,7 +88,11 @@
             un excellent outil pour aider à l'éducation de l'enfant.
           </p>
         </div>
-        <img src="../../../assets/kids-bananeira.jpg" alt="enfants équilibre" />
+        <img
+          class="tab__img"
+          src="../../../assets/kids-bananeira.jpg"
+          alt="enfants équilibre"
+        />
         <organism-sessions
           *ngFor="let session of sessionsKids; let even = even; let odd = odd"
           [style]="{ odd: odd, even: even }"
@@ -151,7 +156,11 @@
             faire à la maison. Il y aura également du matériel téléchargeable.
           </p>
         </div>
-        <img src="../../../assets/movement-duo.jpg" alt="enfants équilibre" />
+        <img
+          class="tab__img"
+          src="../../../assets/movement-duo.jpg"
+          alt="enfants équilibre"
+        />
         <organism-sessions
           *ngFor="let session of sessionsAdults; let even = even; let odd = odd"
           [style]="{ odd: odd, even: even }"

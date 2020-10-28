@@ -41,6 +41,7 @@ export class AuthService {
     this.http.post<{ token: string, expiresIn: number }>(this.ADMIN_LOGIN_URL, adminLoginFormValue)
       .subscribe(
         response => {
+          console.log('admin login')
           const token = response.token;
           this._token = token;
           if (token) {
