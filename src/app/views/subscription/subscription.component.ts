@@ -23,9 +23,19 @@ export class SubscriptionView implements OnInit {
   public readonly PROGRAM_BTN_TEXT = 'Nos programmes';
   public readonly RELOAD_BTN_TEXT = 'Réessayer';
 
-  public showFirstForm: boolean;
-  public showSecondForm: boolean;
-  public showThirdForm: boolean;
+  public showKidForm: boolean;
+  public showAdultForm: boolean;
+
+  public subscriptionForms: any[] = [
+    {
+      title: 'Inscription enfant / ado',
+      subscriptionType: SubscriptionType.SubscriptionFirst
+    },
+    {
+      title: 'Inscription  Adulte',
+      subscriptionType: SubscriptionType.SubscriptionAdult
+    },
+  ]
 
   public classDeals: ClassDeals[] = [
     {
@@ -61,23 +71,16 @@ export class SubscriptionView implements OnInit {
   public addSubscription(event: Event): void {
   }
 
-  public classDealOptionHandler(event: { value: ClassDeals }): void {
+  public subscriptionFormsOptionHandler(event: { value: ClassDeals }): void {
     console.log(event);
     switch (event.value.subscriptionType) {
       case 0:
-        this.showFirstForm = true;
-        this.showSecondForm = false;
-        this.showThirdForm = false;
-        break;
-      case 1:
-        this.showFirstForm = false;
-        this.showSecondForm = true;
-        this.showThirdForm = false;
+        this.showKidForm = true;
+        this.showAdultForm = false;
         break;
       case 2:
-        this.showFirstForm = false;
-        this.showSecondForm = false;
-        this.showThirdForm = true;
+        this.showKidForm = false;
+        this.showAdultForm = true;
         break;
     }
   }
@@ -86,26 +89,8 @@ export class SubscriptionView implements OnInit {
     this.isLoading = true;
     this.showDealOptions = false;
     this._hideAllForms();
-    this.subscriptionService.sendFirstForm(formData)
-      .subscribe(
-        response => {
-          console.log(response);
-          this.isLoading = false;
-          this.formSentSuccess = true;
-        },
-        error => {
-          console.log('send form error :', error);
-          this.isLoading = false;
-          this.formSentFailed = true;
-        }
-      );
-  }
-
-  public sendRenewalForm(formData: KidsFormData): void {
-    this.isLoading = true;
-    this.showDealOptions = false;
-    this._hideAllForms();
-    this.subscriptionService.sendRenewalForm(formData)
+    console.log(formData)
+    this.subscriptionService.sendKidsForm(formData)
       .subscribe(
         response => {
           console.log(response);
@@ -154,10 +139,12 @@ export class SubscriptionView implements OnInit {
     location.reload();
   }
 
+  ////////////
+  // PRIVATE
+  ////////////
   private _hideAllForms(): void {
-    this.showFirstForm = false;
-    this.showSecondForm = false;
-    this.showThirdForm = false;
+    this.showKidForm = false;
+    this.showAdultForm = false;
   }
 
 }

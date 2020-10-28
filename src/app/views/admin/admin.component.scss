@@ -44,6 +44,11 @@ h1 {
       white-space: normal;
     }
 
+    &.first-column {
+      flex: initial;
+      width: 40px;
+    }
+
     &:not(:last-child) {
       border-right: 1px solid $color-secondary;
     }

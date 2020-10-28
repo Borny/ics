@@ -32,12 +32,12 @@
     <p class="deal-options__title">Choisissez une formule</p>
     <mat-radio-group class="radio-group" aria-label="Selectionnez une formule">
       <mat-radio-button
-        *ngFor="let deal of classDeals"
+        *ngFor="let form of subscriptionForms"
         class="radio-button"
-        [value]="deal"
-        (change)="classDealOptionHandler($event)"
+        [value]="form"
+        (change)="subscriptionFormsOptionHandler($event)"
       >
-        {{ deal.option }}
+        {{ form.title }}
       </mat-radio-button>
     </mat-radio-group>
   </div>
@@ -72,7 +72,7 @@
       (clickEvent)="onReloadPage($event)"
     ></atom-button>
   </div>
-  <mat-expansion-panel *ngIf="showFirstForm && !isLoading" [expanded]="true">
+  <mat-expansion-panel *ngIf="showKidForm && !isLoading" [expanded]="true">
     <mat-expansion-panel-header>
       <mat-panel-title>
         Formulaire d'inscription Enfant / Adolescent 290€
@@ -87,7 +87,7 @@
         (click)="addSubscription($event)"
       ></atom-button> -->
   </mat-expansion-panel>
-  <mat-expansion-panel *ngIf="showSecondForm && !isLoading" [expanded]="true">
+  <!-- <mat-expansion-panel *ngIf="showSecondForm && !isLoading" [expanded]="true">
     <mat-expansion-panel-header>
       <mat-panel-title>
         Formulaire de ré-inscription Enfant / Adolescent 250€
@@ -96,8 +96,8 @@
     <kids-subscription-form
       (sendKidsForm)="sendRenewalForm($event)"
     ></kids-subscription-form>
-  </mat-expansion-panel>
-  <mat-expansion-panel *ngIf="showThirdForm && !isLoading" [expanded]="true">
+  </mat-expansion-panel> -->
+  <mat-expansion-panel *ngIf="showAdultForm && !isLoading" [expanded]="true">
     <mat-expansion-panel-header>
       <mat-panel-title> Formulaire d'inscription Adulte 320€ </mat-panel-title>
     </mat-expansion-panel-header>

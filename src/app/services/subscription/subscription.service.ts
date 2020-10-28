@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 
 import { environment } from '../../../environments/environment';
 import { AdultFormData } from '../../models/adultFormData.model';
-import { AdultData } from '../../models/adultData.model';
 import { KidsFormData } from '../../models/kidsFormData.model';
 
 @Injectable({
@@ -13,8 +12,9 @@ import { KidsFormData } from '../../models/kidsFormData.model';
 })
 export class SubscriptionService {
 
-  public readonly FIRST_SUBSCRIPTION_URL = environment.apiUrl + '/subscription/first';
-  public readonly RENEWAL_SUBSCRIPTION_URL = environment.apiUrl + '/subscription/renewal';
+  public readonly NURSERY_SUBSCRIPTION_URL = environment.apiUrl + '/subscription/nursery';
+  public readonly ELEMENTARY_SUBSCRIPTION_URL = environment.apiUrl + '/subscription/elementary';
+  public readonly TEEN_SUBSCRIPTION_URL = environment.apiUrl + '/subscription/teen';
   public readonly ADULT_SUBSCRIPTION_URL = environment.apiUrl + '/subscription/adult';
 
   constructor(
@@ -22,26 +22,28 @@ export class SubscriptionService {
     private router: Router
   ) { }
 
-  public sendFirstForm(formValues: KidsFormData): Observable<any> {
-    return this.http.post(`${this.FIRST_SUBSCRIPTION_URL}`, formValues);
-  }
+  // SEND DATA
+  public sendKidsForm(formValues: KidsFormData): Observable<any> {
 
-  public sendRenewalForm(formValues: KidsFormData): Observable<any> {
-    return this.http.post(`${this.FIRST_SUBSCRIPTION_URL}`, formValues);
+    let url: string;
+    if (formValues.ageGroup === 0) {
+      url = this.NURSERY_SUBSCRIPTION_URL;
+    } else if (formValues.ageGroup === 1) {
+      url = this.ELEMENTARY_SUBSCRIPTION_URL;
+    } else if (formValues.ageGroup === 2) {
+      url = this.TEEN_SUBSCRIPTION_URL;
+    }
+    return this.http.post(`${url}`, formValues);
   }
 
   public sendAdultForm(formValues: AdultFormData): Observable<any> {
-    return this.http.post(`${this.ADULT_SUBSCRIPTION_URL}`, formValues);
+    return this.http.post(this.ADULT_SUBSCRIPTION_URL, formValues);
   }
 
+  // GET DATA
   public getAdultData(): Observable<any> {
     return this.http.get<any>(`${this.ADULT_SUBSCRIPTION_URL}`);
   }
-
-  // TODO: delete when done
-  // public deleteEntry(id: number): Observable<boolean> {
-  //   return this.http.delete<boolean>(`${this.ADULT_SUBSCRIPTION_URL}`);
-  // }
 
   public fetchExcelFile(): void {
     console.log('gettting the excel file')

@@ -56,16 +56,7 @@ export class KidsSubscriptionFormComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.subscriptionForm.addControl('ageGroup', new FormControl(null, Validators.required));
-    this.subscriptionForm.addControl('memberLastName', new FormControl(null, Validators.required));
-    this.subscriptionForm.addControl('memberFirstName', new FormControl(null, Validators.required));
-    this.subscriptionForm.addControl('birthdate', new FormControl(null, Validators.required));
-    this.subscriptionForm.addControl('guardianLastName', new FormControl(null, Validators.required));
-    this.subscriptionForm.addControl('guardianFirstName', new FormControl(null, Validators.required));
-    this.subscriptionForm.addControl('email', new FormControl(null, [Validators.required, Validators.email]));
-    this.subscriptionForm.addControl('phone', new FormControl(null, [Validators.required, Validators.minLength(10)]));
-    this.subscriptionForm.addControl('imageRights', new FormControl(false));
-    this.subscriptionForm.addControl('extraInfo', new FormControl(''));
+    this._initializeSubscriptionForm();
   }
 
   public onSubmit(): void {
@@ -100,31 +91,29 @@ export class KidsSubscriptionFormComponent implements OnInit {
     }
 
     this.sendKidsForm.emit(this.subscriptionForm.value);
-    console.log('form values :', this.subscriptionForm.value);
   }
 
-  public ageGroupOptionHandler(event: { value: AgeGroups; }) {
-    // console.log(event.value);
+  public ageGroupOptionHandler(event: { value: number; }) {
     switch (event.value) {
-      case AgeGroups.FIRST:
+      case 0:
         this.locationsForm.addControl(this._lessons[0].name, new FormControl(false));
         this.locationsForm.addControl(this._lessons[2].name, new FormControl(false));
-        this.subscriptionForm.addControl('locations', this.locationsForm);
+        this.subscriptionForm.addControl('lessonLocations', this.locationsForm);
         this.lessonsToDisplay = [];
         this.lessonsToDisplay.push(this._lessons[0]);
         this.lessonsToDisplay.push(this._lessons[2]);
         break;
-      case AgeGroups.SECOND:
+      case 1:
         this.locationsForm.addControl(this._lessons[1].name, new FormControl(false));
         this.locationsForm.addControl(this._lessons[3].name, new FormControl(false));
-        this.subscriptionForm.addControl('locations', this.locationsForm);
+        this.subscriptionForm.addControl('lessonLocations', this.locationsForm);
         this.lessonsToDisplay = [];
         this.lessonsToDisplay.push(this._lessons[1]);
         this.lessonsToDisplay.push(this._lessons[3]);
         break;
-      case AgeGroups.THIRD:
-        if (this.subscriptionForm.contains('locations')) {
-          this.subscriptionForm.removeControl('locations');
+      case 2:
+        if (this.subscriptionForm.contains('lessonLocations')) {
+          this.subscriptionForm.removeControl('lessonLocations');
         }
         this.lessonsToDisplay = [];
         break;
@@ -140,9 +129,23 @@ export class KidsSubscriptionFormComponent implements OnInit {
       this._removeControl(this._secondGuardianControls);
   }
 
-  // private removeLocationControl(): void {
-  //   this.removeControl(this.locationControls);
-  // }
+  ////////////
+  // PRIVATE
+  ////////////
+
+  private _initializeSubscriptionForm(): void {
+    this.subscriptionForm.addControl('ageGroup', new FormControl(null, Validators.required));
+    this.subscriptionForm.addControl('memberLastName', new FormControl(null, Validators.required));
+    this.subscriptionForm.addControl('memberFirstName', new FormControl(null, Validators.required));
+    this.subscriptionForm.addControl('birthdate', new FormControl(null, Validators.required));
+    this.subscriptionForm.addControl('guardianLastName', new FormControl(null, Validators.required));
+    this.subscriptionForm.addControl('guardianFirstName', new FormControl(null, Validators.required));
+    this.subscriptionForm.addControl('guardianEmail', new FormControl(null, [Validators.required, Validators.email]));
+    this.subscriptionForm.addControl('guardianPhone', new FormControl(null, [Validators.required, Validators.minLength(10)]));
+    this.subscriptionForm.addControl('imageRights', new FormControl(false));
+    this.subscriptionForm.addControl('extraInfo', new FormControl(''));
+    this.subscriptionForm.addControl('firstSubscription', new FormControl(true, Validators.required));
+  }
 
   private _addControl(controls: string[], required?: boolean): void {
     controls.forEach(control => {

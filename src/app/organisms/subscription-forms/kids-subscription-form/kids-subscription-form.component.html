@@ -11,9 +11,9 @@
       formControlName="ageGroup"
     >
       <mat-radio-button
-        *ngFor="let ageGroup of ageGroups"
+        *ngFor="let ageGroup of ageGroups; let groupNumber = index"
         class="radio-button"
-        [value]="ageGroup"
+        [value]="groupNumber"
         (change)="ageGroupOptionHandler($event)"
       >
         {{ ageGroup }}
@@ -30,7 +30,6 @@
       </li>
     </ul>
   </div>
-
   <div class="form-section">
     <p class="form-section__label">Adhérent</p>
     <div class="form-group">
@@ -91,6 +90,28 @@
     </div>
   </div>
   <div class="form-section">
+    <p class="form-section__label">Première inscription</p>
+    <div class="form-group">
+      <p class="deal-options__title">S'agit-il d'une première inscription ?</p>
+      <mat-radio-group
+      class="radio-group"
+      aria-label="S'agit-il d'une réinscription ?"
+      formControlName="firstSubscription"
+    >
+      <mat-radio-button
+        class="radio-button"
+        [value]="true"
+      >Oui
+      </mat-radio-button>
+      <mat-radio-button
+        class="radio-button"
+        [value]="false"
+      >Non
+      </mat-radio-button>
+    </mat-radio-group>
+    </div>
+  </div>
+  <div class="form-section">
     <p class="form-section__label">Représentant légal</p>
     <div class="form-group">
       <mat-form-field>
@@ -133,12 +154,12 @@
           matInput
           type="email"
           name="email"
-          formControlName="email"
+          formControlName="guardianEmail"
           required
         />
         <mat-error
           *ngIf="
-            subscriptionForm.get('email').invalid && subscriptionForm.touched
+            subscriptionForm.get('guardianEmail').invalid && subscriptionForm.touched
           "
           >Veuillez renseigner un email</mat-error
         >
@@ -149,12 +170,12 @@
           matInput
           type="text"
           name="phone"
-          formControlName="phone"
+          formControlName="guardianPhone"
           required
         />
         <mat-error
           *ngIf="
-            subscriptionForm.get('phone').invalid && subscriptionForm.touched
+            subscriptionForm.get('guardianPhone').invalid && subscriptionForm.touched
           "
           >Veuillez renseigner un numéro de téléphone</mat-error
         >

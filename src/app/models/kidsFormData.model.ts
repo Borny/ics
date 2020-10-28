@@ -1,19 +1,18 @@
-import { AgeGroups } from './ageGroup.enum';
-
 export interface KidsFormData {
-  ageGroup: AgeGroups;
-  locations?: string[];
+  ageGroup: number;
+  lessonLocations?: string[];
   firstName: string;
   lastName: string;
   birthdate: string;
   guardianLastName: string;
   guardianFirstName: string;
-  email: string;
-  phone: string;
+  guardianEmail: string;
+  guardianPhone: string;
   secondGuardianLastName?: string;
   secondGuardianFirstName?: string;
   secondGuardianEmail?: string;
   secondGuardianPhone?: string;
   imageRights?: boolean;
   extraInfo?: string;
+  firstSubscription: boolean;
 }

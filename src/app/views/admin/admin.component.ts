@@ -23,16 +23,14 @@ export class AdminView implements OnInit {
 
   constructor(
     private subscriptionService: SubscriptionService,
-    // private router: Router
   ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getAdultInfo();
   }
 
   public getAdultInfo(): void {
     this.isLoading = true;
-    console.log('fetching data...')
     this.subscriptionService.getAdultData()
       .subscribe(
         response => {
@@ -60,11 +58,4 @@ export class AdminView implements OnInit {
   //       }, err => { console.log(err); this.isLoading = false; });
   // }
 
-
-  // public getExcelFile(): void {
-  //   // this.router.navigate([`${environment.apiUrl}/subscription/adult/excel`]);
-  //   // this.router.navigate([`http://localhost:8000/subscription/adult/excel`]);
-
-  //   // this.subscriptionService.fetchExcelFile();
-  // }
 }
