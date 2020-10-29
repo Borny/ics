@@ -1,49 +1,25 @@
 <h1 class="color-primary-font">Admin</h1>
 
-<mat-spinner *ngIf="isLoading" class="spinner"></mat-spinner>
-
 <div>
-  <p>Adults</p>
-  <p>Ado</p>
-  <p>2015 - 2016</p>
-  <p>2010 - 2014</p>
+  <mat-radio-group
+    class="radio-group"
+    aria-label="Selectionnez une formule"
+    formControlName="ageGroup"
+  >
+    <mat-radio-button
+      *ngFor="let ageGroup of ageGroups; let groupNumber = index"
+      class="radio-button"
+      [value]="groupNumber"
+      [checked]="groupNumber === 0"
+      (change)="ageGroupOptionHandler($event)"
+    >
+      {{ ageGroup }}
+    </mat-radio-button>
+  </mat-radio-group>
 </div>
 
-<section class="adult-section" *ngIf="!isLoading">
-  <ul class="data-table__container">
-    <li class="data-table__item data-table__item__header">
-      <div class="first-column"></div>
-      <div>Nom</div>
-      <div>Prénom</div>
-      <div>Date de naissance</div>
-      <div>Email</div>
-      <div>Téléphone</div>
-      <div>Info Supplémentaire</div>
-      <div>Droit à l'image</div>
-    </li>
-    <li
-      class="data-table__item"
-      [ngClass]="{ odd: odd, even: even }"
-      *ngFor="let data of adultData; let even = even; let odd = odd; let i = index"
-    >
-      <div class="first-column">{{ i + 0 }}</div>
-      <div>{{ data.lastName }}</div>
-      <div>{{ data.firstName }}</div>
-      <div>{{ data.birthdate }}</div>
-      <div>{{ data.email }}</div>
-      <div>{{ data.phone }}</div>
-      <div>{{ data.extraInfo }}</div>
-      <div
-        class="lastchild"
-        [ngClass]="data.imageRights ? 'primary-color' : 'warning-color'"
-      >
-        {{ data.imageRights ? "Oui" : "Non" }}
-      </div>
-    </li>
-  </ul>
+<mat-spinner *ngIf="isLoading" class="spinner"></mat-spinner>
 
-  <div class="btn-container">
-    <p>Télécharger les informations au format Excel</p>
-    <a class="link-btn" href="{{ ADULT_EXCEL_URL }}">Télécharger</a>
-  </div>
+<section class="tab-section" *ngIf="!isLoading">
+  <member-data-tab [membersData]="membersData"></member-data-tab>
 </section>

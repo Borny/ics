@@ -1,0 +1,52 @@
+<ul class="data-table__container">
+  <li class="data-table__item data-table__item__header">
+    <div class="first-column"></div>
+    <div>Nom</div>
+    <div>Prénom</div>
+    <div>Date de naissance</div>
+    <div>Email</div>
+    <div>Téléphone</div>
+    <div>Info Supplémentaire</div>
+    <div>Droit à l'image</div>
+    <div></div>
+  </li>
+  <li
+    class="data-table__item"
+    [ngClass]="{ odd: odd, even: even }"
+    *ngFor="
+      let member of membersData;
+      let even = even;
+      let odd = odd;
+      let i = index
+    "
+  >
+    <div class="first-column">{{ i + 0 }}</div>
+    <div>{{ member.lastName }}</div>
+    <div>{{ member.firstName }}</div>
+    <div>{{ member.birthdate }}</div>
+    <div>{{ member.email }}</div>
+    <div>{{ member.phone }}</div>
+    <div>{{ member.extraInfo }}</div>
+    <div
+      class="lastchild"
+      [ngClass]="member.imageRights ? 'primary-color' : 'warning-color'"
+    >
+      {{ member.imageRights ? "Oui" : "Non" }}
+    </div>
+    <div>
+      <button
+        mat-flat-button
+        type="button"
+        color="primary"
+        (click)="onOpenMemberManager(member, i)"
+      >
+        <mat-icon>create</mat-icon>
+      </button>
+    </div>
+  </li>
+</ul>
+
+<div class="btn-container">
+  <p>Télécharger les informations au format Excel</p>
+  <a class="link-btn" href="{{ ADULT_EXCEL_URL }}">Télécharger</a>
+</div>

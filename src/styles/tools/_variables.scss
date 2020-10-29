@@ -11,9 +11,12 @@ $minsk: #393185;
 
 $cod-gray: #191919;
 
+$red: #f44336;
+
 $color-primary: $minsk;
 $color-secondary: $cod-gray;
 
+$color-warning: $red;
 $color-primary-light: color.scale($minsk, $lightness: 70%);
 $grey-dark: darken($cod-gray, 0.5);
 

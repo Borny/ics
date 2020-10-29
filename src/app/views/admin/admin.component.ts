@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
 
 import { SubscriptionService } from '../../services/subscription/subscription.service';
 import { AdultData } from '../../models/adultData.model';
-import { environment } from '../../../environments/environment';
+import { KidData } from 'src/app/models/kidData.model';
 
 @Component({
   selector: 'admin',
@@ -14,29 +12,113 @@ import { environment } from '../../../environments/environment';
 
 export class AdminView implements OnInit {
 
-  public adultData: AdultData[] = [];
+  public showAdultData = false;
+  public showTeenData = false;
+  public showElementaryData = false;
+  public showNurseryData = false;
+
+  // public adultData: AdultData[] = [];
+  // public nurseryData: KidData[] = [];
+  // public elementaryData: KidData[] = [];
+  // public teenData: KidData[] = [];
+  public membersData: any[] = [];
   public isLoading = false;
 
   public adultError = false;
 
-  public readonly ADULT_EXCEL_URL = `${environment.apiUrl}/subscription/adult/excel`;
+
+  public ageGroups: any[] = [
+    '2010 - 2014',
+    '2015 - 2016',
+    'Ado',
+    'Adultes'
+  ];
 
   constructor(
     private subscriptionService: SubscriptionService,
   ) { }
 
   ngOnInit(): void {
-    this.getAdultInfo();
+    this.showNurseryData = true;
+    this._getNurseryData();
   }
 
-  public getAdultInfo(): void {
+  public ageGroupOptionHandler(event: { value: number }) {
+    switch (event.value) {
+      case 0:
+        this.showNurseryData = true;
+        this.showElementaryData = false;
+        this.showTeenData = false;
+        this.showAdultData = false;
+        this._getNurseryData();
+        break;
+      case 1:
+        this.showNurseryData = false;
+        this.showElementaryData = true;
+        this.showTeenData = false;
+        this.showAdultData = false;
+        this._getElementaryData();
+        break;
+      case 2:
+        this.showNurseryData = false;
+        this.showElementaryData = false;
+        this.showTeenData = true;
+        this.showAdultData = false;
+        this._getTeenData();
+        break;
+      case 3:
+        this.showNurseryData = false;
+        this.showElementaryData = false;
+        this.showTeenData = false;
+        this.showAdultData = true;
+        this._getAdultData();
+        break;
+    }
+  }
+
+  private _getNurseryData(): void {
     this.isLoading = true;
-    this.subscriptionService.getAdultData()
+    this.subscriptionService.getNurseryData()
       .subscribe(
         response => {
-          console.log('Adult data :', response);
+          console.log('Nursery data :', response);
           this.isLoading = false;
-          this.adultData = response.data;
+          // this.nurseryData = response.data;
+          this.membersData = response.data;
+        },
+        err => {
+          console.log('get adult data error :', err);
+          this.isLoading = false;
+          this.adultError = true;
+        }
+      );
+  }
+  private _getElementaryData(): void {
+    this.isLoading = true;
+    this.subscriptionService.getElementaryData()
+      .subscribe(
+        response => {
+          console.log('Elementary data :', response);
+          this.isLoading = false;
+          // this.elementaryData = response.data;
+          this.membersData = response.data;
+        },
+        err => {
+          console.log('get adult data error :', err);
+          this.isLoading = false;
+          this.adultError = true;
+        }
+      );
+  }
+  private _getTeenData(): void {
+    this.isLoading = true;
+    this.subscriptionService.getTeenData()
+      .subscribe(
+        response => {
+          console.log('Teen data :', response);
+          this.isLoading = false;
+          // this.teenData = response.data;
+          this.membersData = response.data;
         },
         err => {
           console.log('get adult data error :', err);
@@ -46,16 +128,22 @@ export class AdminView implements OnInit {
       );
   }
 
-  // public deleteEntry(id: number) {
-  //   console.log(id);
-  //   this.isLoading = true;
-  //   this.subscriptionService.deleteEntry(id)
-  //     .subscribe(
-  //       response => {
-  //         console.log(response);
-  //         this.isLoading = false;
-  //         location.reload();
-  //       }, err => { console.log(err); this.isLoading = false; });
-  // }
+  private _getAdultData(): void {
+    this.isLoading = true;
+    this.subscriptionService.getAdultData()
+      .subscribe(
+        response => {
+          console.log('Adult data :', response);
+          this.isLoading = false;
+          // this.adultData = response.data;
+          this.membersData = response.data;
+        },
+        err => {
+          console.log('get adult data error :', err);
+          this.isLoading = false;
+          this.adultError = true;
+        }
+      );
+  }
 
 }

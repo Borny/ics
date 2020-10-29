@@ -41,6 +41,18 @@ export class SubscriptionService {
   }
 
   // GET DATA
+  public getNurseryData(): Observable<any> {
+    return this.http.get<any>(`${this.NURSERY_SUBSCRIPTION_URL}`);
+  }
+
+  public getElementaryData(): Observable<any> {
+    return this.http.get<any>(`${this.ELEMENTARY_SUBSCRIPTION_URL}`);
+  }
+
+  public getTeenData(): Observable<any> {
+    return this.http.get<any>(`${this.TEEN_SUBSCRIPTION_URL}`);
+  }
+
   public getAdultData(): Observable<any> {
     return this.http.get<any>(`${this.ADULT_SUBSCRIPTION_URL}`);
   }
