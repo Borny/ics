@@ -5,12 +5,14 @@ import { MaterialModule } from '../../angular-material/angular-material.module';
 import { SharedModule } from '../../shared/shared.module';
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminView } from './admin.component';
-import { MemberDataTab } from 'src/app/organisms/member-data-tab/member-data-tab.component';
+import { MemberDataTable } from 'src/app/organisms/member-data-table/member-data-table.component';
+import { SubscriptionsAdminOrganism } from 'src/app/organisms/subscriptions-admin-organism/subscriptions-admin-organism.component';
 
 @NgModule({
   declarations: [
     AdminView,
-    MemberDataTab
+    MemberDataTable,
+    SubscriptionsAdminOrganism
   ],
   imports: [
     CommonModule,
@@ -19,7 +21,8 @@ import { MemberDataTab } from 'src/app/organisms/member-data-tab/member-data-tab
     MaterialModule,
   ],
   exports: [
-    MemberDataTab
+    MemberDataTable,
+    SubscriptionsAdminOrganism
   ]
 })
 export class AdminViewModule { }

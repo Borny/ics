@@ -46,13 +46,6 @@ export class SubscriptionView implements OnInit {
       subscriptionType: SubscriptionType.SubscriptionFirst
     },
     {
-      title: 'Ré-inscription',
-      option: 'Ré-inscription enfant / ado',
-      description: 'enfants et adolescents : ateliers, passage de corde',
-      price: 250,
-      subscriptionType: SubscriptionType.SubscriptionRenewal
-    },
-    {
       title: 'Inscription adultes : ',
       option: 'Inscription Adulte',
       description: 'ateliers, festival mai 2021',

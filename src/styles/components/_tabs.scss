@@ -2,16 +2,22 @@
   position: sticky;
 }
 
-.mat-tab-header {
-  width: 100%;
-  max-width: $screen-xs;
-  margin: 0 auto;
-  // position: sticky !important;
-  // top: 0;
-  // z-index: 1000;
+.front-end-tabs{
+  .mat-tab-header {
+    width: 100%;
+    max-width: $screen-xs;
+    margin: 0 auto;
+    // position: sticky !important;
+    // top: 0;
+    // z-index: 1000;
 
-  @include screen-sm {
-    margin: -47px auto 0;
+    @include screen-sm {
+      margin: -47px auto 0;
+    }
+
+    &.full-width {
+      max-width: initial;
+    }
   }
 }
 

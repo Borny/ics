@@ -27,7 +27,7 @@ const routes: Routes = [
   {
     path: 'inscriptions',
     loadChildren: () => import('./views/subscription/subscription.module').then(m => m.SubscriptionViewModule),
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard]
   },
   {
     path: 'admin',

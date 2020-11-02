@@ -1,25 +1,18 @@
 <h1 class="color-primary-font">Admin</h1>
 
-<div>
-  <mat-radio-group
-    class="radio-group"
-    aria-label="Selectionnez une formule"
-    formControlName="ageGroup"
-  >
-    <mat-radio-button
-      *ngFor="let ageGroup of ageGroups; let groupNumber = index"
-      class="radio-button"
-      [value]="groupNumber"
-      [checked]="groupNumber === 0"
-      (change)="ageGroupOptionHandler($event)"
-    >
-      {{ ageGroup }}
-    </mat-radio-button>
-  </mat-radio-group>
-</div>
-
-<mat-spinner *ngIf="isLoading" class="spinner"></mat-spinner>
-
-<section class="tab-section" *ngIf="!isLoading">
-  <member-data-tab [membersData]="membersData"></member-data-tab>
+<section class="main-section">
+  <mat-tab-group mat-align-tabs="center">
+    <mat-tab label="Inscriptions">
+      <ng-template matTabContent>
+        <subscriptions-admin-organism></subscriptions-admin-organism>
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="Cours">
+      <ng-template matTabContent>
+        <!-- <shop-organism></shop-organism> -->
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="Boutique"> </mat-tab>
+    <mat-tab label="Espace privé"> </mat-tab>
+  </mat-tab-group>
 </section>
