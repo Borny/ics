@@ -1,5 +1,6 @@
 import { MediaMatcher } from '@angular/cdk/layout';
 import { Component, ViewChild, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { AuthService } from './services/auth/auth.service';
@@ -17,6 +18,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public isUserAuthenticated = false;
 
   public readonly LOGOUT_BTN_TEXT = 'Log out';
+  public readonly LOGIN_BTN_TEXT = 'Log in';
   public readonly LOGO_COLOR = 'white';
 
   private authListenerSubs: Subscription;

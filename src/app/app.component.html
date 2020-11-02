@@ -34,8 +34,17 @@
           routerLinkActive="active"
           >Contact</a
         >
-        <div *ngIf="isUserAuthenticated" class="btn__container">
+
+        <div class="btn__container">
+          <a
+            routerLink="/admin-login"
+            routerLinkActive="active"
+            class="nav-link"
+          >
+            {{ LOGIN_BTN_TEXT }}
+          </a>
           <button
+            *ngIf="isUserAuthenticated"
             mat-flat-button
             (click)="onLogout()"
             type="button"
@@ -100,8 +109,17 @@
                 >Contact</a
               >
             </li>
-            <li *ngIf="isUserAuthenticated" class="nav-item btn__container">
+            <li class="nav-item btn__container">
+              <a
+                *ngIf="!isUserAuthenticated"
+                routerLink="/admin-login"
+                routerLinkActive="active"
+                class="nav-link"
+              >
+                {{ LOGIN_BTN_TEXT }}
+              </a>
               <button
+                *ngIf="isUserAuthenticated"
                 mat-raised-button
                 (click)="onLogout()"
                 type="button"

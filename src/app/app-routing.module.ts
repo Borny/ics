@@ -38,6 +38,10 @@ const routes: Routes = [
     path: 'admin-login',
     loadChildren: () => import('./views/admin-login/admin-login.module').then(m => m.AdminLoginViewModule)
   },
+  // {
+  //   path: 'login',
+  //   loadChildren: () => import('./views/login/login.module').then(m => m.LoginViewModule)
+  // },
   {
     path: '',
     redirectTo: 'accueil',

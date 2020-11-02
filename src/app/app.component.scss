@@ -43,7 +43,7 @@
 }
 
 .nav-item {
-  font-size: 1rem;
+  font-size: 0.8rem;
   border-bottom: 1px solid $color-primary;
   &.active,
   &:active {
@@ -56,12 +56,12 @@
     padding: 0 1rem;
 
     .nav-link {
-      border-bottom: 2px solid $color-primary;
+      border-bottom: 1px solid $color-primary;
 
       &:hover,
       &.active,
       &:active {
-        border-bottom: 2px solid $white;
+        border-bottom: 1px solid $white;
       }
     }
   }
