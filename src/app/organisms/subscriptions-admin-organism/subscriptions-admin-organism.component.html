@@ -1,4 +1,5 @@
 <div>
+  <p>Choix du groupe d'âge:</p>
   <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
     <mat-button-toggle
       *ngFor="let ageGroup of ageGroups; let groupNumber = index"
@@ -14,5 +15,8 @@
 <mat-spinner *ngIf="isLoading" class="spinner"></mat-spinner>
 
 <section class="tab-section" *ngIf="!isLoading">
-  <member-data-table [subscriptionAgeMode]="subscriptionAgeMode" [membersData]="membersData"></member-data-table>
+  <member-data-table
+    [subscriptionAgeMode]="subscriptionAgeMode"
+    [membersData]="membersData"
+  ></member-data-table>
 </section>

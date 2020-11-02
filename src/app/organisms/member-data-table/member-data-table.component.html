@@ -1,26 +1,34 @@
-{{subscriptionAgeMode}}
-
 <ul class="data-table__container">
-  <li class="data-table__item data-table__item__header">
+  <li class="data-table__row data-table__row-header">
     <div class="first-column"></div>
     <div>Nom</div>
     <div>Prénom</div>
     <div>Date de naissance</div>
 
     <!-- Adults -->
-    <div >Email</div>
-    <div>Téléphone</div>
+    <ng-container *ngIf="subscriptionAgeMode === 1">
+      <div>Email</div>
+      <div>Téléphone</div>
+    </ng-container>
 
-
-<!-- Kids -->
-
+    <!-- Kids -->
+    <ng-container *ngIf="subscriptionAgeMode === 0">
+      <div>Nom du représentant légal</div>
+      <div>Prénom du représentant légal</div>
+      <div>Email du représentant légal</div>
+      <div>Téléphone du représentant légal</div>
+      <div>Nom du second représentant légal</div>
+      <div>Prénom du second représentant légal</div>
+      <div>Email du second représentant légal</div>
+      <div>Téléphone du second représentant légal</div>
+    </ng-container>
 
     <div>Info Supplémentaire</div>
     <div>Droit à l'image</div>
     <div></div>
   </li>
   <li
-    class="data-table__item"
+    class="data-table__row data-table__row-body"
     [ngClass]="{ odd: odd, even: even }"
     *ngFor="
       let member of membersData;
@@ -33,8 +41,36 @@
     <div>{{ member.lastName }}</div>
     <div>{{ member.firstName }}</div>
     <div>{{ member.birthdate }}</div>
-    <div>{{ member.email }}</div>
-    <div>{{ member.phone }}</div>
+
+    <!-- Adults -->
+    <ng-container *ngIf="subscriptionAgeMode === 1">
+      <div>{{ member.email }}</div>
+      <div>{{ member.phone }}</div>
+    </ng-container>
+
+    <!-- Kids -->
+    <ng-container *ngIf="subscriptionAgeMode === 0">
+      <div>{{ member.guardianLastName }}</div>
+      <div>{{ member.guardianFirstName }}</div>
+      <div>{{ member.guardianEmail }}</div>
+      <div>{{ member.guardianPhone }}</div>
+      <div>
+        {{
+          member.secondGuardianLastName ? member.secondGuardianLastName : "-"
+        }}
+      </div>
+      <div>
+        {{
+          member.secondGuardianFirstName ? member.secondGuardianFirstName : "-"
+        }}
+      </div>
+      <div>
+        {{ member.secondGuardianEmail ? member.secondGuardianEmail : "-" }}
+      </div>
+      <div>
+        {{ member.secondGuardianPhone ? member.secondGuardianPhone : "-" }}
+      </div>
+    </ng-container>
     <div>{{ member.extraInfo }}</div>
     <div
       class="lastchild"
