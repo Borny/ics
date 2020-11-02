@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { MatRadioChange } from '@angular/material/radio';
 
 import { AgeGroups } from '../../../models/ageGroup.enum';
 import { Lesson } from '../../../models/lesson.model';
@@ -24,6 +25,8 @@ export class KidsSubscriptionFormComponent implements OnInit {
     AgeGroups.SECOND,
     AgeGroups.THIRD
   ];
+
+  public subscriptionAmount = 290;
 
   public lessonsToDisplay: Lesson[] = [];
 
@@ -127,6 +130,10 @@ export class KidsSubscriptionFormComponent implements OnInit {
       this._addControl(this._secondGuardianControls)
       :
       this._removeControl(this._secondGuardianControls);
+  }
+
+  public onFirstSubscriptionChange(event: MatRadioChange): void{
+    this.subscriptionAmount = event.value ? 290 : 250;
   }
 
   ////////////

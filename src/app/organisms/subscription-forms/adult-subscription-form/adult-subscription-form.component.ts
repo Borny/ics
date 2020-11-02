@@ -12,6 +12,8 @@ export class AdultSubscriptionFormComponent implements OnInit {
 
   public subscriptionForm: FormGroup = new FormGroup({});
 
+  public subscriptionAmount = 320;
+
   constructor() { }
 
   ngOnInit(): void {

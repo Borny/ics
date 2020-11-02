@@ -75,41 +75,19 @@
   <mat-expansion-panel *ngIf="showKidForm && !isLoading" [expanded]="true">
     <mat-expansion-panel-header>
       <mat-panel-title>
-        Formulaire d'inscription Enfant / Adolescent 290€
+        Formulaire d'inscription Enfant / Adolescent
       </mat-panel-title>
     </mat-expansion-panel-header>
     <kids-subscription-form
       (sendKidsForm)="sendFirstForm($event)"
     ></kids-subscription-form>
-    <!-- <atom-button
-        class="btn"
-        [text]="'Ajouter une inscription'"
-        (click)="addSubscription($event)"
-      ></atom-button> -->
   </mat-expansion-panel>
-  <!-- <mat-expansion-panel *ngIf="showSecondForm && !isLoading" [expanded]="true">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Formulaire de ré-inscription Enfant / Adolescent 250€
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <kids-subscription-form
-      (sendKidsForm)="sendRenewalForm($event)"
-    ></kids-subscription-form>
-  </mat-expansion-panel> -->
   <mat-expansion-panel *ngIf="showAdultForm && !isLoading" [expanded]="true">
     <mat-expansion-panel-header>
-      <mat-panel-title> Formulaire d'inscription Adulte 320€ </mat-panel-title>
+      <mat-panel-title> Formulaire d'inscription Adulte </mat-panel-title>
     </mat-expansion-panel-header>
     <adult-subscription-form
       (sendAdultForm)="sendAdultForm($event)"
     ></adult-subscription-form>
   </mat-expansion-panel>
 </section>
-<!-- <section class="subscription-amount">
-    <div class="subscription-amount__container">
-      <p class="bold">Montant total:</p>
-      <p class="bold color-primary">€</p>
-      <atom-button class="btn" [text]="'Valider'"></atom-button>
-    </div>
-  </section> -->

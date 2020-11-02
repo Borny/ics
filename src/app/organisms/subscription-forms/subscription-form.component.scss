@@ -1,5 +1,5 @@
-@import '../../../styles/tools/variables';
-@import '../../../styles/tools/mixins';
+@import "../../../styles/tools/variables";
+@import "../../../styles/tools/mixins";
 
 .form-section__label {
   padding: 0.5rem 1rem;
@@ -8,6 +8,19 @@
 
   @include screen-sm {
     padding: 0.5rem 2rem;
+  }
+}
+
+.form-section__subscription-amount {
+  text-align: center;
+  padding: 1rem;
+
+  @include screen-sm {
+    padding: 1rem 3rem;
+  }
+  span {
+    color: $color-primary;
+    font-weight: $fontWeightBold;
   }
 }
 

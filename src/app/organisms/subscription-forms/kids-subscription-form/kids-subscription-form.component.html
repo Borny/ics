@@ -94,21 +94,23 @@
     <div class="form-group">
       <p class="deal-options__title">S'agit-il d'une première inscription ?</p>
       <mat-radio-group
-      class="radio-group"
-      aria-label="S'agit-il d'une réinscription ?"
-      formControlName="firstSubscription"
-    >
-      <mat-radio-button
-        class="radio-button"
-        [value]="true"
-      >Oui
-      </mat-radio-button>
-      <mat-radio-button
-        class="radio-button"
-        [value]="false"
-      >Non
-      </mat-radio-button>
-    </mat-radio-group>
+        class="radio-group"
+        aria-label="S'agit-il d'une réinscription ?"
+        formControlName="firstSubscription"
+      >
+        <mat-radio-button
+          class="radio-button"
+          [value]="true"
+          (change)="onFirstSubscriptionChange($event)"
+          >Oui
+        </mat-radio-button>
+        <mat-radio-button
+          class="radio-button"
+          [value]="false"
+          (change)="onFirstSubscriptionChange($event)"
+          >Non
+        </mat-radio-button>
+      </mat-radio-group>
     </div>
   </div>
   <div class="form-section">
@@ -159,7 +161,8 @@
         />
         <mat-error
           *ngIf="
-            subscriptionForm.get('guardianEmail').invalid && subscriptionForm.touched
+            subscriptionForm.get('guardianEmail').invalid &&
+            subscriptionForm.touched
           "
           >Veuillez renseigner un email</mat-error
         >
@@ -175,7 +178,8 @@
         />
         <mat-error
           *ngIf="
-            subscriptionForm.get('guardianPhone').invalid && subscriptionForm.touched
+            subscriptionForm.get('guardianPhone').invalid &&
+            subscriptionForm.touched
           "
           >Veuillez renseigner un numéro de téléphone</mat-error
         >
@@ -289,6 +293,13 @@
       </mat-form-field>
     </div>
   </div>
+
+  <div class="form-section">
+    <p class="form-section__subscription-amount">
+      Montant de l'inscription : <span>{{ subscriptionAmount }}€</span>
+    </p>
+  </div>
+
   <atom-button
     class="btn"
     [type]="'submit'"
