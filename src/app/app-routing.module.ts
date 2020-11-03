@@ -36,7 +36,11 @@ const routes: Routes = [
   },
   {
     path: 'admin-login',
-    loadChildren: () => import('./views/admin-login/admin-login.module').then(m => m.AdminLoginViewModule)
+    loadChildren: () => import('./views/login/admin-login/admin-login.module').then(m => m.AdminLoginViewModule)
+  },
+  {
+    path: 'connexion',
+    loadChildren: () => import('./views/login/login/login.module').then(m => m.LoginViewModule)
   },
   // {
   //   path: 'login',

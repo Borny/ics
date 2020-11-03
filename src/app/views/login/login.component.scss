@@ -1,5 +1,5 @@
-@import '../../../styles/tools/variables';
-@import '../../../styles/tools/mixins';
+@import "../../../styles/tools/variables";
+@import "../../../styles/tools/mixins";
 
 :host {
   display: flex;
@@ -46,4 +46,10 @@ mat-card {
 .btn {
   display: block;
   margin: 2rem auto;
+}
+
+.login__toggle-form {
+  display: flex;
+  align-items: center;
+  margin: 1rem 0;
 }

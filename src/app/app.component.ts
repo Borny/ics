@@ -16,9 +16,10 @@ export class AppComponent implements OnInit, OnDestroy {
   public mobileQuery: MediaQueryList;
   public toggleIconName = 'menu';
   public isUserAuthenticated = false;
+  public showSubNav = false;
 
-  public readonly LOGOUT_BTN_TEXT = 'Log out';
-  public readonly LOGIN_BTN_TEXT = 'Log in';
+  public readonly LOGOUT_BTN_TEXT = 'Déconnexion';
+  public readonly LOGIN_BTN_TEXT = 'Connexion';
   public readonly LOGO_COLOR = 'white';
 
   private authListenerSubs: Subscription;
@@ -28,6 +29,7 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private changeDetectorRef: ChangeDetectorRef,
+    private router: Router,
     private media: MediaMatcher) {
     this.mobileQuery = media.matchMedia(this.SCREEN_SM);
     this.mobileQuery.addListener(this._mobileQueryListener);
@@ -50,14 +52,20 @@ export class AppComponent implements OnInit, OnDestroy {
     this.mobileQuery.removeListener(this._mobileQueryListener);
   }
 
-  public closeNav(): void {
+  public onCloseNav(): void {
     this.navToggle.close();
   }
 
-  public toggleNav(): void {
+  public onToggleNav(): void {
     this.navToggle.toggle();
   }
 
+  public onNavigateToLogin(): void {
+    this.router.navigateByUrl('/connexion');
+    if (this.mobileQuery.matches) {
+      this.navToggle.toggle();
+    }
+  }
   public onLogout(): void {
     this.authService.logout();
     if (this.mobileQuery.matches) {

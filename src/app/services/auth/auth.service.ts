@@ -62,6 +62,34 @@ export class AuthService {
       );
   }
 
+  public signup(): void {}
+
+  public login(): void {
+  // public login(loginFormValue: LoginAuth): void {
+  //   this.http.post<{ token: string, expiresIn: number }>(this.ADMIN_LOGIN_URL, adminLoginFormValue)
+  //     .subscribe(
+  //       response => {
+  //         console.log('admin login')
+  //         const token = response.token;
+  //         this._token = token;
+  //         if (token) {
+  //           const expiresIn = response.expiresIn * 1000;
+  //           this._setAuthTimeout(expiresIn);
+  //           const now = new Date();
+  //           const expirationDate = new Date(now.getTime() + expiresIn);
+  //           this._saveAuthData(token, expirationDate);
+  //           this._isAuth = true;
+  //           this._authStatusListener.next(true);
+  //           this.router.navigateByUrl('/admin');
+  //         }
+  //       },
+  //       error => {
+  //         console.log('login error :', error);
+  //         // this.errorLogin = true;
+  //       }
+  //     );
+  }
+
   public logout() {
     this._token = null;
     clearTimeout(this._tokenTimer);
