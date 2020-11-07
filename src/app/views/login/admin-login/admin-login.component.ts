@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 import { AuthService } from '../../../services/auth/auth.service';
 
@@ -8,10 +9,12 @@ import { AuthService } from '../../../services/auth/auth.service';
   templateUrl: './admin-login.component.html',
   styleUrls: ['../login.component.scss']
 })
-export class AdminLoginView {
+export class AdminLoginView implements OnInit, OnDestroy {
 
   public isLoading = false;
   public loginFailed = false;
+
+  public adminLoginFailed$: Subscription;
 
   public readonly CONNECT_BTN_TEXT = 'Se connecter';
   public readonly RELOAD_BTN_TEXT = 'Réessayer';
@@ -20,7 +23,21 @@ export class AdminLoginView {
     private authService: AuthService,
   ) { }
 
-  public onLogin(form: NgForm): void {
+  ngOnInit(): void {
+    this.adminLoginFailed$ = this.authService.getAdminLoginFailed()
+      .subscribe(
+        result => {
+          this.isLoading = false;
+          this.loginFailed = result;
+        }
+      );
+  }
+
+  ngOnDestroy(): void {
+    this.adminLoginFailed$.unsubscribe();
+  }
+
+  public onAdminLogin(form: NgForm): void {
     if (form.invalid) {
       return;
     }

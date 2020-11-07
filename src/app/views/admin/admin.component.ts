@@ -14,5 +14,4 @@ export class AdminView implements OnInit {
   ngOnInit(): void {
   }
 
-
 }

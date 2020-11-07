@@ -35,7 +35,7 @@
           >Contact</a
         >
         <a
-          *ngIf="!isUserAuthenticated"
+          *ngIf="!isUserAuthenticated && !isAdminUserAuthenticated"
           mat-list-item
           routerLink="/connexion"
           routerLinkActive="active"
@@ -45,7 +45,17 @@
           {{ LOGIN_BTN_TEXT }}
         </a>
         <a
-          *ngIf="isUserAuthenticated"
+          *ngIf="isAdminUserAuthenticated"
+          mat-list-item
+          class="nav-item"
+          (click)="onToggleNav()"
+          routerLink="/admin"
+          routerLinkActive="active"
+        >
+          Admin
+        </a>
+        <a
+          *ngIf="isUserAuthenticated || isAdminUserAuthenticated"
           mat-list-item
           class="nav-item"
           (click)="onLogout()"
@@ -115,14 +125,31 @@
               </button>
               <mat-menu #menu="matMenu">
                 <button
-                  *ngIf="!isUserAuthenticated"
+                  *ngIf="!isUserAuthenticated && !isAdminUserAuthenticated"
                   mat-menu-item
                   (click)="onNavigateToLogin()"
                 >
                   Connexion
                 </button>
+                <a
+                  class="nav-item"
+                  *ngIf="isAdminUserAuthenticated"
+                  mat-menu-item
+                  routerLink="/admin"
+                  routerLinkActive="active"
+                >
+                  Admin
+                </a>
+                <a
+                  *ngIf="isUserAuthenticated || isAdminUserAuthenticated"
+                  mat-menu-item
+                  routerLink="/boutique"
+                  routerLinkActive="active"
+                >
+                  Boutique
+                </a>
                 <button
-                  *ngIf="isUserAuthenticated"
+                  *ngIf="isUserAuthenticated || isAdminUserAuthenticated"
                   mat-menu-item
                   (click)="onLogout()"
                 >

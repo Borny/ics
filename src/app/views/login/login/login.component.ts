@@ -44,8 +44,7 @@ export class LoginView implements OnInit {
       return;
     }
     this.isLoading = true;
-    // this.authService.login(form.value);
-    this.authService.login();
+    this.authService.login(form.value);
   }
 
   public onSignup(form: NgForm): void {
@@ -61,8 +60,8 @@ export class LoginView implements OnInit {
     location.reload();
   }
 
-  public onToggleForm():void{
-    if(this.showLogInForm){
+  public onToggleForm(): void {
+    if (this.showLogInForm) {
       this.heading = this.HEADING_SIGNUP;
       this.toggleFormText = this.LOGIN_FORM_TEXT;
       this.toggleFormBtnText = this.LOGIN_FORM_BTN_TEXT;

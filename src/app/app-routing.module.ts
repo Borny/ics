@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 
+import { AdminAuthGuard } from './guards/admin-auth.guard';
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
@@ -32,7 +33,7 @@ const routes: Routes = [
   {
     path: 'admin',
     loadChildren: () => import('./views/admin/admin.module').then(m => m.AdminViewModule),
-    canActivate: [AuthGuard]
+    canActivate: [AdminAuthGuard]
   },
   {
     path: 'admin-login',
@@ -42,10 +43,6 @@ const routes: Routes = [
     path: 'connexion',
     loadChildren: () => import('./views/login/login/login.module').then(m => m.LoginViewModule)
   },
-  // {
-  //   path: 'login',
-  //   loadChildren: () => import('./views/login/login.module').then(m => m.LoginViewModule)
-  // },
   {
     path: '',
     redirectTo: 'accueil',
@@ -61,6 +58,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
   exports: [RouterModule],
-  providers: [AuthGuard]
+  providers: [AuthGuard, AdminAuthGuard]
 })
 export class AppRoutingModule { }
