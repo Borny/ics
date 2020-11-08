@@ -56,12 +56,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.navToggle.toggle();
   }
 
-  public onNavigateToLogin(): void {
-    this.router.navigateByUrl('/connexion');
-    if (this.mobileQuery.matches) {
-      this.navToggle.toggle();
-    }
-  }
   public onLogout(): void {
     this.authService.logout();
     if (this.mobileQuery.matches) {
@@ -70,7 +64,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   public showConnexionBtn(): boolean {
-
     return this.isUserAuthenticated || this.isAdminUserAuthenticated;
   }
 

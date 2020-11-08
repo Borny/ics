@@ -124,16 +124,18 @@
                 <mat-icon>account_circle</mat-icon>
               </button>
               <mat-menu #menu="matMenu">
-                <button
+                <a
                   *ngIf="!isUserAuthenticated && !isAdminUserAuthenticated"
+                  class="nav-item"
                   mat-menu-item
-                  (click)="onNavigateToLogin()"
+                  routerLink="/connexion"
+                  routerLinkActive="active"
                 >
                   Connexion
-                </button>
+                </a>
                 <a
-                  class="nav-item"
                   *ngIf="isAdminUserAuthenticated"
+                  class="nav-item"
                   mat-menu-item
                   routerLink="/admin"
                   routerLinkActive="active"

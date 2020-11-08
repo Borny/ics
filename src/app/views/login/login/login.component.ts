@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Subject, Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { AuthService } from '../../../services/auth/auth.service';
 
@@ -8,15 +10,22 @@ import { AuthService } from '../../../services/auth/auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['../login.component.scss']
 })
-export class LoginView implements OnInit {
+export class LoginView implements OnInit, OnDestroy {
 
   public isLoading = false;
   public loginFailed = false;
+  public noUserFound = false;
+  public wrongPassword = false;
+  public loginFailedMessage: string;
+  public isUserCreated = false;
+  public userAlreadyExists = false;
   public heading: string;
   public showLogInForm: boolean;
   public showSignUpForm: boolean;
   public toggleFormText: string;
   public toggleFormBtnText: string;
+
+  public loginFailed$: Subscription;
 
   public readonly CONNECT_BTN_TEXT = 'Se connecter';
   public readonly SIGNUP_BTN_TEXT = `S'inscrire`;
@@ -37,6 +46,11 @@ export class LoginView implements OnInit {
     this.showLogInForm = true;
     this.toggleFormText = this.SIGNUP_FORM_TEXT;
     this.toggleFormBtnText = this.SIGNUP_FORM_BTN_TEXT;
+    this._loginFailedListener();
+  }
+
+  ngOnDestroy(): void {
+    this.loginFailed$.unsubscribe();
   }
 
   public onLogin(form: NgForm): void {
@@ -52,8 +66,23 @@ export class LoginView implements OnInit {
       return;
     }
     this.isLoading = true;
-    // this.authService.login(form.value);
-    this.authService.signup();
+    this.authService.signup(form.value)
+      .subscribe(
+        result => {
+          console.log('sign up result:', result);
+          this.isLoading = false;
+          this.onToggleForm();
+          this.isUserCreated = true;
+        },
+        error => {
+          this.isLoading = false;
+          error.error.message === 'User already exists'
+            ?
+            this.userAlreadyExists = true
+            :
+            this.loginFailed = true;
+          console.log('sign up error:', error);
+        });
   }
 
   public onReload(): void {
@@ -72,5 +101,26 @@ export class LoginView implements OnInit {
     }
     this.showLogInForm = !this.showLogInForm;
     this.showSignUpForm = !this.showSignUpForm;
+  }
+  ////////////
+  // PRIVATE
+  ////////////
+  private _loginFailedListener(): void {
+    this.loginFailed$ = this.authService.getUserLoginFailed()
+      .subscribe(
+        result => {
+          this.noUserFound = false;
+          this.wrongPassword = false;
+          this.isLoading = false;
+          this.loginFailed = result.failed;
+          this.loginFailedMessage = result.message;
+          if (result.message === 'No user found') {
+            this.noUserFound = true;
+          }
+          if (result.message === 'Wrong password') {
+            this.wrongPassword = true;
+          }
+        }
+      );
   }
 }

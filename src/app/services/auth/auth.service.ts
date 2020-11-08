@@ -5,6 +5,7 @@ import { Subject, Observable } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 
+import { UserAuth } from '../../models/userAuth';
 import { AdminAuth } from '../../models/adminLogin.model';
 
 @Injectable({
@@ -15,15 +16,17 @@ export class AuthService {
   private _token: string;
   private _isAuth = false;
   private _isAdminAuth = false;
+
   private _authStatusListener$: Subject<boolean> = new Subject<boolean>();
   private _authAdminStatusListener$: Subject<boolean> = new Subject<boolean>();
+  private _userLoginFailed$: Subject<{ failed: boolean, message: string }> = new Subject<{ failed: boolean, message: string }>();
   private _adminLoginFailed$: Subject<boolean> = new Subject<boolean>();
-  private _tokenTimer: any;
 
+  private _tokenTimer: any; // tslint doesn't recognize Timeout type...
 
+  private readonly SIGN_UP_URL = environment.apiUrl + '/sign-up';
   private readonly LOGIN_URL = environment.apiUrl + '/login';
   private readonly ADMIN_LOGIN_URL = environment.apiUrl + '/admin-login';
-  // private readonly ADMIN_LOGIN_URL = environment.apiUrl + '/admin-loginn';
 
   constructor(
     private http: HttpClient,
@@ -53,8 +56,8 @@ export class AuthService {
     return this._authStatusListener$.asObservable();
   }
 
-  public login(loginFormValue): void {
-    console.log(loginFormValue)
+  public login(loginFormValue: UserAuth): void {
+    console.log(loginFormValue);
     this.http.post<{ token: string, expiresIn: number }>(this.LOGIN_URL, loginFormValue)
       .subscribe(
         response => {
@@ -63,6 +66,7 @@ export class AuthService {
           this._token = token;
           if (token) {
             const expiresIn = response.expiresIn * 1000;
+            // this._setAuthTimeout(3000);
             this._setAuthTimeout(expiresIn);
             const now = new Date();
             const expirationDate = new Date(now.getTime() + expiresIn);
@@ -73,7 +77,8 @@ export class AuthService {
           }
         },
         error => {
-          console.log('login error :', error);
+          console.log('login error :', error.error.message);
+          this._userLoginFailed$.next({ failed: true, message: error.error.message });
         }
       );
   }
@@ -93,7 +98,13 @@ export class AuthService {
     }
   }
 
-  public signup(): void { }
+  public signup(formValue: UserAuth): Observable<any> {
+    return this.http.post<any>(`${this.SIGN_UP_URL}`, formValue);
+  }
+
+  public getUserLoginFailed(): Observable<{ failed: boolean, message: string }> {
+    return this._userLoginFailed$.asObservable();
+  }
 
   // ADMIN
   public getIsAdminAuth(): boolean {
@@ -101,23 +112,24 @@ export class AuthService {
   }
 
   public getAdminAuthStatus(): Observable<boolean> {
-    // console.log('auth service')
     return this._authAdminStatusListener$.asObservable();
   }
 
   public adminLogin(adminLoginFormValue: AdminAuth): void {
-    this.http.post<{ token: string, expiresIn: number }>(this.ADMIN_LOGIN_URL, adminLoginFormValue)
+    this.http.post<{ token: string, admin: string, expiresIn: number }>(this.ADMIN_LOGIN_URL, adminLoginFormValue)
       .subscribe(
         response => {
           console.log('admin login');
           const token = response.token;
+          const admin = response.admin;
           this._token = token;
           if (token) {
             const expiresIn = response.expiresIn * 1000;
             this._setAuthTimeout(expiresIn);
             const now = new Date();
             const expirationDate = new Date(now.getTime() + expiresIn);
-            this._saveAuthData(token, expirationDate);
+            // this._saveAuthData(token, expirationDate);
+            this._saveAdminAuthData(token, admin, expirationDate);
             this._isAdminAuth = true;
             this._authAdminStatusListener$.next(true);
             this.router.navigateByUrl('/admin');
@@ -132,8 +144,8 @@ export class AuthService {
   }
 
   public autoAuthAdmin(): void {
-    console.log('2 auto admin auth');
-    const authInformation = this._getAuthData();
+    // console.log('2 auto admin auth');
+    const authInformation = this._getAdminAuthData();
     if (!authInformation) {
       // console.log('auth information:', authInformation)
       return;
@@ -142,7 +154,7 @@ export class AuthService {
     const expiresIn = authInformation.expirationDate.getTime() - now.getTime();
     // console.log(expiresIn > 0)
     if (expiresIn > 0) {
-      console.log('3 if');
+      // console.log('3 if');
       this._token = authInformation.token;
       this._isAdminAuth = true;
       this._setAuthTimeout(expiresIn);
@@ -163,8 +175,15 @@ export class AuthService {
     localStorage.setItem('expiration', expirationDate.toISOString());
   }
 
+  private _saveAdminAuthData(token: string, admin: string, expirationDate: Date) {
+    localStorage.setItem('token', token);
+    localStorage.setItem('admin', admin);
+    localStorage.setItem('expiration', expirationDate.toISOString());
+  }
+
   private _clearAuthData(): void {
     localStorage.removeItem('token');
+    localStorage.removeItem('admin');
     localStorage.removeItem('expiration');
   }
 
@@ -172,6 +191,19 @@ export class AuthService {
     const token = localStorage.getItem('token');
     const expirationDate = localStorage.getItem('expiration');
     if (!token || !expirationDate) {
+      return;
+    }
+    return {
+      token,
+      expirationDate: new Date(expirationDate)
+    };
+  }
+
+  private _getAdminAuthData(): null | { token: string, expirationDate: Date } {
+    const token = localStorage.getItem('token');
+    const admin = localStorage.getItem('admin');
+    const expirationDate = localStorage.getItem('expiration');
+    if (!token || !expirationDate || !admin) {
       return;
     }
     return {

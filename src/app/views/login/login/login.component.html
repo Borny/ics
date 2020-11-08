@@ -1,7 +1,7 @@
 <h1 class="color-primary-font">{{ heading }}</h1>
 <div class="form__container">
   <mat-spinner *ngIf="isLoading"></mat-spinner>
-  <div class="error-message__container" *ngIf="!isLoading && loginFailed">
+  <!-- <div class="error-message__container" *ngIf="!isLoading && loginFailed">
     <p class="error-message__content">
       Une erreur est survenue, veuillez réessayer
     </p>
@@ -11,8 +11,14 @@
       [text]="RELOAD_BTN_TEXT"
       (click)="onReload()"
     ></atom-button>
-  </div>
-  <mat-card *ngIf="!isLoading && !loginFailed">
+  </div> -->
+
+  <!-- // Delete when done -->
+  <!-- <p class="color-primary text-center">
+    {{ this.loginFailedMessage }}
+  </p> -->
+
+  <mat-card *ngIf="!isLoading">
     <!-- Log in form -->
     <form
       *ngIf="showLogInForm"
@@ -20,6 +26,16 @@
       (submit)="onLogin(loginForm)"
       #loginForm="ngForm"
     >
+      <p *ngIf="isUserCreated" class="color-primary text-center">
+        Votre compte à bien été créé. Connectez-vous.
+      </p>
+      *
+      <p *ngIf="noUserFound" class="warning-text text-center">
+        Cette adresse email n'est associée à aucun compte.
+      </p>
+      <p *ngIf="wrongPassword" class="warning-text text-center">
+        Le mot de passe est incorrect.
+      </p>
       <mat-form-field>
         <mat-label>Email</mat-label>
         <input
@@ -59,13 +75,16 @@
         [isDisabled]="loginForm.invalid"
       ></atom-button>
     </form>
-
+    <!-- Sign up form -->
     <form
       *ngIf="showSignUpForm"
       class="login-form"
       (submit)="onSignup(signupForm)"
       #signupForm="ngForm"
     >
+      <p *ngIf="!isLoading && userAlreadyExists" class="warning-text">
+        Cette adresse email existe déjà
+      </p>
       <mat-form-field>
         <mat-label>Email</mat-label>
         <input
@@ -106,9 +125,10 @@
       ></atom-button>
     </form>
   </mat-card>
-
-  <div class="login__toggle-form">
+  <div *ngIf="!isLoading" class="login__toggle-form">
     <p>{{ toggleFormText }}</p>
-    <button mat-button color="primary" (click)="onToggleForm()">{{ toggleFormBtnText }}</button>
+    <button mat-button color="primary" (click)="onToggleForm()">
+      {{ toggleFormBtnText }}
+    </button>
   </div>
 </div>

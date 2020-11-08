@@ -17,7 +17,7 @@ export class AdminAuthGuard implements CanActivate {
     if (!isAuth) {
       this.router.navigate(['/admin-login']);
     }
-    console.log('admin auth guard:', isAuth)
+    // console.log('admin auth guard:', isAuth)
     return isAuth;
   }
 }
