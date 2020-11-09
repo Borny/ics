@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Subject, Subscription } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 import { AuthService } from '../../../services/auth/auth.service';
 
@@ -69,7 +68,6 @@ export class LoginView implements OnInit, OnDestroy {
     this.authService.signup(form.value)
       .subscribe(
         result => {
-          console.log('sign up result:', result);
           this.isLoading = false;
           this.onToggleForm();
           this.isUserCreated = true;
@@ -81,7 +79,6 @@ export class LoginView implements OnInit, OnDestroy {
             this.userAlreadyExists = true
             :
             this.loginFailed = true;
-          console.log('sign up error:', error);
         });
   }
 
@@ -102,6 +99,7 @@ export class LoginView implements OnInit, OnDestroy {
     this.showLogInForm = !this.showLogInForm;
     this.showSignUpForm = !this.showSignUpForm;
   }
+
   ////////////
   // PRIVATE
   ////////////
@@ -112,13 +110,15 @@ export class LoginView implements OnInit, OnDestroy {
           this.noUserFound = false;
           this.wrongPassword = false;
           this.isLoading = false;
-          this.loginFailed = result.failed;
           this.loginFailedMessage = result.message;
+          if (!result.message) {
+            return this.loginFailed = true;
+          }
           if (result.message === 'No user found') {
-            this.noUserFound = true;
+            return this.noUserFound = true;
           }
           if (result.message === 'Wrong password') {
-            this.wrongPassword = true;
+            return this.wrongPassword = true;
           }
         }
       );

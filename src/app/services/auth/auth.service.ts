@@ -27,6 +27,9 @@ export class AuthService {
   private readonly SIGN_UP_URL = environment.apiUrl + '/sign-up';
   private readonly LOGIN_URL = environment.apiUrl + '/login';
   private readonly ADMIN_LOGIN_URL = environment.apiUrl + '/admin-login';
+  private readonly REQUEST_PASSWORD_URL = environment.apiUrl + '/request-reset-password';
+  private readonly VALIDATE_PASSWORD_URL = environment.apiUrl + '/valid-password-token';
+  private readonly RESET_PASSWORD_URL = environment.apiUrl + '/new-password';
 
   constructor(
     private http: HttpClient,
@@ -57,11 +60,9 @@ export class AuthService {
   }
 
   public login(loginFormValue: UserAuth): void {
-    console.log(loginFormValue);
     this.http.post<{ token: string, expiresIn: number }>(this.LOGIN_URL, loginFormValue)
       .subscribe(
         response => {
-          console.log('user login');
           const token = response.token;
           this._token = token;
           if (token) {
@@ -166,6 +167,19 @@ export class AuthService {
     return this._adminLoginFailed$.asObservable();
   }
 
+  // RESET PASSWORD
+  public requestPassword(formValue: { 'email': string }): Observable<any> {
+    return this.http.post(this.REQUEST_PASSWORD_URL, formValue);
+  }
+
+  public validPasswordToken(formValue: { 'resetToken': string }): Observable<any> {
+    return this.http.post(`${this.VALIDATE_PASSWORD_URL}`, formValue);
+  }
+
+  public newPassword(formValue: { resetToken: string, newPassword: string }): Observable<any> {
+    return this.http.post(`${this.RESET_PASSWORD_URL}`, formValue);
+  }
+
   ////////////
   // PRIVATE
   ////////////
@@ -219,5 +233,6 @@ export class AuthService {
       duration
     );
   }
+
 
 }

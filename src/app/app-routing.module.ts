@@ -31,6 +31,18 @@ const routes: Routes = [
     // canActivate: [AuthGuard]
   },
   {
+    path: 'connexion',
+    loadChildren: () => import('./views/login/login/login.module').then(m => m.LoginViewModule)
+  },
+  {
+    path: 'mot-de-passe-oublié',
+    loadChildren: () => import('./views/login/password-request/password-request.module').then(m => m.PasswordRequestModule)
+  },
+  {
+    path: 'reinitialisation-mot-de-passe/:token',
+    loadChildren: () => import('./views/login/password-reset/password-reset.module').then(m => m.PasswordResetModule)
+  },
+  {
     path: 'admin',
     loadChildren: () => import('./views/admin/admin.module').then(m => m.AdminViewModule),
     canActivate: [AdminAuthGuard]
@@ -38,10 +50,6 @@ const routes: Routes = [
   {
     path: 'admin-login',
     loadChildren: () => import('./views/login/admin-login/admin-login.module').then(m => m.AdminLoginViewModule)
-  },
-  {
-    path: 'connexion',
-    loadChildren: () => import('./views/login/login/login.module').then(m => m.LoginViewModule)
   },
   {
     path: '',

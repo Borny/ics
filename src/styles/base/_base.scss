@@ -133,6 +133,16 @@ textarea {
   height: 100%;
 }
 
+.link {
+  color: $color-primary-light;
+  text-decoration: underline;
+  margin: 0.5rem 0;
+}
+
+.font-size-sm {
+  font-size: 0.8rem;
+}
+
 .color-primary-font {
   color: $color-primary;
 }
