@@ -55,6 +55,13 @@
     border: none;
     padding: 0 1rem;
 
+    &__picture {
+      width: 30px;
+      height: 30px;
+      border-radius: 100px;
+      object-fit: cover;
+    }
+
     .nav-link {
       border-bottom: 1px solid $color-primary;
 

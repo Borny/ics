@@ -1,7 +1,7 @@
 import { MediaMatcher } from '@angular/cdk/layout';
 import { Component, ViewChild, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { User } from './models/user.model';
 
 import { AuthService } from './services/auth/auth.service';
 
@@ -11,18 +11,21 @@ import { AuthService } from './services/auth/auth.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  @ViewChild('snav') navToggle;
+  @ViewChild('snav') navToggle: any;
 
   public mobileQuery: MediaQueryList;
   public toggleIconName = 'menu';
   public isUserAuthenticated = false;
   public isAdminUserAuthenticated = false;
   public showSubNav = false;
+  public user: User;
+  public userId: string;
 
   public readonly LOGOUT_BTN_TEXT = 'Déconnexion';
   public readonly LOGIN_BTN_TEXT = 'Connexion';
   public readonly LOGO_COLOR = 'white';
 
+  private userDataListener$: Subscription;
   private authListenerSubs$: Subscription;
   private authAdminListenerSubs$: Subscription;
 
@@ -31,7 +34,6 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private changeDetectorRef: ChangeDetectorRef,
-    private router: Router,
     private media: MediaMatcher) {
     this.mobileQuery = media.matchMedia(this.SCREEN_SM);
     this.mobileQuery.addListener(this._mobileQueryListener);
@@ -40,11 +42,13 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this._getUserAuthenticationStatus();
     this._getAdminUserAuthenticationStatus();
+    this._getUserData();
   }
 
   ngOnDestroy(): void {
     this.authListenerSubs$.unsubscribe();
     this.authAdminListenerSubs$.unsubscribe();
+    this.userDataListener$.unsubscribe();
     this.mobileQuery.removeListener(this._mobileQueryListener);
   }
 
@@ -70,6 +74,21 @@ export class AppComponent implements OnInit, OnDestroy {
   ////////////
   // PRIVATE
   ////////////
+  private _getUserData(): void {
+    this.user = this.authService.getUserData();
+    this.userDataListener$ = this.authService.getUserDataListener().subscribe(
+      response => {
+        this.user = response;
+        if (this.user) {
+          this.userId = this.user._id;
+        }
+      },
+      error => {
+        console.log('user id error:', error);
+      }
+    );
+  }
+
   private _getUserAuthenticationStatus(): void {
     this.isUserAuthenticated = this.authService.getIsAuth();
     this.authListenerSubs$ = this.authService.getAuthStatus()
@@ -82,13 +101,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private _getAdminUserAuthenticationStatus(): void {
     this.isAdminUserAuthenticated = this.authService.getIsAdminAuth();
-    // console.log('1 this.isAdminUserAuthenticated:', this.isAdminUserAuthenticated);
     this.authAdminListenerSubs$ = this.authService.getAdminAuthStatus()
       .subscribe(
         isAuthenticated => {
-          // console.log('4 isAuthenticated sub: ', isAuthenticated)
           this.isAdminUserAuthenticated = isAuthenticated;
-          // console.log('5 is admin user auth:', this.isAdminUserAuthenticated)
         });
     this.authService.autoAuthAdmin();
   }

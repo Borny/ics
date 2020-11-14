@@ -17,8 +17,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import {MatButtonToggleModule} from '@angular/material/button-toggle';
-import {MatMenuModule} from '@angular/material/menu';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   exports: [
@@ -38,7 +39,8 @@ import {MatMenuModule} from '@angular/material/menu';
     MatDatepickerModule,
     MatNativeDateModule,
     MatButtonToggleModule,
-    MatMenuModule
+    MatMenuModule,
+    MatDialogModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'fr-FR' }

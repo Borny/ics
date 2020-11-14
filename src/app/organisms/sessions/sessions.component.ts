@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { SessionsKids } from '../../models/sessionsKids.model';
 import { SessionsAdults } from '../../models/sessionsAdults.model';
 
@@ -8,17 +8,8 @@ import { SessionsAdults } from '../../models/sessionsAdults.model';
   styleUrls: ['sessions.component.scss']
 })
 
-export class SessionsComponent implements OnInit {
+export class SessionsComponent {
   @Input() sessionsKids: SessionsKids;
   @Input() sessionsAdults: SessionsAdults;
   @Input() style: string;
-
-  constructor() {
-    console.log(this.sessionsAdults);
-  }
-
-  ngOnInit() {
-    // console.log(this.sessionsKids)
-    console.log(this.sessionsAdults);
-  }
 }

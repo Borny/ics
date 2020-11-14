@@ -31,6 +31,11 @@ const routes: Routes = [
     // canActivate: [AuthGuard]
   },
   {
+    path: 'profile/:userId',
+    loadChildren: () => import('./views/profile/profile.module').then(m => m.ProfileViewModule),
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'connexion',
     loadChildren: () => import('./views/login/login/login.module').then(m => m.LoginViewModule)
   },

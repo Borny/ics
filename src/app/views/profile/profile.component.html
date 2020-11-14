@@ -1,0 +1,49 @@
+<main class="main">
+  <section class="profile-header">
+    <p class="title-xl">
+      {{ "Mon Profil" | uppercase }}
+    </p>
+    <p class="profile-header__content"></p>
+  </section>
+
+  <section class="profile__container">
+    <mat-spinner class="spinner" *ngIf="isLoading"></mat-spinner>
+    <p class="error-message" *ngIf="!isLoading && userError">
+      Les informations n'ont pas pu être chargées
+    </p>
+    <mat-card class="card" *ngIf="!isLoading && !userError">
+      <div class="profile-image__container">
+        <img
+          *ngIf="user.profileImagePath"
+          [src]="user.profileImagePath"
+          alt="profile picture"
+        />
+        <mat-icon *ngIf="!user.profileImagePath" color="primary"
+          >account_circle</mat-icon
+        >
+      </div>
+      <p class="profile__info">
+        <span class="bold font-size-sm"> Prénom </span>
+        {{ user.firstName }}
+      </p>
+      <p class="profile__info">
+        <span class="bold font-size-sm"> Nom </span>
+        {{ user.lastName }}
+      </p>
+      <p class="profile__info">
+        <span class="bold font-size-sm"> Surnom de capoeira </span>
+        {{ user.nickName }}
+      </p>
+      <p class="profile__info">
+        <span class="bold font-size-sm"> email </span>{{ user.email }}
+      </p>
+      <atom-button
+        class="btn"
+        [type]="'button'"
+        [text]="'Modifier mes informations'"
+        (click)="onOpenEditDialog(user)"
+      >
+      </atom-button>
+    </mat-card>
+  </section>
+</main>

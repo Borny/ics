@@ -1,0 +1,107 @@
+<h2 mat-dialog-title>Modification de mes informations</h2>
+
+<section class="profile-form__container">
+  <mat-spinner class="spinner" *ngIf="isLoading"></mat-spinner>
+  <p class="error-message" *ngIf="!isLoading && userError">
+    Les informations n'ont pas pu être chargées
+  </p>
+
+  <!-- Picture -->
+  <form
+    *ngIf="!isLoading && !userError"
+    class="profile-edition-form"
+    [formGroup]="editProfileForm"
+    (ngSubmit)="onSubmit()"
+  >
+    <div class="profile-image__container">
+      <div class="image-preview">
+        <img
+          *ngIf="imagePreview && imagePreview !== ''"
+          [src]="imagePreview"
+          alt="profile picture"
+        />
+        <mat-icon
+          *ngIf="!imagePreview && !user.profileImagePath"
+          color="primary"
+          >account_circle</mat-icon
+        >
+      </div>
+      <div>
+        <button
+          mat-stroked-button
+          color="accent"
+          type="button"
+          (click)="filePicker.click()"
+        >
+          Choisir une photo
+        </button>
+        <input type="file" #filePicker (change)="onImagepicked($event)" />
+      </div>
+    </div>
+    <mat-form-field>
+      <mat-label>Prénom</mat-label>
+      <input
+        matInput
+        type="text"
+        name="firstName"
+        formControlName="firstName"
+        required
+      />
+      <mat-error
+        *ngIf="
+          editProfileForm.get('firstName').invalid && editProfileForm.touched
+        "
+        >Veuillez renseigner votre prénom</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Nom</mat-label>
+      <input
+        matInput
+        type="text"
+        name="lastName"
+        formControlName="lastName"
+        required
+      />
+      <mat-error
+        *ngIf="
+          editProfileForm.get('lastName').invalid && editProfileForm.touched
+        "
+        >Veuillez renseigner votre nom</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Surnom de capoeira</mat-label>
+      <input
+        matInput
+        type="text"
+        name="nickName"
+        formControlName="nickName"
+        required
+      />
+      <mat-error
+        *ngIf="
+          editProfileForm.get('nickName').invalid && editProfileForm.touched
+        "
+        >Veuillez renseigner votre surnom</mat-error
+      >
+    </mat-form-field>
+  </form>
+</section>
+
+<div *ngIf="!isLoading" mat-dialog-actions align="end">
+  <button mat-button color="warn" (click)="onCancel()">Annuler</button>
+  <button
+    mat-flat-button
+    color="primary"
+    [mat-dialog-close]="{
+      user: user,
+      imagePreview: imagePreview,
+      action: CONFIRM
+    }"
+    (click)="onSubmit()"
+    [disabled]="editProfileForm.invalid"
+  >
+    Modifier
+  </button>
+</div>

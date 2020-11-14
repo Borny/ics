@@ -35,6 +35,15 @@
           >Contact</a
         >
         <a
+          *ngIf="isUserAuthenticated || isAdminUserAuthenticated"
+          mat-list-item
+          class="nav-item"
+          (click)="onToggleNav()"
+          routerLink="profile/{{ userId }}"
+          routerLinkActive="active"
+          >Profile</a
+        >
+        <a
           *ngIf="!isUserAuthenticated && !isAdminUserAuthenticated"
           mat-list-item
           routerLink="/connexion"
@@ -82,7 +91,9 @@
           mat-icon-button
           (click)="onToggleNav()"
         >
-          <mat-icon>{{ navToggle?.opened ? "close" : "menu" }}</mat-icon>
+          <mat-icon *ngIf="user && !user.profileImagePath">{{
+            navToggle?.opened ? "close" : "menu"
+          }}</mat-icon>
         </button>
         <!-- DESKTOP -->
         <div *ngIf="!mobileQuery.matches" class="title">
@@ -119,9 +130,18 @@
                 >Contact</a
               >
             </li>
+            <!-- <li>{{ user?.profileImagePath }}</li> -->
             <li class="nav-item">
               <button mat-button [matMenuTriggerFor]="menu">
-                <mat-icon>account_circle</mat-icon>
+                <img
+                  *ngIf="user && user.profileImagePath"
+                  [src]="user.profileImagePath"
+                  class="nav-item__picture"
+                  alt="profile picture"
+                />
+                <mat-icon *ngIf="!user?.profileImagePath"
+                  >account_circle</mat-icon
+                >
               </button>
               <mat-menu #menu="matMenu">
                 <a
@@ -149,6 +169,15 @@
                   routerLinkActive="active"
                 >
                   Boutique
+                </a>
+                <a
+                  *ngIf="isUserAuthenticated || isAdminUserAuthenticated"
+                  class="nav-item"
+                  mat-menu-item
+                  routerLink="profile/{{ userId }}"
+                  routerLinkActive="active"
+                >
+                  Profile
                 </a>
                 <button
                   *ngIf="isUserAuthenticated || isAdminUserAuthenticated"
