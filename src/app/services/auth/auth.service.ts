@@ -79,7 +79,7 @@ export class AuthService {
   public login(loginFormValue: User): void {
     this.http.post<{ userId: string, token: string, expiresIn: number }>(this.LOGIN_URL, loginFormValue)
       .pipe(
-        mergeMap((result) => {
+        mergeMap((result:any) => {
           const token = result.token;
           const userId = result.userId;
           this._token = token;
