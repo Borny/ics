@@ -1,14 +1,23 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { Component, ViewChild, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  OnInit,
+  ChangeDetectorRef,
+  OnDestroy,
+} from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { User } from './models/user.model';
+import { fadeInRouteTrigger } from './animations/route-animations';
 
+import { User } from './models/user.model';
 import { AuthService } from './services/auth/auth.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  animations: [fadeInRouteTrigger],
 })
 export class AppComponent implements OnInit, OnDestroy {
   @ViewChild('snav') navToggle: any;
@@ -34,7 +43,8 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private changeDetectorRef: ChangeDetectorRef,
-    private media: MediaMatcher) {
+    private media: MediaMatcher
+  ) {
     this.mobileQuery = media.matchMedia(this.SCREEN_SM);
     this.mobileQuery.addListener(this._mobileQueryListener);
   }
@@ -71,19 +81,25 @@ export class AppComponent implements OnInit, OnDestroy {
     return this.isUserAuthenticated || this.isAdminUserAuthenticated;
   }
 
+  public prepareRoute(outlet: RouterOutlet) {
+    return (
+      outlet && outlet.activatedRouteData && outlet.activatedRouteData.animation
+    );
+  }
+
   ////////////
   // PRIVATE
   ////////////
   private _getUserData(): void {
     this.user = this.authService.getUserData();
     this.userDataListener$ = this.authService.getUserDataListener().subscribe(
-      response => {
+      (response) => {
         this.user = response;
         if (this.user) {
           this.userId = this.user._id;
         }
       },
-      error => {
+      (error) => {
         console.log('user id error:', error);
       }
     );
@@ -91,21 +107,21 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private _getUserAuthenticationStatus(): void {
     this.isUserAuthenticated = this.authService.getIsAuth();
-    this.authListenerSubs$ = this.authService.getAuthStatus()
-      .subscribe(
-        isAuthenticated => {
-          this.isUserAuthenticated = isAuthenticated;
-        });
+    this.authListenerSubs$ = this.authService
+      .getAuthStatus()
+      .subscribe((isAuthenticated) => {
+        this.isUserAuthenticated = isAuthenticated;
+      });
     this.authService.autoAuthUser();
   }
 
   private _getAdminUserAuthenticationStatus(): void {
     this.isAdminUserAuthenticated = this.authService.getIsAdminAuth();
-    this.authAdminListenerSubs$ = this.authService.getAdminAuthStatus()
-      .subscribe(
-        isAuthenticated => {
-          this.isAdminUserAuthenticated = isAuthenticated;
-        });
+    this.authAdminListenerSubs$ = this.authService
+      .getAdminAuthStatus()
+      .subscribe((isAuthenticated) => {
+        this.isAdminUserAuthenticated = isAuthenticated;
+      });
     this.authService.autoAuthAdmin();
   }
 

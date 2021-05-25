@@ -1,24 +1,18 @@
-@import '../../../styles/tools/variables';
-@import '../../../styles/tools/mixins';
-
-:host {
-  // display: flex;
-  // flex-direction: column;
-  // min-height: 100%;
-}
+@import "../../../styles/tools/variables";
+@import "../../../styles/tools/mixins";
 
 .hero {
   display: flex;
   justify-content: center;
   align-items: center;
   flex: 1;
-  height: 100%;
-  background: url(../../../assets/mobile/tico-bananeira-mobile.jpg);
+  height: calc(100vh - 130px);
+  background: url("../../../assets/mobile/tico-bananeira-mobile.jpg");
   background-size: cover;
   background-position: bottom;
 
   @include screen-sm {
-    background-image: url(../../../assets/desktop/tico-bananeira-desktop.jpg);
+    background-image: url("../../../assets/desktop/tico-bananeira-desktop.jpg");
     background-position: initial;
   }
 }
@@ -45,13 +39,16 @@
 }
 
 .description {
-  background: url(../../../assets/mobile/meia-lua-mobile.jpg);
+  display: flex;
+  align-items: center;
+  min-height: 500px;
+  background: url("../../../assets/mobile/meia-lua-mobile.jpg");
   background-size: cover;
   padding: 1rem;
   text-align: center;
 
   @include screen-sm {
-    background-image: url(../../../assets/desktop/meia-lua-desktop.jpg);
+    background-image: url("../../../assets/desktop/meia-lua-desktop.jpg");
   }
 
   &__list {
@@ -69,7 +66,6 @@
 
   &__item {
     background: $white;
-    padding: 1rem;
     margin: 0 0 1rem;
     text-align: center;
 
@@ -80,8 +76,20 @@
   }
 
   &__title {
-    color: $color-primary;
+    background: $color-primary;
+    color: $white;
+    padding: 1rem;
     font-size: 1.2rem;
+  }
+
+  &__content {
+    padding: 1rem;
+
+    @include screen-sm {
+      display: flex;
+      align-items: center;
+      min-height: 140px;
+    }
   }
 
   .btn__container {

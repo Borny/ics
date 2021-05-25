@@ -40,10 +40,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatNativeDateModule,
     MatButtonToggleModule,
     MatMenuModule,
-    MatDialogModule
+    MatDialogModule,
   ],
-  providers: [
-    { provide: MAT_DATE_LOCALE, useValue: 'fr-FR' }
-  ]
+  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'fr-FR' }],
 })
-export class MaterialModule { }
+export class MaterialModule {}

@@ -2,74 +2,26 @@
   <mat-sidenav-container class="sidenav-container" fullscreen>
     <mat-sidenav #snav mode="over" position="end">
       <mat-nav-list>
-        <a
-          mat-list-item
-          class="nav-item"
-          (click)="onToggleNav()"
-          routerLink="/accueil"
-          routerLinkActive="active"
-          >Accueil</a
-        >
-        <a
-          mat-list-item
-          class="nav-item"
-          (click)="onToggleNav()"
-          routerLink="/ics"
-          routerLinkActive="active"
-          >A propos de nous</a
-        >
-        <a
-          mat-list-item
-          class="nav-item"
-          (click)="onToggleNav()"
-          routerLink="/programmes"
-          routerLinkActive="active"
-          >Nos programmes</a
-        >
-        <a
-          mat-list-item
-          class="nav-item"
-          (click)="onToggleNav()"
-          routerLink="/contact"
-          routerLinkActive="active"
-          >Contact</a
-        >
-        <a
-          *ngIf="isUserAuthenticated || isAdminUserAuthenticated"
-          mat-list-item
-          class="nav-item"
-          (click)="onToggleNav()"
-          routerLink="profile/{{ userId }}"
-          routerLinkActive="active"
-          >Profile</a
-        >
-        <a
-          *ngIf="!isUserAuthenticated && !isAdminUserAuthenticated"
-          mat-list-item
-          routerLink="/connexion"
-          routerLinkActive="active"
-          class="nav-item"
-          (click)="onToggleNav()"
-        >
+        <a mat-list-item class="nav-item" (click)="onToggleNav()" routerLink="/accueil"
+          routerLinkActive="active">Accueil</a>
+        <a mat-list-item class="nav-item" (click)="onToggleNav()" routerLink="/ics" routerLinkActive="active">A propos
+          de nous</a>
+        <a mat-list-item class="nav-item" (click)="onToggleNav()" routerLink="/programmes" routerLinkActive="active">Nos
+          programmes</a>
+        <a mat-list-item class="nav-item" (click)="onToggleNav()" routerLink="/contact"
+          routerLinkActive="active">Contact</a>
+        <a *ngIf="isUserAuthenticated || isAdminUserAuthenticated" mat-list-item class="nav-item"
+          (click)="onToggleNav()" routerLink="profile/{{ userId }}" routerLinkActive="active">Profile</a>
+        <a *ngIf="!isUserAuthenticated && !isAdminUserAuthenticated" mat-list-item routerLink="/connexion"
+          routerLinkActive="active" class="nav-item" (click)="onToggleNav()">
           {{ LOGIN_BTN_TEXT }}
         </a>
-        <a
-          *ngIf="isAdminUserAuthenticated"
-          mat-list-item
-          class="nav-item"
-          (click)="onToggleNav()"
-          routerLink="/admin"
-          routerLinkActive="active"
-        >
+        <a *ngIf="isAdminUserAuthenticated" mat-list-item class="nav-item" (click)="onToggleNav()" routerLink="/admin"
+          routerLinkActive="active">
           Admin
         </a>
-        <a
-          *ngIf="isUserAuthenticated || isAdminUserAuthenticated"
-          mat-list-item
-          class="nav-item"
-          (click)="onLogout()"
-          routerLink="/accueil"
-        >
+        <a *ngIf="isUserAuthenticated || isAdminUserAuthenticated" mat-list-item class="nav-item" (click)="onLogout()"
+          routerLink="/accueil">
           {{ LOGOUT_BTN_TEXT }}
         </a>
       </mat-nav-list>
@@ -78,22 +30,13 @@
     <mat-sidenav-content>
       <mat-toolbar color="primary" class="toolbar">
         <!-- MOBILE -->
-        <div
-          *ngIf="mobileQuery.matches"
-          routerLink="/accueil"
-          (click)="onCloseNav()"
-          class="logo-container"
-        >
+        <div *ngIf="mobileQuery.matches" routerLink="/accueil" (click)="onCloseNav()" class="logo-container">
           <ics-logo [color]="LOGO_COLOR"></ics-logo>
         </div>
-        <button
-          *ngIf="mobileQuery.matches"
-          mat-icon-button
-          (click)="onToggleNav()"
-        >
+        <button *ngIf="mobileQuery.matches" mat-icon-button (click)="onToggleNav()">
           <mat-icon *ngIf="user && !user.profileImagePath">{{
             navToggle?.opened ? "close" : "menu"
-          }}</mat-icon>
+            }}</mat-icon>
         </button>
         <!-- DESKTOP -->
         <div *ngIf="!mobileQuery.matches" class="title">
@@ -102,88 +45,42 @@
         <nav *ngIf="!mobileQuery.matches">
           <ul>
             <li class="nav-item">
-              <a
-                routerLink="/accueil"
-                routerLinkActive="active"
-                class="nav-link"
-                >Accueil</a
-              >
+              <a routerLink="/accueil" routerLinkActive="active" class="nav-link">Accueil</a>
             </li>
             <li class="nav-item">
-              <a routerLink="/ics" routerLinkActive="active" class="nav-link"
-                >A propos de nous</a
-              >
+              <a routerLink="/ics" routerLinkActive="active" class="nav-link">A propos de nous</a>
             </li>
             <li class="nav-item">
-              <a
-                routerLink="/programmes"
-                routerLinkActive="active"
-                class="nav-link"
-                >Nos programmes</a
-              >
+              <a routerLink="/programmes" routerLinkActive="active" class="nav-link">Nos programmes</a>
             </li>
             <li class="nav-item">
-              <a
-                routerLink="/contact"
-                routerLinkActive="active"
-                class="nav-link"
-                >Contact</a
-              >
+              <a routerLink="/contact" routerLinkActive="active" class="nav-link">Contact</a>
             </li>
             <!-- <li>{{ user?.profileImagePath }}</li> -->
             <li class="nav-item">
               <button mat-button [matMenuTriggerFor]="menu">
-                <img
-                  *ngIf="user && user.profileImagePath"
-                  [src]="user.profileImagePath"
-                  class="nav-item__picture"
-                  alt="profile picture"
-                />
-                <mat-icon *ngIf="!user?.profileImagePath"
-                  >account_circle</mat-icon
-                >
+                <img *ngIf="user && user.profileImagePath" [src]="user.profileImagePath" class="nav-item__picture"
+                  alt="profile picture" />
+                <mat-icon *ngIf="!user?.profileImagePath">account_circle</mat-icon>
               </button>
               <mat-menu #menu="matMenu">
-                <a
-                  *ngIf="!isUserAuthenticated && !isAdminUserAuthenticated"
-                  class="nav-item"
-                  mat-menu-item
-                  routerLink="/connexion"
-                  routerLinkActive="active"
-                >
+                <a *ngIf="!isUserAuthenticated && !isAdminUserAuthenticated" class="nav-item" mat-menu-item
+                  routerLink="/connexion" routerLinkActive="active">
                   Connexion
                 </a>
-                <a
-                  *ngIf="isAdminUserAuthenticated"
-                  class="nav-item"
-                  mat-menu-item
-                  routerLink="/admin"
-                  routerLinkActive="active"
-                >
+                <a *ngIf="isAdminUserAuthenticated" class="nav-item" mat-menu-item routerLink="/admin"
+                  routerLinkActive="active">
                   Admin
                 </a>
-                <a
-                  *ngIf="isUserAuthenticated || isAdminUserAuthenticated"
-                  mat-menu-item
-                  routerLink="/boutique"
-                  routerLinkActive="active"
-                >
+                <a *ngIf="isUserAuthenticated || isAdminUserAuthenticated" mat-menu-item routerLink="/boutique"
+                  routerLinkActive="active">
                   Boutique
                 </a>
-                <a
-                  *ngIf="isUserAuthenticated || isAdminUserAuthenticated"
-                  class="nav-item"
-                  mat-menu-item
-                  routerLink="profile/{{ userId }}"
-                  routerLinkActive="active"
-                >
+                <a *ngIf="isUserAuthenticated || isAdminUserAuthenticated" class="nav-item" mat-menu-item
+                  routerLink="profile/{{ userId }}" routerLinkActive="active">
                   Profile
                 </a>
-                <button
-                  *ngIf="isUserAuthenticated || isAdminUserAuthenticated"
-                  mat-menu-item
-                  (click)="onLogout()"
-                >
+                <button *ngIf="isUserAuthenticated || isAdminUserAuthenticated" mat-menu-item (click)="onLogout()">
                   Déconnexion
                 </button>
               </mat-menu>
@@ -192,7 +89,9 @@
         </nav>
       </mat-toolbar>
       <div class="spacer"></div>
-      <router-outlet></router-outlet>
+      <div [@fadeInRoute]="prepareRoute(outlet)" class="router__container">
+        <router-outlet #outlet="outlet"></router-outlet>
+      </div>
       <ics-footer></ics-footer>
     </mat-sidenav-content>
   </mat-sidenav-container>

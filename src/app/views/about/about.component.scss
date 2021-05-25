@@ -11,11 +11,11 @@
   align-items: stretch;
 
   .hero {
-    background: url(../../../assets/mobile/final-da-roda-mobile.jpg);
+    background: url('../../../assets/mobile/final-da-roda-mobile.jpg');
     background-size: cover;
 
     @include screen-sm {
-      background-image: url(../../../assets/desktop/final-da-roda-desktop.jpg);
+      background-image: url('../../../assets/desktop/final-da-roda-desktop.jpg');
     }
   }
 
@@ -52,12 +52,12 @@
 .bottom-image {
   width: 100%;
   min-height: 300px;
-  background: url(../../../assets/mobile/roda-blurry-mobile.jpg);
+  background: url('../../../assets/mobile/roda-blurry-mobile.jpg');
   background-size: cover;
 
   @include screen-sm {
     min-height: 700px;
-    background-image: url(../../../assets/desktop/roda-blurry-desktop.jpg);
+    background-image: url('../../../assets/desktop/roda-blurry-desktop.jpg');
   }
 }
 

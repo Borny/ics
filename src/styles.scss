@@ -1,6 +1,7 @@
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 // Plus imports for other components in your app.
+@use '~@angular/material' as mat;
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
@@ -58,12 +59,11 @@ $ics-theme: mat.define-light-theme($ics-primary, $ics-accent, $ics-warn);
 @include mat.all-component-themes($ics-theme);
 
 /* You can add global styles to this file, and also import other style files */
-@use '~@angular/material' as mat;
-@import './styles/tools/variables';
-@import './styles/tools/mixins';
+@import "./styles/tools/variables";
+@import "./styles/tools/mixins";
 
-@import './styles/base/normalize';
-@import './styles/base/base';
+@import "./styles/base/normalize";
+@import "./styles/base/base";
 
-@import './styles/components/tabs';
-@import './styles/components/button';
+@import "./styles/components/tabs";
+@import "./styles/components/button";
