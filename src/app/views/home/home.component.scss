@@ -5,6 +5,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   flex: 1;
   height: calc(100vh - 130px);
   background: url("../../../assets/mobile/tico-bananeira-mobile.jpg");
@@ -22,9 +23,33 @@
   justify-content: center;
   align-items: center;
   width: 50%;
+  margin: 0 0 3rem;
 
   @include screen-sm {
     width: 30%;
+  }
+}
+
+.btn--navigate {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  background: $color-primary;
+  border: 1px solid $white;
+  border-radius: 4px;
+  color: $white;
+  text-transform: uppercase;
+  transition: 0.2s ease-in;
+  box-shadow: 0 0 10px 1px $black;
+  &__content {
+    font-size: 2rem;
+  }
+  &:hover {
+    background: $white;
+    border: 1px solid $color-primary;
+    color: $color-primary;
   }
 }
 

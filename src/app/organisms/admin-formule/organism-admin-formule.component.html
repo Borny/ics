@@ -1,0 +1,9 @@
+<div class="btn__container">
+  <button mat-raised-button color="primary" (click)="onOpenModalCreate()">Ajouter une formule</button>
+</div>
+
+<mat-spinner *ngIf="loading" color="accent" class="spinner"></mat-spinner>
+
+<div [ngClass]="{'hidden': loading}" class="card__container">
+  <molecule-card-formule *ngFor="let formule of (formules$ | async)" [formule]="formule" [mode]="ADMIN" (delete)="onOpenModalDelete($event)"></molecule-card-formule>
+</div>

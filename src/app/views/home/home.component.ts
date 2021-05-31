@@ -49,7 +49,7 @@ export class HomeView {
     console.log('navigate');
   }
 
-  public onNavigateSubscriptions(event: Event): void {
+  public onNavigateSubscriptions(): void {
     this.router.navigateByUrl('/inscriptions');
   }
 }

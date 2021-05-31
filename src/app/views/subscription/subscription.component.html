@@ -3,7 +3,53 @@
     {{ "Inscriptions" | uppercase }}
   </p>
 </section>
-<section class="deal-card__container">
+
+<mat-horizontal-stepper [linear]="true" #stepper>
+  <mat-step [stepControl]="0" label="Choisissez vos formules ">
+
+
+    <mat-spinner *ngIf="loading" color="accent" class="spinner"></mat-spinner>
+
+<div [ngClass]="{'hidden': loading}" class="card__container">
+  <molecule-card-formule *ngFor="let formule of (formules$ | async)" [formule]="formule" [mode]="USER"></molecule-card-formule>
+</div>
+
+    <!-- <form [formGroup]="firstFormGroup">
+      <ng-template matStepLabel>Fill out your name</ng-template>
+      <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
+      </mat-form-field>
+    </form> -->
+    <div>
+      <button mat-raised-button color="primary" matStepperNext>Suivant</button>
+    </div>
+  </mat-step>
+  <mat-step [stepControl]="1" label="Formulaire d'inscription">
+    <!-- <form [formGroup]="secondFormGroup">
+      <mat-form-field>
+        <mat-label>Address</mat-label>
+        <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
+               required>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form> -->
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Paiement</ng-template>
+    <p>You are now done.</p>
+    <div class="btn__container">
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="stepper.reset()">Reset</button>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>
+
+
+<!-- <section class="deal-card__container">
   <div class="deal-card__wrapper">
     <div class="deal-card__group">
       <mat-card class="deal-card" *ngFor="let deal of classDeals">
@@ -90,4 +136,4 @@
       (sendAdultForm)="sendAdultForm($event)"
     ></adult-subscription-form>
   </mat-expansion-panel>
-</section>
+</section> -->

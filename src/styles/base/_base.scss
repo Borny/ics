@@ -125,6 +125,10 @@ textarea {
   }
 }
 
+.hidden {
+  display: none;
+}
+
 .display-flex {
   display: flex;
 }
@@ -178,6 +182,7 @@ textarea {
   font-weight: $fontWeightBold;
 }
 
+// ANGULAR MATERIAL OVERRIDE
 .mat-expansion-panel-body {
   padding: 0 !important;
 }

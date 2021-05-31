@@ -10,7 +10,7 @@ import {
 
 export const fadeInRouteTrigger = trigger('fadeInRoute', [
   transition('* <=> *', [
-    style({ position: 'relative' }),
+    style({ position: 'relative', 'min-height': 'calc(100% - (64px + 132px))' }),
     query(
       ':enter, :leave',
       [

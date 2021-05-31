@@ -13,19 +13,16 @@ import { KidsSubscriptionFormComponent } from '../../organisms/subscription-form
   declarations: [
     SubscriptionView,
     AdultSubscriptionFormComponent,
-    KidsSubscriptionFormComponent
+    KidsSubscriptionFormComponent,
   ],
   imports: [
     CommonModule,
     SubscriptionRoutingModule,
-    SharedModule,
     MaterialModule,
-    ReactiveFormsModule
+    SharedModule,
+    ReactiveFormsModule,
   ],
-  exports: [
-    KidsSubscriptionFormComponent,
-    AdultSubscriptionFormComponent
-  ],
+  exports: [KidsSubscriptionFormComponent, AdultSubscriptionFormComponent],
   providers: [],
 })
-export class SubscriptionViewModule { }
+export class SubscriptionViewModule {}

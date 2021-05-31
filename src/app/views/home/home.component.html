@@ -2,6 +2,16 @@
   <div class="logo-container" @fadeIn>
     <ics-logo [showSubTitle]="true" [color]="'minsk'"></ics-logo>
   </div>
+
+  <mat-card>
+    <mat-card-content class="btn--navigate__content">Saison 2021 / 2022</mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" type="button" (click)="onNavigateSubscriptions()">
+        Je m'inscris !
+      </button>
+    </mat-card-actions>
+  </mat-card>
+
 </section>
 <section class="welcome">
   <div class="section__content">
@@ -13,12 +23,12 @@
 <section class="description">
   <div class="section__content">
     <div class="description__list" [@descriptionState]="descriptionList.length">
-      <div *ngFor="let description of descriptionList" class="description__item">
+      <mat-card *ngFor="let description of descriptionList" class="description__item">
         <p class="description__title">{{description.title}}</p>
         <p class="description__content">
           {{description.content}}
         </p>
-      </div>
+      </mat-card>
     </div>
     <div class="btn__container">
       <atom-button [text]="PROGRAMS_BTN_TEXT" class="btn" (click)="onNavigatePrograms($event)" type="button">

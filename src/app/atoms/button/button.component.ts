@@ -11,7 +11,7 @@ import { buttonAnimation } from 'src/app/animations/animations';
   ]
 })
 
-export class ButtonComponent implements OnInit {
+export class AtomButton implements OnInit {
   @Input() text: string;
   @Input() isDisabled = false;
   @Input() type: string;

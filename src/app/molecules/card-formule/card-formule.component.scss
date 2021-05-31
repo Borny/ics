@@ -1,0 +1,15 @@
+@import "../../../styles/tools/variables";
+@import "../../../styles/tools/mixins";
+
+.card {
+  max-width: 250px;
+  margin: 1rem;
+  padding: 0;
+
+  &__header {
+    padding: 1rem;
+    background-color: $color-primary-light;
+    color: $white;
+    text-align: center;
+  }
+}

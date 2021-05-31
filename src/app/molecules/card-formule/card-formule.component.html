@@ -1,0 +1,30 @@
+<mat-card class="card">
+  <mat-card-header class="card__header">
+    <mat-card-title>{{ formule.title }} </mat-card-title>
+    <mat-checkbox *ngIf="mode === USER"></mat-checkbox>
+  </mat-card-header>
+  <mat-card-content class="card__content">
+    <p>{{ formule.price }}</p>
+    <p>{{ formule.details }}</p>
+    <p *ngIf="mode === ADMIN">{{ formule.coupon ? HAS_COUPON : NO_COUPON }}</p>
+  </mat-card-content>
+
+  <mat-card-actions *ngIf="mode === ADMIN" align="end" class="card__actions">
+    <button mat-raised-button color="warn" (click)="onDeleteFormule(formule)">
+      Supprimer
+    </button>
+    <button mat-raised-button color="primary" (click)="onEditFormule(formule)">
+      Modifier
+    </button>
+  </mat-card-actions>
+
+  <mat-card-actions *ngIf="mode === USER" class="card__actions">
+    <button
+      mat-raised-button
+      color="accent"
+      (click)="onDisplayDetails(formule)"
+    >
+      Détails
+    </button>
+  </mat-card-actions>
+</mat-card>
