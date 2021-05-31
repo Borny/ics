@@ -21,6 +21,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatStepperModule } from '@angular/material/stepper';
+import {MatDividerModule} from '@angular/material/divider';
 
 @NgModule({
   exports: [
@@ -43,6 +44,7 @@ import { MatStepperModule } from '@angular/material/stepper';
     MatMenuModule,
     MatDialogModule,
     MatStepperModule,
+    MatDividerModule
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'fr-FR' }],
 })

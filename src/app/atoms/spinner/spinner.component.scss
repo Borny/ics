@@ -1,0 +1,16 @@
+:host {
+  display: flex;
+  justify-content: center;
+  margin: 2rem auto;
+}
+
+.spinner {
+  width: 50px !important;
+  height: 50px !important;
+  ::ng-deep {
+    svg {
+      width: 50px !important;
+      height: 50px !important;
+    }
+  }
+}

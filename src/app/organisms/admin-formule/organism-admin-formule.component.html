@@ -4,18 +4,25 @@
   </button>
 </div>
 
-<mat-spinner *ngIf="loading" color="accent" class="spinner"></mat-spinner>
+<atom-spinner *ngIf="loading" [color]="'accent'"></atom-spinner>
 
-<div [ngClass]="{ hidden: loading }" class="card__container">
+<div
+  *ngIf="(formules$ | async)?.length && !loading; else noResult"
+  [ngClass]="{ hidden: loading }"
+  class="card__container"
+>
   <molecule-card-formule
     *ngFor="let formule of formules$ | async"
     [formule]="formule"
     [mode]="ADMIN"
     (delete)="onOpenModalDelete($event)"
+    (update)="onOpenModalUpdate($event)"
   ></molecule-card-formule>
 </div>
 
 <!-- NO RESULTS -->
-<!-- <p *ngIf="(formules$ | async) && !loading">
-  Aucune Formule n'existe. Veuillez en créer une.
-</p> -->
+<ng-template #noResult>
+  <p *ngIf="!loading" class="error">
+    Aucune Formule n'existe. Veuillez en créer une.
+  </p>
+</ng-template>

@@ -3,6 +3,10 @@
     <mat-card-title>{{ formule.title }} </mat-card-title>
     <mat-checkbox *ngIf="mode === USER"></mat-checkbox>
   </mat-card-header>
+
+  <mat-divider [inset]="true"></mat-divider>
+
+
   <mat-card-content class="card__content">
     <p>{{ formule.price }}</p>
     <p>{{ formule.details }}</p>
@@ -13,7 +17,7 @@
     <button mat-raised-button color="warn" (click)="onDeleteFormule(formule)">
       Supprimer
     </button>
-    <button mat-raised-button color="primary" (click)="onEditFormule(formule)">
+    <button mat-raised-button color="primary" (click)="onUpdateFormule(formule)">
       Modifier
     </button>
   </mat-card-actions>

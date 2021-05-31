@@ -18,12 +18,12 @@ export class OrganismAdminFormule {
   public loading = false;
   public formules$: Observable<Formule[]>;
 
-  // public readonly HAS_COUPON = 'Possède un coupon';
-  // public readonly NO_COUPON = 'Ne possède pas de coupon';
+  public readonly ADMIN = 'admin';
 
   private readonly _CONFIRM = 'confirm';
   private readonly _CANCEL = 'cancel';
-  public readonly ADMIN = 'admin';
+  private readonly _CREATE_MODE = 'create';
+  private readonly _EDIT_MODE = 'edit';
 
   constructor(
     public dialog: MatDialog,
@@ -37,16 +37,32 @@ export class OrganismAdminFormule {
   public onOpenModalCreate(): void {
     const dialogRef = this.dialog.open(FormuleDialog, {
       minWidth: '320px',
-      // data: userId
     });
     dialogRef.beforeClosed().subscribe((result) => {
-      console.log('result.action', result.action);
+      // console.log('result.action', result);
+      // console.log('result.action', result.action);
+
+      if (result && result.action === this._CONFIRM) {
+        this.formuleService
+          .addFormule(result.formule)
+          .pipe(tap(() => this._getFormules()))
+          .subscribe();
+      }
+    });
+  }
+
+  public onOpenModalUpdate(formule: Formule): void {
+    const dialogRef = this.dialog.open(FormuleDialog, {
+      minWidth: '320px',
+      data: { formuleId: formule._id, mode: this._EDIT_MODE },
+    });
+    dialogRef.beforeClosed().subscribe((result) => {
+      // console.log('result.action', result.action);
       // console.log('result.formule', result.formule);
-      // this.formules.push(result.formule);
 
       if (result.action === this._CONFIRM) {
         this.formuleService
-          .addFormule(result.formule)
+          .updateFormule(result.formule)
           .pipe(tap(() => this._getFormules()))
           .subscribe();
       }
@@ -57,24 +73,19 @@ export class OrganismAdminFormule {
     const dialogRef = this.dialog.open(DialogDeleteConfirm, {
       // minWidth: '320px',
       minHeight: '200px',
-      data: data.title
+      data: data.title,
     });
     dialogRef.beforeClosed().subscribe((result) => {
-      // console.log('result.action', result.action);
-      // console.log('result.formule', result.formule);
-      // this.formules.push(result.formule);
+      console.log('result.action', result.action);
 
-      if (result.action === this._CONFIRM) {
+      if (result && result.action === this._CONFIRM) {
+        this.loading = true;
         this.formuleService
           .deleteFormule(data)
           .pipe(tap(() => this._getFormules()))
           .subscribe();
       }
     });
-  }
-
-  public onEditFormule(formule: Formule): void {
-    console.log('edit formule', formule.title);
   }
 
   private _getFormules(): void {

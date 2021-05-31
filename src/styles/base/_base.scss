@@ -182,6 +182,10 @@ textarea {
   font-weight: $fontWeightBold;
 }
 
+.error {
+  color: $color-warning;
+}
+
 // ANGULAR MATERIAL OVERRIDE
 .mat-expansion-panel-body {
   padding: 0 !important;

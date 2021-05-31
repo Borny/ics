@@ -1,39 +1,82 @@
-<h2 class="title">Créer une Formule</h2>
-<mat-dialog-content>
-<form class="form" [formGroup]="formuleForm" (ngSubmit)="onSubmit()">
+<h2 class="title">
+  {{ dialogTitle }}
+  <strong *ngIf="!loading && mode === EDIT_MODE" class="color-primary-font"
+    >: {{ formule.title }}</strong
+  >
+</h2>
 
+<mat-dialog-content>
+  <atom-spinner
+    *ngIf="loading"
+    [color]="'accent'"
+    class="spinner"
+  ></atom-spinner>
+
+  <form
+    *ngIf="!loading"
+    class="form"
+    [formGroup]="formuleForm"
+    (ngSubmit)="onSubmit()"
+  >
     <mat-form-field class="form__group">
       <mat-label>Intitulé</mat-label>
-      <input matInput type="text" name="title" formControlName="title" required />
-      <mat-error *ngIf="
-        formuleForm.get('title').invalid &&
-        formuleForm.touched
-      ">Veuillez renseigner l'intitulé</mat-error>
+      <input
+        matInput
+        type="text"
+        name="title"
+        formControlName="title"
+        required
+      />
+      <mat-error *ngIf="formuleForm.get('title').invalid && formuleForm.touched"
+        >Veuillez renseigner l'intitulé</mat-error
+      >
     </mat-form-field>
 
     <mat-form-field class="form__group">
       <mat-label>Prix</mat-label>
-      <input matInput type="text" name="price" formControlName="price" required />
-      <mat-error *ngIf="
-        formuleForm.get('price').invalid &&
-        formuleForm.touched
-      ">Veuillez renseigner un prix à l'année</mat-error>
+      <input
+        matInput
+        type="number"
+        name="price"
+        formControlName="price"
+        required
+      />
+      <mat-error *ngIf="formuleForm.get('price').invalid && formuleForm.touched"
+        >Veuillez renseigner un prix à l'année</mat-error
+      >
     </mat-form-field>
 
     <mat-form-field class="form__group">
       <mat-label>Détails</mat-label>
-      <input matInput type="text" name="details" formControlName="details" required />
-      <mat-error *ngIf="
-        formuleForm.get('details').invalid &&
-        formuleForm.touched
-      ">Veuillez renseigner un détail</mat-error>
+      <input
+        matInput
+        type="text"
+        name="details"
+        formControlName="details"
+        required
+      />
+      <mat-error
+        *ngIf="formuleForm.get('details').invalid && formuleForm.touched"
+        >Veuillez renseigner un détail</mat-error
+      >
     </mat-form-field>
 
-    <mat-checkbox  class="form__group" formControlName="coupon">Possède un coupon</mat-checkbox>
-
+    <mat-checkbox class="form__group" formControlName="coupon"
+      >Possède un coupon</mat-checkbox
+    >
   </form>
-  </mat-dialog-content>
-  <div mat-dialog-actions>
-    <button mat-raised-button color="accent" (click)="onCancel()" type="button"> Annuler</button>
-    <button mat-raised-button color="primary" (click)="onSubmit()" type="submit" [disabled]="formuleForm.invalid">Créer</button>
-  </div>
+</mat-dialog-content>
+<div mat-dialog-actions align="end">
+  <button mat-raised-button color="accent" (click)="onCancel()" type="button">
+    Annuler
+  </button>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="onSubmit()"
+    type="submit"
+    [disabled]="formuleForm.invalid"
+  >
+    {{ mode !== EDIT_MODE ? "Créer" : "Modifier" }}
+  </button>
+</div>

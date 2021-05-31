@@ -18,14 +18,3 @@
   flex-wrap: wrap;
   margin: 0 auto;
 }
-
-.spinner {
-  width: 50px !important;
-  height: 50px !important;
-  ::ng-deep {
-    svg {
-      width: 50px !important;
-      height: 50px !important;
-    }
-  }
-}

@@ -31,7 +31,7 @@ export class DialogDeleteConfirm {
   ngOnInit(): void {}
 
   public onCancel(): void {
-    this.dialogRef.close();
+    this.dialogRef.close({action: this.CANCEL});
   }
 
   public onConfirm(): void {

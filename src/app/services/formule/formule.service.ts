@@ -30,11 +30,21 @@ export class FormuleService {
       shareReplay(),
       tap((result) => console.log(result['message'])),
       map((res) => res['formules'])
-      );
-    }
+    );
+  }
 
-    public deleteFormule(formule: Formule): Observable<{message: string}> {
-      console.log('delete formule', formule);
-      return this.http.delete<{message: string}>(`${this._FORMULE_URL}/${formule._id}`);
-    }
+  public getFormule(formuleId: string): Observable<Formule> {
+    return this.http.get<Formule>(`${this._FORMULE_URL}/${formuleId}`).pipe(
+      shareReplay(),
+      tap((result) => console.log(result['message'])),
+      map((res) => res['formule'])
+    );
+  }
+
+  public deleteFormule(formule: Formule): Observable<{ message: string }> {
+    console.log('delete formule', formule);
+    return this.http.delete<{ message: string }>(
+      `${this._FORMULE_URL}/${formule._id}`
+    );
+  }
 }

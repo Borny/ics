@@ -2,7 +2,7 @@ export interface Formule {
   _id?: string;
   checked?: boolean;
   title: string;
-  price: string;
+  price: number;
   details: string;
   coupon: boolean;
 }
