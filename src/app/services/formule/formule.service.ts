@@ -34,7 +34,7 @@ export class FormuleService {
     }
 
     public deleteFormule(formule: Formule): Observable<{message: string}> {
-      // console.log('data', data);
+      console.log('delete formule', formule);
       return this.http.delete<{message: string}>(`${this._FORMULE_URL}/${formule._id}`);
     }
 }

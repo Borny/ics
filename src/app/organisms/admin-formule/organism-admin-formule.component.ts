@@ -40,7 +40,7 @@ export class OrganismAdminFormule {
       // data: userId
     });
     dialogRef.beforeClosed().subscribe((result) => {
-      // console.log('result.action', result.action);
+      console.log('result.action', result.action);
       // console.log('result.formule', result.formule);
       // this.formules.push(result.formule);
 
