@@ -1,6 +1,11 @@
 @import "../../../styles/tools/variables";
 @import "../../../styles/tools/mixins";
 
+:host {
+  max-width: 320px;
+  width: 100%;
+}
+
 .card {
   max-width: 320px;
   margin: 1rem;
@@ -12,4 +17,12 @@
   //   color: $white;
   //   text-align: center;
   // }
+
+  &__actions {
+    display: flex;
+    justify-content: center;
+    .btn {
+      margin: 1rem auto;
+    }
+  }
 }

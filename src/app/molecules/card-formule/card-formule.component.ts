@@ -1,4 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogFormuleDetails } from 'src/app/dialogs/dialog-formule-details/dialog-formule-details.component';
 
 import { Formule } from 'src/app/models/formule.models';
 
@@ -17,8 +19,8 @@ export class MoleculeCardFormule {
 
   @Output() delete: EventEmitter<Formule> = new EventEmitter<Formule>();
   @Output() update: EventEmitter<Formule> = new EventEmitter<Formule>();
-  @Output() checked: EventEmitter<{ checked: boolean; formule: Formule, formuleIndex: number }> =
-    new EventEmitter<{ checked: boolean; formule, formuleIndex: number }>();
+  @Output() checked: EventEmitter<{ checked: boolean; formule: Formule }> =
+    new EventEmitter<{ checked: boolean; formule; formuleIndex: number }>();
 
   public isChecked = false;
 
@@ -27,7 +29,7 @@ export class MoleculeCardFormule {
   public readonly USER = 'user';
   public readonly ADMIN = 'admin';
 
-  constructor() {}
+  constructor(public dialog: MatDialog) {}
 
   public onDeleteFormule(formule: Formule): void {
     this.delete.emit(formule);
@@ -38,11 +40,15 @@ export class MoleculeCardFormule {
   }
 
   public onDisplayDetails(formule: Formule): void {
-    // this.editFormule.emit(formule);
+    const dialogRef = this.dialog.open(DialogFormuleDetails, {
+      minWidth: '320px',
+      data: formule,
+    });
+    dialogRef.beforeClosed().subscribe();
   }
 
   public onToggleCheck(): void {
     this.isChecked = !this.isChecked;
-    this.checked.emit({ checked: this.isChecked, formule: this.formule, formuleIndex: this.formuleIndex });
+    this.checked.emit({ checked: this.isChecked, formule: this.formule });
   }
 }

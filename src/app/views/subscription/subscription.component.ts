@@ -8,7 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { finalize, tap } from 'rxjs/operators';
+import { filter, finalize, map, tap } from 'rxjs/operators';
 
 import { SubscriptionService } from '../../services/subscription/subscription.service';
 import { AdultFormData } from '../../models/adultFormData.model';
@@ -20,6 +20,7 @@ import { requireCheckboxesToBeCheckedValidator } from '../../validators/checkbox
 import { Formule } from 'src/app/models/formule.models';
 import { MatDialog } from '@angular/material/dialog';
 import { FormuleService } from 'src/app/services/formule/formule.service';
+import { AgeGroupEnum } from 'src/app/models/age-group.enum';
 
 @Component({
   selector: 'subscription',
@@ -28,9 +29,14 @@ import { FormuleService } from 'src/app/services/formule/formule.service';
 })
 export class SubscriptionView implements OnInit {
   public loading = false;
-  public formules$: Observable<Formule[]>;
   public formuleForm: FormGroup;
   public subscriptionForm: FormGroup = new FormGroup({});
+  public paymentForm: FormGroup = new FormGroup({});
+  public showSubscriptionForm = false;
+
+  public formules$: Observable<Formule[]>;
+
+  public ageGroupEnum = AgeGroupEnum;
 
   // public showDealOptions = true;
   // public formSentSuccess = false;
@@ -160,44 +166,33 @@ export class SubscriptionView implements OnInit {
     return this.formuleForm.controls['formules'] as FormArray;
   }
 
-  public onSubmit(): void {
+  public onSubmitFormuleForm(): void {
     this.selectedFormules = [];
     this.formuleForm.value.formules.forEach((formuleFormItem, idx) => {
       if (formuleFormItem === true) {
         this.selectedFormules.push(this.formules[idx]);
       }
     });
-    console.log('selectedFormules', this.selectedFormules);
+
+    this._initializeSubscriptionForm();
+
+    // console.log('selectedFormules', this.selectedFormules);
   }
 
-  public onToggleChecked(data: {
-    checked: boolean;
-    formule: Formule;
-    formuleIndex: number;
-  }): void {
-    const { checked, formule, formuleIndex } = data;
+  public onSubmitSubscriptionForm(): void {
+    console.log('submit sub form');
+  }
+
+  public onToggleChecked(data: { checked: boolean; formule: Formule }): void {
+    const { checked, formule } = data;
     formule.checked = checked;
-
-    // console.log(checked);
-    // console.log(formule);
-
-    this.formulesArray.at(formuleIndex).patchValue(checked);
-
-    // this.formuleForm.updateValueAndValidity();
-    // this.formulesArray.updateValueAndValidity();
-
-    // console.log(this.formulesArray);
-    console.log(this.formuleForm.value);
-    // console.log(this.formulesArray.valid);
+    const idx = this.formules.indexOf(formule);
+    this.formulesArray.at(idx).patchValue(checked);
   }
 
   ////////////
   // PRIVATE
   ////////////
-  // private _hideAllForms(): void {
-  //   this.showKidForm = false;
-  //   this.showAdultForm = false;
-  // }
 
   private _initFormuleForm(): void {
     this.formuleForm = this.formBuilder.group({
@@ -205,41 +200,36 @@ export class SubscriptionView implements OnInit {
         validators: requireCheckboxesToBeCheckedValidator(),
       }),
     });
-
-    // this.formuleForm = new FormGroup({
-    //   formules: new FormArray([], requireCheckboxesToBeCheckedValidator()),
-    // });
-
-    // console.log('init form', this.formuleForm);
   }
 
   private _updateFormuleForm(formules: Formule[]): void {
-    // this.formuleForm = this.formBuilder.group({
-    //   formules: this.formBuilder.array([], Validators.required),
-    // }, { validators: requireCheckboxesToBeCheckedValidator() });
-
-    // this.formuleForm
-
-    formules.forEach((formule) => {
+    formules.forEach(() => {
       const formuleItem = this.formBuilder.control(null);
       this.formulesArray.push(formuleItem);
-      // const formuleItem = this.formBuilder.group({
-      //   checked: this.formBuilder.control(null),
-      //   formule: this.formBuilder.control(formule)
-      // });
-      // this.formulesArray.push(formuleItem);
-      // this.formulesArray.push(new FormControl(null));
+    });
+  }
+
+  private _initializeSubscriptionForm(): void {
+    this.subscriptionForm = this.formBuilder.group({
+      memberLastName: this.formBuilder.control(null, Validators.required),
+      memberFirstName: this.formBuilder.control(null, Validators.required),
+      birthdate: this.formBuilder.control(null, Validators.required),
+      gender: this.formBuilder.control(null, Validators.required),
+      email: this.formBuilder.control(null, Validators.required),
+      phone: this.formBuilder.control(null, Validators.required),
+      extraInfo: this.formBuilder.control(null, Validators.required),
     });
 
-    // console.log('udpate form', this.formuleForm);
+    this.showSubscriptionForm = true;
   }
 
   private _getFormules(): void {
-    // console.log('get formules');
     this.loading = true;
+
     this.formules$ = this.formuleService.getFormules().pipe(
       tap((res) => this._updateFormuleForm(res)),
       tap((res) => (this.formules = res)),
+      // map((res) => res.filter((formule) => formule.ageGroup === 'Enfants')),
       finalize(() => (this.loading = false))
     );
   }

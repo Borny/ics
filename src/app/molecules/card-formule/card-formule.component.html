@@ -1,18 +1,20 @@
 <mat-card class="card">
   <mat-card-header class="card__header">
-    <mat-card-title>{{ formule.title }} </mat-card-title>
     <mat-checkbox
       *ngIf="mode === USER"
       [checked]="isChecked"
       (change)="onToggleCheck()"
-    ></mat-checkbox>
+      [labelPosition]="'before'"
+    >
+      <mat-card-title>{{ formule.title }} </mat-card-title>
+    </mat-checkbox>
   </mat-card-header>
 
   <!-- <mat-divider [inset]="true"></mat-divider> -->
   <mat-divider></mat-divider>
 
   <mat-card-content class="card__content">
-    <p>{{ formule.price }}</p>
+    <p>Année : {{ formule.price}}€</p>
     <p>{{ formule.details }}</p>
     <p *ngIf="mode === ADMIN">{{ formule.coupon ? HAS_COUPON : NO_COUPON }}</p>
   </mat-card-content>
@@ -29,6 +31,7 @@
     <button
       mat-raised-button
       color="primary"
+      type="button"
       (click)="onUpdateFormule(formule)"
     >
       Modifier
@@ -40,6 +43,7 @@
       mat-raised-button
       color="accent"
       type="button"
+      class="btn"
       (click)="onDisplayDetails(formule)"
     >
       Détails

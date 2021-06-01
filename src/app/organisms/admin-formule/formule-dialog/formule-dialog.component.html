@@ -47,6 +47,15 @@
     </mat-form-field>
 
     <mat-form-field class="form__group">
+      <mat-label>Groupe d'âge</mat-label>
+      <mat-select name="ageGroup" formControlName="ageGroup" required>
+        <mat-option *ngFor="let age of ageGroup" [value]="age">
+          {{ age }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="form__group">
       <mat-label>Détails</mat-label>
       <input
         matInput

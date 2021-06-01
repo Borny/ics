@@ -48,7 +48,7 @@ export class OrganismAdminFormule {
           .pipe(tap(() => this._getFormules()))
           .subscribe();
       }
-    });
+      });
   }
 
   public onOpenModalUpdate(formule: Formule): void {

@@ -1,5 +1,5 @@
-@import '../../../styles/tools/variables';
-@import '../../../styles/tools/mixins';
+@import "../../../styles/tools/variables";
+@import "../../../styles/tools/mixins";
 
 :host {
   display: flex;
@@ -164,4 +164,16 @@
   .btn {
     margin: 1rem 0;
   }
+}
+
+// CARDS
+.card__container {
+  display: flex;
+}
+
+// BTNS
+.btn__container {
+  display: flex;
+  justify-content: center;
+  margin: 1rem auto;
 }

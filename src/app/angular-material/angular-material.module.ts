@@ -22,6 +22,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatStepperModule } from '@angular/material/stepper';
 import {MatDividerModule} from '@angular/material/divider';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   exports: [
@@ -44,7 +45,8 @@ import {MatDividerModule} from '@angular/material/divider';
     MatMenuModule,
     MatDialogModule,
     MatStepperModule,
-    MatDividerModule
+    MatDividerModule,
+    MatSelectModule
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'fr-FR' }],
 })

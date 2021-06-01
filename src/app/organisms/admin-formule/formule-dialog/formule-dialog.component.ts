@@ -10,6 +10,7 @@ import {
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { tap } from 'rxjs/operators';
 import { MaterialModule } from 'src/app/angular-material/angular-material.module';
+import { AgeGroupEnum } from 'src/app/models/age-group.enum';
 import { FormuleService } from 'src/app/services/formule/formule.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 
@@ -26,8 +27,8 @@ export class FormuleDialog {
   public mode: string;
   public formuleForm: FormGroup = new FormGroup({});
   public loading = false;
-
   public dialogTitle = 'Créer une Formule';
+  public ageGroup = Object.values(AgeGroupEnum);
 
   public readonly CONFIRM = 'confirm';
   public readonly CANCEL = 'cancel';
@@ -50,6 +51,8 @@ export class FormuleDialog {
     } else {
       this._initForm();
     }
+
+    console.log(this.ageGroup);
 
     // this.dialogRef.disableClose = true;
   }
@@ -87,7 +90,14 @@ export class FormuleDialog {
     );
     this.formuleForm.addControl(
       'price',
-      new FormControl(initialData?.price || null, [Validators.required, Validators.min(0)])
+      new FormControl(initialData?.price || null, [
+        Validators.required,
+        Validators.min(0),
+      ])
+    );
+    this.formuleForm.addControl(
+      'ageGroup',
+      new FormControl(initialData?.ageGroup || null, Validators.required)
     );
     this.formuleForm.addControl(
       'details',
@@ -106,7 +116,7 @@ export class FormuleDialog {
       .getFormule(formuleId)
       .pipe(tap((result) => (this.formule = result)))
       .subscribe((formule) => {
-        console.log(formule)
+        console.log(formule);
         this._initForm(formule);
       });
   }
