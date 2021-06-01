@@ -10,12 +10,17 @@ import { Formule } from 'src/app/models/formule.models';
     // buttonAnimation
   ],
 })
-export class MoleculeCardFormule implements OnInit {
+export class MoleculeCardFormule {
   @Input() formule: Formule;
   @Input() mode: string;
+  @Input() formuleIndex: number;
 
   @Output() delete: EventEmitter<Formule> = new EventEmitter<Formule>();
   @Output() update: EventEmitter<Formule> = new EventEmitter<Formule>();
+  @Output() checked: EventEmitter<{ checked: boolean; formule: Formule, formuleIndex: number }> =
+    new EventEmitter<{ checked: boolean; formule, formuleIndex: number }>();
+
+  public isChecked = false;
 
   public readonly HAS_COUPON = 'Possède un coupon';
   public readonly NO_COUPON = 'Ne possède pas de coupon';
@@ -23,8 +28,6 @@ export class MoleculeCardFormule implements OnInit {
   public readonly ADMIN = 'admin';
 
   constructor() {}
-
-  ngOnInit() {}
 
   public onDeleteFormule(formule: Formule): void {
     this.delete.emit(formule);
@@ -36,5 +39,10 @@ export class MoleculeCardFormule implements OnInit {
 
   public onDisplayDetails(formule: Formule): void {
     // this.editFormule.emit(formule);
+  }
+
+  public onToggleCheck(): void {
+    this.isChecked = !this.isChecked;
+    this.checked.emit({ checked: this.isChecked, formule: this.formule, formuleIndex: this.formuleIndex });
   }
 }

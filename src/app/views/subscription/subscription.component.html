@@ -5,38 +5,67 @@
 </section>
 
 <mat-horizontal-stepper [linear]="true" #stepper>
+  <!-- FORMULES -->
   <mat-step [stepControl]="0" label="Choisissez vos formules ">
+    <atom-spinner
+      *ngIf="loading"
+      [color]="'accent'"
+      class="spinner"
+    ></atom-spinner>
+    <form [formGroup]="formuleForm" (ngSubmit)="onSubmit()">
+      <ng-container formArrayName="formules">
+        <div [ngClass]="{ hidden: loading }" class="card__container">
+          <molecule-card-formule
+            *ngFor="let formule of formules$ | async; let idx = index"
+            [formule]="formule"
+            [mode]="USER"
+            [formuleIndex]="idx"
+            (checked)="onToggleChecked($event)"
+          ></molecule-card-formule>
+        </div>
 
-
-    <mat-spinner *ngIf="loading" color="accent" class="spinner"></mat-spinner>
-
-<div [ngClass]="{'hidden': loading}" class="card__container">
-  <molecule-card-formule *ngFor="let formule of (formules$ | async)" [formule]="formule" [mode]="USER"></molecule-card-formule>
-</div>
-
-    <!-- <form [formGroup]="firstFormGroup">
+        <!-- <form [formGroup]="firstFormGroup">
       <ng-template matStepLabel>Fill out your name</ng-template>
       <mat-form-field>
         <mat-label>Name</mat-label>
         <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
       </mat-form-field>
     </form> -->
-    <div>
-      <button mat-raised-button color="primary" matStepperNext>Suivant</button>
-    </div>
+        <div>
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="formuleForm.invalid"
+            matStepperNext
+          >
+            Suivant
+          </button>
+        </div>
+      </ng-container>
+    </form>
   </mat-step>
+
+  <!-- FORM -->
   <mat-step [stepControl]="1" label="Formulaire d'inscription">
-    <!-- <form [formGroup]="secondFormGroup">
-      <mat-form-field>
-        <mat-label>Address</mat-label>
-        <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
-               required>
-      </mat-form-field>
+    <div *ngFor="let formule of selectedFormules">
+      {{ formule.title }}
+    </div>
+    <form [formGroup]="subscriptionForm">
       <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Next</button>
+        <button
+          type="button"
+          mat-raised-button
+          color="primary"
+          matStepperPrevious
+        >
+          Retour
+        </button>
+        <button mat-raised-button type="submit" color="primary" matStepperNext>
+          Suivant
+        </button>
       </div>
-    </form> -->
+    </form>
   </mat-step>
   <mat-step>
     <ng-template matStepLabel>Paiement</ng-template>
@@ -47,7 +76,6 @@
     </div>
   </mat-step>
 </mat-horizontal-stepper>
-
 
 <!-- <section class="deal-card__container">
   <div class="deal-card__wrapper">

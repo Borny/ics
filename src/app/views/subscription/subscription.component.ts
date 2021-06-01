@@ -15,6 +15,7 @@ import { AdultFormData } from '../../models/adultFormData.model';
 import { KidsFormData } from '../../models/kidsFormData.model';
 import { ClassDeals } from '../../models/classDeals.model';
 import { SubscriptionType } from '../../models/subscriptionType.enum';
+import { requireCheckboxesToBeCheckedValidator } from '../../validators/checkbox';
 
 import { Formule } from 'src/app/models/formule.models';
 import { MatDialog } from '@angular/material/dialog';
@@ -28,22 +29,23 @@ import { FormuleService } from 'src/app/services/formule/formule.service';
 export class SubscriptionView implements OnInit {
   public loading = false;
   public formules$: Observable<Formule[]>;
+  public formuleForm: FormGroup;
+  public subscriptionForm: FormGroup = new FormGroup({});
 
-  public showDealOptions = true;
-  public formSentSuccess = false;
-  public formSentFailed = false;
+  // public showDealOptions = true;
+  // public formSentSuccess = false;
+  // public formSentFailed = false;
+  // public showKidForm: boolean;
+  // public showAdultForm: boolean;
 
   public readonly HOME_BTN_TEXT = 'Accueil';
   public readonly PROGRAM_BTN_TEXT = 'Nos programmes';
   public readonly RELOAD_BTN_TEXT = 'Réessayer';
 
-  public showKidForm: boolean;
-  public showAdultForm: boolean;
-
   public readonly USER = 'user';
 
-  public formuleForm: FormGroup = new FormGroup({});
-
+  public formules: Formule[] = [];
+  public selectedFormules: Formule[] = [];
   // public subscriptionForms: any[] = [
   //   {
   //     title: 'Inscription enfant / ado',
@@ -83,6 +85,7 @@ export class SubscriptionView implements OnInit {
 
   ngOnInit() {
     this._getFormules();
+    this._initFormuleForm();
   }
 
   // public addSubscription(event: Event): void {}
@@ -157,35 +160,86 @@ export class SubscriptionView implements OnInit {
     return this.formuleForm.controls['formules'] as FormArray;
   }
 
+  public onSubmit(): void {
+    this.selectedFormules = [];
+    this.formuleForm.value.formules.forEach((formuleFormItem, idx) => {
+      if (formuleFormItem === true) {
+        this.selectedFormules.push(this.formules[idx]);
+      }
+    });
+    console.log('selectedFormules', this.selectedFormules);
+  }
+
+  public onToggleChecked(data: {
+    checked: boolean;
+    formule: Formule;
+    formuleIndex: number;
+  }): void {
+    const { checked, formule, formuleIndex } = data;
+    formule.checked = checked;
+
+    // console.log(checked);
+    // console.log(formule);
+
+    this.formulesArray.at(formuleIndex).patchValue(checked);
+
+    // this.formuleForm.updateValueAndValidity();
+    // this.formulesArray.updateValueAndValidity();
+
+    // console.log(this.formulesArray);
+    console.log(this.formuleForm.value);
+    // console.log(this.formulesArray.valid);
+  }
+
   ////////////
   // PRIVATE
   ////////////
-  private _hideAllForms(): void {
-    this.showKidForm = false;
-    this.showAdultForm = false;
+  // private _hideAllForms(): void {
+  //   this.showKidForm = false;
+  //   this.showAdultForm = false;
+  // }
+
+  private _initFormuleForm(): void {
+    this.formuleForm = this.formBuilder.group({
+      formules: this.formBuilder.array([], {
+        validators: requireCheckboxesToBeCheckedValidator(),
+      }),
+    });
+
+    // this.formuleForm = new FormGroup({
+    //   formules: new FormArray([], requireCheckboxesToBeCheckedValidator()),
+    // });
+
+    // console.log('init form', this.formuleForm);
   }
 
-  private _initFormuleForm(formules: Formule[]): void {
-    this.formuleForm = this.formBuilder.group({
-      formules: this.formBuilder.array([]),
-    });
+  private _updateFormuleForm(formules: Formule[]): void {
+    // this.formuleForm = this.formBuilder.group({
+    //   formules: this.formBuilder.array([], Validators.required),
+    // }, { validators: requireCheckboxesToBeCheckedValidator() });
+
+    // this.formuleForm
 
     formules.forEach((formule) => {
-      const formuleItem = this.formBuilder.group({
-        id: [formule._id, Validators.required],
-        checked: [formule.checked, Validators.required]
-    });
-    this.formulesArray.push(formuleItem);
+      const formuleItem = this.formBuilder.control(null);
+      this.formulesArray.push(formuleItem);
+      // const formuleItem = this.formBuilder.group({
+      //   checked: this.formBuilder.control(null),
+      //   formule: this.formBuilder.control(formule)
+      // });
+      // this.formulesArray.push(formuleItem);
+      // this.formulesArray.push(new FormControl(null));
     });
 
-    console.log(this.formuleForm)
+    // console.log('udpate form', this.formuleForm);
   }
 
   private _getFormules(): void {
-    console.log('get formules');
+    // console.log('get formules');
     this.loading = true;
     this.formules$ = this.formuleService.getFormules().pipe(
-      tap((res) => this._initFormuleForm(res)),
+      tap((res) => this._updateFormuleForm(res)),
+      tap((res) => (this.formules = res)),
       finalize(() => (this.loading = false))
     );
   }

@@ -1,11 +1,15 @@
 <mat-card class="card">
   <mat-card-header class="card__header">
     <mat-card-title>{{ formule.title }} </mat-card-title>
-    <mat-checkbox *ngIf="mode === USER"></mat-checkbox>
+    <mat-checkbox
+      *ngIf="mode === USER"
+      [checked]="isChecked"
+      (change)="onToggleCheck()"
+    ></mat-checkbox>
   </mat-card-header>
 
-  <mat-divider [inset]="true"></mat-divider>
-
+  <!-- <mat-divider [inset]="true"></mat-divider> -->
+  <mat-divider></mat-divider>
 
   <mat-card-content class="card__content">
     <p>{{ formule.price }}</p>
@@ -14,10 +18,19 @@
   </mat-card-content>
 
   <mat-card-actions *ngIf="mode === ADMIN" align="end" class="card__actions">
-    <button mat-raised-button color="warn" (click)="onDeleteFormule(formule)">
+    <button
+      mat-raised-button
+      color="warn"
+      type="button"
+      (click)="onDeleteFormule(formule)"
+    >
       Supprimer
     </button>
-    <button mat-raised-button color="primary" (click)="onUpdateFormule(formule)">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="onUpdateFormule(formule)"
+    >
       Modifier
     </button>
   </mat-card-actions>
@@ -26,6 +39,7 @@
     <button
       mat-raised-button
       color="accent"
+      type="button"
       (click)="onDisplayDetails(formule)"
     >
       Détails
