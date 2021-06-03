@@ -162,6 +162,25 @@
                   >Veuillez renseigner la date de naissance</mat-error
                 >
               </mat-form-field>
+
+              <div class="form-section">
+                <p class="form-section__label">Genre</p>
+                <mat-radio-group
+                  class="radio-group"
+                  aria-label="Genre"
+                  formControlName="gender"
+                >
+                  <mat-radio-button
+                    *ngFor="let gender of genders; let idx = index"
+                    class="radio-button"
+                    [value]="idx"
+                  >
+                    {{ gender }}
+                  </mat-radio-button>
+                </mat-radio-group>
+              </div>
+
+
               <mat-form-field>
                 <mat-label>E-mail</mat-label>
                 <input
@@ -236,26 +255,23 @@
         >
         </atom-button> -->
 
-          <div>
-            <button
-              type="button"
-              mat-raised-button
-              color="primary"
-              matStepperPrevious
-            >
-              Retour
-            </button>
-            <button
-              mat-raised-button
-              type="submit"
-              color="primary"
-              matStepperNext
-            >
-              Suivant
-            </button>
-          </div>
+          <p>Prix à l'année: {{ subscription.price }}€</p>
         </form>
       </mat-expansion-panel>
+
+      <div class="btn__container">
+        <button
+          type="button"
+          mat-raised-button
+          color="primary"
+          matStepperPrevious
+        >
+          Retour
+        </button>
+        <button mat-raised-button type="submit" color="primary" matStepperNext>
+          Suivant
+        </button>
+      </div>
     </ng-template>
   </mat-step>
 

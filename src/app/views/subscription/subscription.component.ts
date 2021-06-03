@@ -21,6 +21,7 @@ import { Formule } from 'src/app/models/formule.models';
 import { MatDialog } from '@angular/material/dialog';
 import { FormuleService } from 'src/app/services/formule/formule.service';
 import { AgeGroupEnum } from 'src/app/models/age-group.enum';
+import { GenderEnum } from 'src/app/models/gender.enum';
 
 @Component({
   selector: 'subscription',
@@ -33,6 +34,8 @@ export class SubscriptionView implements OnInit {
   public subscriptionForm: FormGroup = new FormGroup({});
   public paymentForm: FormGroup = new FormGroup({});
   public showSubscriptionForm = false;
+
+  public genders = Object.values(GenderEnum);
 
   public formules$: Observable<Formule[]>;
 
@@ -174,7 +177,7 @@ export class SubscriptionView implements OnInit {
       }
     });
 
-    this._initializeSubscriptionForm();
+    this._initSubscriptionForm();
 
     // console.log('selectedFormules', this.selectedFormules);
   }
@@ -209,7 +212,7 @@ export class SubscriptionView implements OnInit {
     });
   }
 
-  private _initializeSubscriptionForm(): void {
+  private _initSubscriptionForm(): void {
     this.subscriptionForm = this.formBuilder.group({
       memberLastName: this.formBuilder.control(null, Validators.required),
       memberFirstName: this.formBuilder.control(null, Validators.required),
