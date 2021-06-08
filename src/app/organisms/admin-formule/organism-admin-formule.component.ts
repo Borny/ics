@@ -8,6 +8,7 @@ import { FormuleDialog } from './formule-dialog/formule-dialog.component';
 
 import { Formule } from 'src/app/models/formule.models';
 import { FormuleService } from 'src/app/services/formule/formule.service';
+import { AgeGroupEnum } from 'src/app/models/age-group.enum';
 
 @Component({
   selector: 'organism-admin-formule',
@@ -16,6 +17,8 @@ import { FormuleService } from 'src/app/services/formule/formule.service';
 })
 export class OrganismAdminFormule {
   public loading = false;
+  public ageGroupEnum = AgeGroupEnum;
+
   public formules$: Observable<Formule[]>;
 
   public readonly ADMIN = 'admin';
@@ -37,6 +40,8 @@ export class OrganismAdminFormule {
   public onOpenModalCreate(): void {
     const dialogRef = this.dialog.open(FormuleDialog, {
       minWidth: '320px',
+      maxWidth: '600px',
+      width: '100%',
     });
     dialogRef.beforeClosed().subscribe((result) => {
       // console.log('result.action', result);

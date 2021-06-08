@@ -53,26 +53,124 @@
           {{ age }}
         </mat-option>
       </mat-select>
+      <mat-error
+        *ngIf="formuleForm.get('ageGroup').invalid && formuleForm.touched"
+      >
+        Veuillez renseigner un groupe d'âge
+      </mat-error>
     </mat-form-field>
 
+    <mat-form-field
+      *ngIf="formuleForm.get('ageGroup').value === ageGroup[0]"
+      class="form__group"
+    >
+      <mat-label>Groupe d'âge enfant</mat-label>
+      <mat-select name="kidAge" formControlName="kidAge" required>
+        <mat-option *ngFor="let age of kidAge" [value]="age">
+          {{ age }}
+        </mat-option>
+      </mat-select>
+      <mat-error
+        *ngIf="formuleForm.get('kidAge').invalid && formuleForm.touched"
+      >
+        Veuillez renseigner un groupe d'âge enfant
+      </mat-error>
+    </mat-form-field>
+
+    <div class="schedules__container">
+      <mat-label>Jours - Horaires:</mat-label>
+
+      <ng-container formArrayName="schedules">
+        <div
+          *ngFor="let schedule of schedulesFormsArray.controls; let idx = index"
+          [formGroupName]="idx"
+        >
+          <mat-form-field class="form__group">
+            <mat-label>Jour</mat-label>
+            <mat-select name="day" formControlName="day" required>
+              <mat-option *ngFor="let day of weekDays" [value]="day">
+                {{ day }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="form__group">
+            <mat-label>Heures</mat-label>
+            <input
+              matInput
+              type="text"
+              name="time"
+              formControlName="time"
+              required
+            />
+          </mat-form-field>
+
+          <button
+            *ngIf="schedulesFormsArray.length > 1"
+            mat-raised-button
+            color="warn"
+            type="button"
+            (click)="onRemoveSchedule(idx)"
+          >
+            Supprimer
+          </button>
+          <button
+            mat-raised-button
+            color="primary"
+            type="button"
+            (click)="onAddSchedule()"
+          >
+            Ajouter
+          </button>
+        </div>
+      </ng-container>
+    </div>
+
     <mat-form-field class="form__group">
-      <mat-label>Détails</mat-label>
+      <mat-label>Lieu</mat-label>
       <input
         matInput
         type="text"
-        name="details"
-        formControlName="details"
+        name="location"
+        formControlName="location"
         required
       />
       <mat-error
-        *ngIf="formuleForm.get('details').invalid && formuleForm.touched"
-        >Veuillez renseigner un détail</mat-error
+        *ngIf="formuleForm.get('location').invalid && formuleForm.touched"
+        >Veuillez renseigner un lieu</mat-error
       >
     </mat-form-field>
 
-    <mat-checkbox class="form__group" formControlName="coupon"
-      >Possède un coupon</mat-checkbox
-    >
+    <mat-form-field class="form__group">
+      <mat-label>Adresse</mat-label>
+      <input
+        matInput
+        type="text"
+        name="street"
+        formControlName="street"
+        required
+      />
+      <mat-error
+        *ngIf="formuleForm.get('street').invalid && formuleForm.touched"
+        >Veuillez renseigner une adresse</mat-error
+      >
+    </mat-form-field>
+
+    <mat-checkbox class="form__group" formControlName="physicalClass">
+      Cours en présentiel
+    </mat-checkbox>
+
+    <mat-checkbox class="form__group" formControlName="onlineAccess">
+      Accès illimité a notre espace exclusif en ligne
+    </mat-checkbox>
+
+    <mat-checkbox class="form__group" formControlName="graduation">
+      Passage de grade
+    </mat-checkbox>
+
+    <mat-checkbox class="form__group" formControlName="coupon">
+      Possède un coupon
+    </mat-checkbox>
   </form>
 </mat-dialog-content>
 <div mat-dialog-actions align="end">

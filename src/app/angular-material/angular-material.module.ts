@@ -21,8 +21,9 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatStepperModule } from '@angular/material/stepper';
-import {MatDividerModule} from '@angular/material/divider';
-import {MatSelectModule} from '@angular/material/select';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   exports: [
@@ -46,7 +47,8 @@ import {MatSelectModule} from '@angular/material/select';
     MatDialogModule,
     MatStepperModule,
     MatDividerModule,
-    MatSelectModule
+    MatSelectModule,
+    MatTooltipModule,
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'fr-FR' }],
 })

@@ -6,13 +6,19 @@ import {
   Validators,
   ReactiveFormsModule,
   FormsModule,
+  FormArray,
+  FormBuilder,
 } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { tap } from 'rxjs/operators';
+
 import { MaterialModule } from 'src/app/angular-material/angular-material.module';
-import { AgeGroupEnum } from 'src/app/models/age-group.enum';
-import { FormuleService } from 'src/app/services/formule/formule.service';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { FormuleService } from 'src/app/services/formule/formule.service';
+
+import { AgeGroupEnum } from 'src/app/models/age-group.enum';
+import { KidAgeEnum } from 'src/app/models/kid-age.enum';
+import { WeekDaysEnum } from 'src/app/models/week-days.enum';
 
 import { Formule } from '../../../models/formule.models';
 
@@ -29,7 +35,10 @@ export class FormuleDialog {
   public loading = false;
   public dialogTitle = 'Créer une Formule';
   public ageGroup = Object.values(AgeGroupEnum);
+  public kidAge = Object.values(KidAgeEnum);
+  public weekDays = Object.values(WeekDaysEnum);
 
+  public readonly WEEK_DAYS = WeekDaysEnum;
   public readonly CONFIRM = 'confirm';
   public readonly CANCEL = 'cancel';
   public readonly EDIT_MODE = 'edit';
@@ -38,6 +47,7 @@ export class FormuleDialog {
   private readonly _UPDATE_FORMULE = 'Modifier la formule';
 
   constructor(
+    private formBuilder: FormBuilder,
     private formuleService: FormuleService,
     public dialogRef: MatDialogRef<FormuleDialog>,
     @Inject(MAT_DIALOG_DATA) public data: { formuleId: string; mode: string }
@@ -76,6 +86,22 @@ export class FormuleDialog {
     // console.log(this.formuleForm.value);
   }
 
+  public onAddSchedule(): void {
+    const scheduleItem = this.formBuilder.group({
+      day: this.formBuilder.control(null, Validators.required),
+      time: this.formBuilder.control(null, Validators.required),
+    });
+    this.schedulesFormsArray.push(scheduleItem);
+  }
+
+  public onRemoveSchedule(index: number): void {
+    this.schedulesFormsArray.removeAt(index);
+  }
+
+  get schedulesFormsArray() {
+    return this.formuleForm.controls['schedules'] as FormArray;
+  }
+
   private _initForm(formData?: Formule): void {
     let initialData;
     if (this.mode === this.EDIT_MODE) {
@@ -100,13 +126,57 @@ export class FormuleDialog {
       new FormControl(initialData?.ageGroup || null, Validators.required)
     );
     this.formuleForm.addControl(
-      'details',
-      new FormControl(initialData?.details || null, Validators.required)
+      'kidAge',
+      new FormControl(initialData?.kidAge || null)
+    );
+    this.formuleForm.addControl(
+      'schedules',
+      new FormArray(initialData?.schedules || [], Validators.required)
+    );
+    this.formuleForm.addControl(
+      'location',
+      new FormControl(initialData?.location || null, Validators.required)
+    );
+    this.formuleForm.addControl(
+      'street',
+      new FormControl(initialData?.street || null, Validators.required)
     );
     this.formuleForm.addControl(
       'coupon',
       new FormControl(initialData?.coupon || false, Validators.required)
     );
+    this.formuleForm.addControl(
+      'onlineAccess',
+      new FormControl(initialData?.onlineAccess || true, Validators.required)
+    );
+    this.formuleForm.addControl(
+      'physicalClass',
+      new FormControl(initialData?.physicalClass || true, Validators.required)
+    );
+    this.formuleForm.addControl(
+      'graduation',
+      new FormControl(initialData?.graduation || true, Validators.required)
+    );
+    this.formuleForm.addControl(
+      'formuleCount',
+      new FormControl(initialData?.formuleCount || 1, Validators.required)
+    );
+
+    if (initialData?.schedules) {
+      initialData.schedules.forEach((schedule) => {
+        const scheduleItem = this.formBuilder.group({
+          day: this.formBuilder.control(schedule.day, Validators.required),
+          time: this.formBuilder.control(schedule.time, Validators.required),
+        });
+        this.schedulesFormsArray.push(scheduleItem);
+      });
+    } else {
+      const scheduleItem = this.formBuilder.group({
+        day: this.formBuilder.control(null, Validators.required),
+        time: this.formBuilder.control(null, Validators.required),
+      });
+      this.schedulesFormsArray.push(scheduleItem);
+    }
 
     this.loading = false;
   }

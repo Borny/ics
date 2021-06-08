@@ -6,9 +6,9 @@ import { buttonAnimation } from 'src/app/animations/animations';
   selector: 'atom-button',
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss'],
-  animations: [
-    buttonAnimation
-  ]
+  // animations: [
+  //   buttonAnimation
+  // ]
 })
 
 export class AtomButton implements OnInit {

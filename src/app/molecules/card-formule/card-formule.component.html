@@ -1,23 +1,93 @@
-<mat-card class="card">
+<mat-card class="card" [ngClass]="{ checked: isChecked }">
   <mat-card-header class="card__header">
-    <mat-checkbox
-      *ngIf="mode === USER"
-      [checked]="isChecked"
-      (change)="onToggleCheck()"
-      [labelPosition]="'before'"
-    >
-      <mat-card-title>{{ formule.title }} </mat-card-title>
-    </mat-checkbox>
+    <!-- MODE ADMIN -->
+    <ng-container *ngIf="mode === ADMIN">
+      <mat-card-title>
+        {{ formule.title }}
+      </mat-card-title>
+      <mat-card-subtitle>
+        <ng-container *ngIf="formule.ageGroup === ageGroup.KIDS">
+          {{ formule.kidAge }}
+        </ng-container>
+      </mat-card-subtitle>
+    </ng-container>
+
+    <!-- MODE USER -->
+    <ng-container *ngIf="mode === USER">
+      <mat-card-title>
+        <mat-checkbox [checked]="isChecked" (change)="onToggleCheck()">
+          {{ formule.title }}
+        </mat-checkbox>
+        <mat-card-subtitle>
+          <ng-container *ngIf="formule.ageGroup === ageGroup.KIDS">
+            {{ formule.kidAge }}
+          </ng-container>
+        </mat-card-subtitle>
+      </mat-card-title>
+    </ng-container>
   </mat-card-header>
 
   <mat-divider></mat-divider>
 
   <mat-card-content class="card__content">
-    <p>Année : {{ formule.price}}€</p>
-    <p>{{ formule.details }}</p>
-    <p *ngIf="mode === ADMIN">{{ formule.coupon ? HAS_COUPON : NO_COUPON }}</p>
+    <p class="text-center">
+      Montant à l'année :
+      <span class="color-primary-font bold">{{ formule.price }}€</span>
+    </p>
+
+    <p *ngIf="mode === USER" class="text-center">
+      Ajustez le nombre de formules
+    </p>
+    <div *ngIf="mode === USER" class="btn__container">
+      <button
+        mat-mini-fab
+        color="accent"
+        type="button"
+        matTooltip="Retirer une formule"
+        aria-label="retirer une formule"
+        [disabled]="formuleCount <= 1"
+        (click)="onRemoveFormule()"
+      >
+        -
+      </button>
+      <span>{{ formuleCount }}</span>
+      <button
+        mat-mini-fab
+        type="button"
+        color="primary"
+        matTooltip="Ajouter une formule"
+        aria-label="Ajouter une formule"
+        (click)="onAddFormule()"
+      >
+        +
+      </button>
+    </div>
+
+    <div *ngIf="mode === ADMIN">
+      <p class="display-flex flex-column">
+        <strong>Lieu:</strong>
+        <span>{{ formule.location }}</span>
+        <span>{{ formule.street }}</span>
+      </p>
+
+      <p class="display-flex flex-column schedules schedules__container">
+        <strong>Horaires:</strong>
+        <span class="display-flex" *ngFor="let schedule of formule.schedules">
+          <span class="color-primary-font bold schedules__day"
+            >{{ schedule.day }}:
+          </span>
+          <span>{{ schedule.time }}</span>
+        </span>
+      </p>
+
+      <p *ngIf="formule.physicalClass">Cours en présentiel</p>
+      <p *ngIf="formule.onlineAccess">Accès en ligne</p>
+      <p *ngIf="formule.graduation">Passage de grade</p>
+      <p>{{ formule.coupon ? HAS_COUPON : NO_COUPON }}</p>
+    </div>
   </mat-card-content>
 
+  <!-- DELETE / EDIT -->
   <mat-card-actions *ngIf="mode === ADMIN" align="end" class="card__actions">
     <button
       mat-raised-button
@@ -37,6 +107,7 @@
     </button>
   </mat-card-actions>
 
+  <!-- DETAILS / ADD - REMOVE -->
   <mat-card-actions *ngIf="mode === USER" class="card__actions">
     <button
       mat-raised-button

@@ -18,11 +18,50 @@
   //   text-align: center;
   // }
 
+  &.checked {
+    box-shadow: 0 0 3px 1px $color-accent;
+  }
+
+  mat-card-subtitle {
+    padding: 0.5rem 0 0 1.5rem;
+  }
+
+  mat-card-content {
+    p {
+      margin: 1rem 0 0;
+    }
+
+    .schedules {
+      &__container {
+      }
+      &__day {
+        padding: 0 0.5rem 0 0;
+      }
+    }
+  }
+
+  .btn__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin: 0.5rem auto 0;
+    max-width: 150px;
+  }
+
   &__actions {
     display: flex;
     justify-content: center;
-    .btn {
-      margin: 1rem auto;
-    }
+    // .btn {
+    //   margin: 1rem auto;
+    // }
+
+    // .btn--add__container{
+    //   display: block;
+
+    // }
+    // .btn--add__content{
+    //   display: flex;
+    //   align-items: center;
+    // }
   }
 }

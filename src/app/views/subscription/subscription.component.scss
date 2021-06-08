@@ -4,7 +4,6 @@
 :host {
   display: flex;
   flex-flow: column;
-  // justify-content: center;
   min-height: calc(100% - (56px + 132px));
 
   @include screen-sm {
@@ -12,71 +11,71 @@
   }
 }
 
-.deal-card__container {
-  background: $color-primary;
-  padding: 1rem;
-}
+// .deal-card__container {
+//   background: $color-primary;
+//   padding: 1rem;
+// }
 
-.deal-card__wrapper {
-  max-width: $screen-md;
-  margin: 0 auto;
-}
+// .deal-card__wrapper {
+//   max-width: $screen-md;
+//   margin: 0 auto;
+// }
 
-.deal-card__group {
-  display: flex;
-  flex-flow: column;
+// .deal-card__group {
+//   display: flex;
+//   flex-flow: column;
 
-  @include screen-sm {
-    flex-flow: row;
-  }
+//   @include screen-sm {
+//     flex-flow: row;
+//   }
 
-  .deal-card {
-    display: flex;
-    flex-flow: column;
-    flex: 1;
-    margin: 0 0 1rem;
+//   .deal-card {
+//     display: flex;
+//     flex-flow: column;
+//     flex: 1;
+//     margin: 0 0 1rem;
 
-    @include screen-sm {
-      &:not(:last-child) {
-        margin: 0 1rem 1rem 0;
-      }
-    }
+//     @include screen-sm {
+//       &:not(:last-child) {
+//         margin: 0 1rem 1rem 0;
+//       }
+//     }
 
-    .mat-card-content {
-      flex: 1;
-    }
-  }
-}
+//     .mat-card-content {
+//       flex: 1;
+//     }
+//   }
+// }
 
-.deal-card__content {
-  font-family: $fontPoppins;
-  // font-size: 1rem;
-}
+// .deal-card__content {
+//   font-family: $fontPoppins;
+//   // font-size: 1rem;
+// }
 
-.deal-card__footer {
-  padding: 0 1rem 1rem;
-  font-family: $fontPoppins;
-  font-size: 1.2rem;
-  text-align: center;
-}
+// .deal-card__footer {
+//   padding: 0 1rem 1rem;
+//   font-family: $fontPoppins;
+//   font-size: 1.2rem;
+//   text-align: center;
+// }
 
-.deal-options {
-  padding: 1rem 0 0;
-}
+// .deal-options {
+//   padding: 1rem 0 0;
+// }
 
-.deal-options__content {
-  @include screen-sm {
-    padding: 1rem;
-    max-width: $screen-md;
-    margin: 0 auto;
-    border-radius: 4px;
-  }
-}
+// .deal-options__content {
+//   @include screen-sm {
+//     padding: 1rem;
+//     max-width: $screen-md;
+//     margin: 0 auto;
+//     border-radius: 4px;
+//   }
+// }
 
-.deal-options__title {
-  text-align: center;
-  font-weight: $fontWeightBold;
-}
+// .deal-options__title {
+//   text-align: center;
+//   font-weight: $fontWeightBold;
+// }
 
 .forms__container {
   display: flex;
@@ -126,44 +125,31 @@
 }
 
 // RADIO BUTTONS
-.radio-group {
-  display: flex;
-  flex-flow: column;
-  padding: 1rem;
-  justify-content: stretch;
-  align-items: center;
-
-  @include screen-md {
-    flex-flow: row;
-    justify-content: space-evenly;
-  }
-}
-
 .radio-button {
-  border-radius: 100px;
-  margin: 0 0 1rem;
-  padding: 0.5rem 1rem;
-  min-width: 280px;
-  background-color: $color-primary;
-  color: $white;
+  // border-radius: 100px;
+  // margin: 0 0 1rem;
+  // padding: 0.5rem 1rem;
+  // min-width: 280px;
+  // background-color: $color-primary;
+  // color: $white;
 }
 
 .subscription-amount__container {
-  display: flex;
-  flex-flow: column;
-  align-items: center;
-  padding: 1rem;
+  // display: flex;
+  // flex-flow: column;
+  // align-items: center;
+  // padding: 1rem;
 
-  @include screen-sm {
-    max-width: $screen-sm;
-    margin: 0 auto;
-    border-radius: 4px;
-    border: 1px solid $color-secondary;
-  }
+  // @include screen-sm {
+  //   max-width: $screen-sm;
+  //   margin: 0 auto;
+  //   border-radius: 4px;
+  //   border: 1px solid $color-secondary;
+  // }
 
-  .btn {
-    margin: 1rem 0;
-  }
+  // .btn {
+  //   margin: 1rem 0;
+  // }
 }
 
 // CARDS
@@ -176,4 +162,85 @@
   display: flex;
   justify-content: center;
   margin: 1rem auto;
+}
+
+//////////////
+
+.form-section__label {
+  padding: 0.5rem 1rem;
+  background: $color-primary;
+  color: $white;
+
+  @include screen-sm {
+    padding: 0.5rem 2rem;
+  }
+}
+
+.form-section__subscription-amount {
+  text-align: center;
+  padding: 1rem;
+
+  @include screen-sm {
+    padding: 1rem 3rem;
+  }
+  span {
+    color: $color-primary;
+    font-weight: $fontWeightBold;
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-flow: column;
+  padding: 1rem;
+
+  @include screen-sm {
+    padding: 1rem 3rem;
+  }
+}
+
+.btn {
+  margin: 0 auto 2rem;
+  display: block;
+}
+
+// RADIO BUTTONS
+// .checkbox-list,
+// .radio-group {
+//   display: flex;
+//   flex-flow: column;
+//   padding: 1rem;
+//   justify-content: stretch;
+// }
+
+// .checkbox-item,
+.radio-button {
+  padding: 0.5rem 0;
+
+  @include screen-sm {
+    padding: 0.5rem 1rem;
+  }
+}
+
+.date-picker {
+  width: 250px;
+}
+
+.legal-guardian-checkbox {
+  margin: 1rem auto;
+}
+
+.img-rights-checkbox {
+  .mat-checkbox-inner-container {
+    margin-top: 4px;
+  }
+}
+
+// PRICE SECTION
+.price__container {
+  max-width: 768px;
+  margin: 3rem auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

@@ -12,6 +12,7 @@ import { SharedModule } from './shared/shared.module';
 import { AuthInterceptor } from './interceptors/auth-interceptor';
 
 import { AppComponent } from './app.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,6 +24,7 @@ import { AppComponent } from './app.component';
     BrowserAnimationsModule,
     MaterialModule,
     SharedModule,
+    ReactiveFormsModule
   ],
   providers: [
     {

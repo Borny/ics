@@ -1,5 +1,14 @@
-<button 
+<!-- <button
 [@buttonState]="isDisabled ? 'invalid' : 'valid'"
 [type]="type" (click)="onClick($event)" [disabled]="isDisabled">
+  {{ text }}
+</button> -->
+
+<button
+  [@buttonState]="isDisabled ? 'invalid' : 'valid'"
+  [type]="type"
+  (click)="onClick($event)"
+  [disabled]="isDisabled"
+>
   {{ text }}
 </button>

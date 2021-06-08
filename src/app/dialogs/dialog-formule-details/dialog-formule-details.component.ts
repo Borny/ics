@@ -3,6 +3,7 @@ import { Component, Inject, Input, NgModule } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { MaterialModule } from 'src/app/angular-material/angular-material.module';
+import { AgeGroupEnum } from 'src/app/models/age-group.enum';
 import { Formule } from 'src/app/models/formule.models';
 
 @Component({
@@ -12,6 +13,7 @@ import { Formule } from 'src/app/models/formule.models';
 })
 export class DialogFormuleDetails {
   public formule: Formule;
+  public ageGroup = AgeGroupEnum;
 
   public readonly CANCEL = 'cancel';
 
