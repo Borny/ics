@@ -4,34 +4,47 @@
   </div>
 
   <mat-card>
-    <mat-card-content class="btn--navigate__content">Saison 2021 / 2022</mat-card-content>
-    <mat-card-actions>
-      <button mat-raised-button color="primary" type="button" (click)="onNavigateSubscriptions()">
-        Je m'inscris !
+    <mat-card-title>Saison 2021 / 2022</mat-card-title>
+    <mat-card-content class="text-center">
+        <button
+        mat-raised-button
+        color="primary"
+        type="button"
+        (click)="onNavigateSubscriptions()"
+        >
+        Inscriptions
       </button>
-    </mat-card-actions>
+  </mat-card-content>
   </mat-card>
-
 </section>
 <section class="welcome">
   <div class="section__content">
     <h1 class="color-primary-font">
-      Bienvenue sur le site de <strong>International Capoeira School France</strong>
+      Bienvenue sur le site de
+      <strong>International Capoeira School France</strong>
     </h1>
   </div>
 </section>
 <section class="description">
   <div class="section__content">
     <div class="description__list" [@descriptionState]="descriptionList.length">
-      <mat-card *ngFor="let description of descriptionList" class="description__item">
-        <p class="description__title">{{description.title}}</p>
+      <mat-card
+        *ngFor="let description of descriptionList"
+        class="description__item"
+      >
+        <p class="description__title">{{ description.title }}</p>
         <p class="description__content">
-          {{description.content}}
+          {{ description.content }}
         </p>
       </mat-card>
     </div>
     <div class="btn__container">
-      <atom-button [text]="PROGRAMS_BTN_TEXT" class="btn" (click)="onNavigatePrograms($event)" type="button">
+      <atom-button
+        [text]="PROGRAMS_BTN_TEXT"
+        class="btn"
+        (click)="onNavigatePrograms($event)"
+        type="button"
+      >
       </atom-button>
     </div>
   </div>
