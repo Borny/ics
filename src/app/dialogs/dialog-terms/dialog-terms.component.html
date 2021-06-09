@@ -1,0 +1,19 @@
+<div matDialogTitle>
+  <h2 class="title">Réglement Général de l'Association</h2>
+</div>
+<mat-dialog-content class="dialog__content">
+  <p>Réglement à afficher ici</p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-raised-button color="accent" (click)="onCancel()" type="button">
+    Fermer
+  </button>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="onDownload()"
+    type="button"
+  >
+    Télécharger
+  </button>
+</mat-dialog-actions>

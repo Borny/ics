@@ -1,10 +1,15 @@
-export interface AdultData {
+import { Formule } from './formule.models';
+
+export interface AdultSubscription {
   _id: string;
   lastName: string;
   firstName: string;
   birthdate: string;
-  email: string;
-  phone: string;
-  imageRights: boolean;
+  gender: string;
+  email?: string;
+  password?: string;
+  phone: number;
+  renew: boolean;
   extraInfo: string;
+  formule: Formule;
 }

@@ -24,8 +24,6 @@ export class OrganismAdminFormule {
   public readonly ADMIN = 'admin';
 
   private readonly _CONFIRM = 'confirm';
-  private readonly _CANCEL = 'cancel';
-  private readonly _CREATE_MODE = 'create';
   private readonly _EDIT_MODE = 'edit';
 
   constructor(
@@ -44,27 +42,23 @@ export class OrganismAdminFormule {
       width: '100%',
     });
     dialogRef.beforeClosed().subscribe((result) => {
-      // console.log('result.action', result);
-      // console.log('result.action', result.action);
-
       if (result && result.action === this._CONFIRM) {
         this.formuleService
           .addFormule(result.formule)
           .pipe(tap(() => this._getFormules()))
           .subscribe();
       }
-      });
+    });
   }
 
   public onOpenModalUpdate(formule: Formule): void {
     const dialogRef = this.dialog.open(FormuleDialog, {
       minWidth: '320px',
+      maxWidth: '600px',
+      width: '100%',
       data: { formuleId: formule._id, mode: this._EDIT_MODE },
     });
     dialogRef.beforeClosed().subscribe((result) => {
-      // console.log('result.action', result.action);
-      // console.log('result.formule', result.formule);
-
       if (result.action === this._CONFIRM) {
         this.formuleService
           .updateFormule(result.formule)
@@ -76,13 +70,10 @@ export class OrganismAdminFormule {
 
   public onOpenModalDelete(data: any): void {
     const dialogRef = this.dialog.open(DialogDeleteConfirm, {
-      // minWidth: '320px',
       minHeight: '200px',
       data: data.title,
     });
     dialogRef.beforeClosed().subscribe((result) => {
-      console.log('result.action', result.action);
-
       if (result && result.action === this._CONFIRM) {
         this.loading = true;
         this.formuleService
@@ -94,7 +85,6 @@ export class OrganismAdminFormule {
   }
 
   private _getFormules(): void {
-    console.log('get formules');
     this.loading = true;
     this.formules$ = this.formuleService
       .getFormules()

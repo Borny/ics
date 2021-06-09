@@ -43,7 +43,6 @@ export class FormuleDialog {
   public readonly CANCEL = 'cancel';
   public readonly EDIT_MODE = 'edit';
 
-  private readonly _CREATE_MODE = 'create';
   private readonly _UPDATE_FORMULE = 'Modifier la formule';
 
   constructor(
@@ -61,18 +60,9 @@ export class FormuleDialog {
     } else {
       this._initForm();
     }
-
-    console.log(this.ageGroup);
-
-    // this.dialogRef.disableClose = true;
   }
 
-  // ngOnInit(): void {
-  //   this._initForm();
-  // }
-
   public onCancel(): void {
-    console.log('on cancel delete');
     this.dialogRef.close({ action: this.CANCEL });
   }
 
@@ -83,7 +73,6 @@ export class FormuleDialog {
     this.formule = this.formuleForm.value;
     this.formule._id = this.formuleId;
     this.dialogRef.close({ action: this.CONFIRM, formule: this.formule });
-    // console.log(this.formuleForm.value);
   }
 
   public onAddSchedule(): void {
@@ -102,13 +91,20 @@ export class FormuleDialog {
     return this.formuleForm.controls['schedules'] as FormArray;
   }
 
+  ////////////
+  // PRIVATE
+  ////////////
+
   private _initForm(formData?: Formule): void {
     let initialData;
     if (this.mode === this.EDIT_MODE) {
       initialData = formData;
     }
 
-    console.log('initialData', initialData);
+    // TODO: use form builder
+    // this.formuleForm = this.formBuilder.group({
+    //   title: this.formBuilder.control(initialData?.title || null, Validators.required)
+    // })
 
     this.formuleForm.addControl(
       'title',
@@ -131,7 +127,7 @@ export class FormuleDialog {
     );
     this.formuleForm.addControl(
       'schedules',
-      new FormArray(initialData?.schedules || [], Validators.required)
+      new FormArray([], Validators.required)
     );
     this.formuleForm.addControl(
       'location',
@@ -162,7 +158,7 @@ export class FormuleDialog {
       new FormControl(initialData?.formuleCount || 1, Validators.required)
     );
 
-    if (initialData?.schedules) {
+    if (initialData) {
       initialData.schedules.forEach((schedule) => {
         const scheduleItem = this.formBuilder.group({
           day: this.formBuilder.control(schedule.day, Validators.required),
@@ -186,7 +182,6 @@ export class FormuleDialog {
       .getFormule(formuleId)
       .pipe(tap((result) => (this.formule = result)))
       .subscribe((formule) => {
-        console.log(formule);
         this._initForm(formule);
       });
   }

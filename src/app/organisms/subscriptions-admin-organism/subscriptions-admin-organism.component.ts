@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
 import { SubscriptionService } from '../../services/subscription/subscription.service';
-import { AdultData } from '../../models/adultData.model';
-import { KidData } from 'src/app/models/kidData.model';
 import { SubscriptionAgeMode } from 'src/app/models/SubscriptionAgeMode.enum';
 
 @Component({

@@ -6,7 +6,10 @@
 
 <mat-horizontal-stepper linear #stepper labelPosition="bottom">
   <!-- FORMULES -->
-  <mat-step [stepControl]="formuleForm" label="Choisissez votre/vos formule(s) ">
+  <mat-step
+    [stepControl]="formuleForm"
+    label="Choisissez votre/vos formule(s) "
+  >
     <!-- LOADER -->
     <atom-spinner
       *ngIf="loading"
@@ -60,6 +63,15 @@
             (checked)="onToggleChecked($event)"
           ></molecule-card-formule>
         </div>
+
+        <p class="text-center">
+          <small>
+            Vous bénéficiez d'une réduction de
+            <span class="color-primary-font bold">-10%</span> sur le prix total
+            pour chaque inscription supplémentaire d'un membre de la même
+            famille
+          </small>
+        </p>
 
         <!-- BTN -->
         <div class="btn__container">
@@ -183,7 +195,7 @@
                   <mat-label>Téléphone</mat-label>
                   <input
                     matInput
-                    type="text"
+                    type="number"
                     name="phone"
                     formControlName="phone"
                     required
@@ -204,48 +216,6 @@
               </div>
             </div>
 
-            <!-- ACCOUNT CREATION -->
-            <div *ngIf="idx === 0" class="form-section">
-              <p class="form-section__label">Création du compte</p>
-
-              <div class="form-group">
-                <mat-form-field>
-                  <mat-label>E-mail</mat-label>
-                  <input
-                    matInput
-                    type="email"
-                    name="email"
-                    formControlName="email"
-                    required
-                  />
-                  <!-- <mat-error
-                    *ngIf="
-                      idx.get('email').invalid &&
-                      idx.touched
-                    "
-                    >Veuillez renseigner votre email</mat-error
-                  > -->
-                </mat-form-field>
-                <mat-form-field>
-                  <mat-label>Mot de Passe</mat-label>
-                  <input
-                    matInput
-                    type="password"
-                    name="password"
-                    formControlName="password"
-                    required
-                  />
-                  <!-- <mat-error
-                    *ngIf="
-                      idx.get('password').invalid &&
-                      idx.touched
-                    "
-                    >Veuillez renseigner un mot de passe</mat-error
-                  > -->
-                </mat-form-field>
-              </div>
-            </div>
-
             <!-- EXTRA INFO -->
             <div class="form-section">
               <p class="form-section__label">Informations supplémentaires</p>
@@ -259,26 +229,65 @@
                   ></textarea>
                 </mat-form-field>
               </div>
+
+              <!-- COUPON -->
+              <div
+                *ngIf="subscription.get('formule').get('coupon').value"
+                class="form-group"
+              >
+                <mat-checkbox (change)="onToggleCoupon($event)">
+                  Je possède un code de réduction
+                </mat-checkbox>
+
+                <div *ngIf="displayCouponInput" class="coupon__input">
+                  <mat-form-field>
+                    <mat-label>Code</mat-label>
+                    <input
+                      matInput
+                      #couponInput
+                      type="text"
+                      name="coupon"
+                      required
+                    />
+                    <mat-error *ngIf="displayCouponError"
+                      >{{ couponError }}
+                      dflqksjdfmlksdjf
+                    </mat-error>
+                  </mat-form-field>
+                  <div *ngIf="displayCouponError">{{ couponError }}</div>
+
+                  <button
+                    *ngIf="!couponLoading && !couponCodeValid"
+                    mat-raised-button
+                    color="primary"
+                    type="button"
+                    [disabled]="couponInput.value === ''"
+                    (click)="onValidateCoupon(couponInput.value)"
+                  >
+                    Valider
+                  </button>
+                  <atom-spinner
+                    *ngIf="couponLoading"
+                    [color]="'accent'"
+                    class="spinner--xs"
+                  ></atom-spinner>
+                  <p *ngIf="!couponLoading && couponCodeValid">Le code est valide</p>
+                </div>
+              </div>
             </div>
 
             <div class="form-section">
-          <p class="form-section__subscription-amount">
-            Montant de l'inscription : <span>{{ subscription.get('formule').get('price').value }}€</span>
-          </p>
-        </div>
-
-            <!-- <atom-button
-          class="btn"
-          [type]="'submit'"
-          [text]="'Envoyer'"
-          [isDisabled]="idx.invalid"
-        >
-        </atom-button> -->
+              <p class="form-section__subscription-amount">
+                Montant de l'inscription :
+                <span
+                  >{{ subscription.get("formule").get("price").value }}€</span
+                >
+              </p>
+            </div>
           </mat-expansion-panel>
         </ng-container>
 
         <!-- KIDS FORMS -->
-
         <ng-container *ngIf="showKidSubscriptionForm" formArrayName="kidsForms">
           <mat-expansion-panel
             *ngFor="
@@ -452,41 +461,157 @@
             </div>
           </mat-expansion-panel>
         </ng-container>
-      </form>
-      <div class="price__container">
-        <p class="price__label">Montant total des insciptions:</p>
-        <p class="price__amount">{{ totalPrice }}€</p>
-      </div>
 
-      <!-- BTNS -->
-      <div class="btn__container">
-        <button
-          type="button"
-          mat-raised-button
-          color="primary"
-          matStepperPrevious
-          (click)="onPreviousFormules()"
-        >
-          Retour
-        </button>
-        <button
-          mat-raised-button
-          type="submit"
-          color="primary"
-          matStepperNext
-          [disabled]="subscriptionForm.invalid"
-        >
-          Suivant
-        </button>
-      </div>
+        <!-- ACCOUNT CREATION -->
+        <ng-container formGroupName="accountCreation">
+          <div class="form-section account-creation__container">
+            <p class="form-section__label">Création du compte</p>
+
+            <div class="form-group">
+              <mat-form-field>
+                <mat-label>Prénom</mat-label>
+                <input
+                  matInput
+                  type="text"
+                  name="firstName"
+                  formControlName="firstName"
+                  required
+                />
+                <mat-error
+                  *ngIf="
+                    subscriptionForm.get('accountCreation').get('firstName')
+                      .invalid &&
+                    subscriptionForm.get('accountCreation').get('firstName')
+                      .touched
+                  "
+                  >Veuillez renseigner votre prénom</mat-error
+                >
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Nom</mat-label>
+                <input
+                  matInput
+                  type="text"
+                  name="lastName"
+                  formControlName="lastName"
+                  required
+                />
+                <mat-error
+                  *ngIf="
+                    subscriptionForm.get('accountCreation').get('lastName')
+                      .invalid &&
+                    subscriptionForm.get('accountCreation').get('lastName')
+                      .touched
+                  "
+                  >Veuillez renseigner votre nom</mat-error
+                >
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>E-mail</mat-label>
+                <input
+                  matInput
+                  type="email"
+                  name="email"
+                  formControlName="email"
+                  required
+                />
+                <mat-error
+                  *ngIf="
+                    subscriptionForm.get('accountCreation').get('email')
+                      .invalid &&
+                    subscriptionForm.get('accountCreation').get('email').touched
+                  "
+                  >Veuillez renseigner votre email</mat-error
+                >
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Mot de Passe</mat-label>
+                <input
+                  matInput
+                  type="password"
+                  name="password"
+                  formControlName="password"
+                  required
+                />
+                <mat-error
+                  *ngIf="
+                    subscriptionForm.get('accountCreation').get('password')
+                      .invalid &&
+                    subscriptionForm.get('accountCreation').get('password')
+                      .touched
+                  "
+                  >Veuillez renseigner un mot de passe</mat-error
+                >
+              </mat-form-field>
+            </div>
+          </div>
+        </ng-container>
+
+        <!-- TERMS AND CONDITIONS -->
+        <div class="terms__container">
+          <button
+            mat-raised-button
+            color="accent"
+            type="button"
+            (click)="onOpenTerms()"
+          >
+            Réglement Général
+          </button>
+
+          <mat-checkbox
+            class="form__group"
+            formControlName="termsAndConditions"
+          >
+            J'accepte toutes les conditions
+          </mat-checkbox>
+        </div>
+
+        <!-- SUBSCRIPTION TOTAL PRICE CONTAINER -->
+        <div class="price__container">
+          <p class="price__label">Montant total des inscriptions:</p>
+          <p class="price__amount">{{ totalPrice }}€</p>
+          <p class="price__off" *ngIf="priceOff">({{ priceOff }}€ de réduction)</p>
+        </div>
+
+        <!-- BTNS -->
+        <div class="btn__container">
+          <button
+            type="button"
+            mat-raised-button
+            color="accent"
+            matStepperPrevious
+            (click)="onBackToFormules()"
+          >
+            Retour
+          </button>
+          <button
+            mat-raised-button
+            type="submit"
+            color="primary"
+            matStepperNext
+            [disabled]="subscriptionForm.invalid"
+          >
+            Suivant
+          </button>
+        </div>
+      </form>
     </ng-template>
   </mat-step>
 
   <!-- PAYMENT -->
   <mat-step [stepControl]="paymentForm" label="Paiement">
     <div class="btn__container">
-      <button mat-raised-button matStepperPrevious>Retour</button>
-      <button mat-raised-button (click)="stepper.reset()">Annuler</button>
+      <button mat-raised-button color="accent" matStepperPrevious>
+        Retour
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="onValidateSubscriptions()"
+      >
+        Valider
+      </button>
+      <!-- <button mat-raised-button  (click)="stepper.reset()">Annuler</button> -->
     </div>
   </mat-step>
 </mat-horizontal-stepper>

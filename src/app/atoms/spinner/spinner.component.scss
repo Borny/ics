@@ -4,6 +4,20 @@
   margin: 2rem auto;
 }
 
+:host(.spinner--xs) {
+  margin: 1rem;
+  .spinner {
+    width: 30px !important;
+    height: 30px !important;
+    ::ng-deep {
+      svg {
+        width: 30px !important;
+        height: 30px !important;
+      }
+    }
+  }
+}
+
 .spinner {
   width: 50px !important;
   height: 50px !important;

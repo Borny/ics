@@ -36,7 +36,7 @@ export class FormuleService {
   public getFormule(formuleId: string): Observable<Formule> {
     return this.http.get<Formule>(`${this._FORMULE_URL}/${formuleId}`).pipe(
       shareReplay(),
-      tap((result) => console.log(result['message'])),
+      // tap((result) => console.log(result['message'])),
       map((res) => res['formule'])
     );
   }
