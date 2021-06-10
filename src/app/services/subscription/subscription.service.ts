@@ -20,6 +20,7 @@ export class SubscriptionService {
     environment.apiUrl + '/subscription/teen';
   public readonly ADULT_SUBSCRIPTION_URL =
     environment.apiUrl + '/subscription/adult';
+  public readonly SUBSCRIPTION_URL = environment.apiUrl + '/subscription/';
   public readonly COUPON_URL = environment.apiUrl + '/subscription/coupon';
 
   constructor(private http: HttpClient, private router: Router) {}
@@ -39,6 +40,10 @@ export class SubscriptionService {
 
   public sendAdultForm(formValues: AdultFormData): Observable<any> {
     return this.http.post(this.ADULT_SUBSCRIPTION_URL, formValues);
+  }
+
+  public addSubscription(formValues: any): Observable<any> {
+    return this.http.post(this.SUBSCRIPTION_URL, formValues);
   }
 
   // GET DATA
@@ -75,8 +80,8 @@ export class SubscriptionService {
         code
       )
       .pipe(
-        tap((res) => console.log(res['message'])),
+        tap((res) => console.log(res['message']))
         // catchError(err => console.log(res['message']))
-        );
+      );
   }
 }

@@ -254,7 +254,9 @@
                       dflqksjdfmlksdjf
                     </mat-error>
                   </mat-form-field>
-                  <div *ngIf="displayCouponError">{{ couponError }}</div>
+                  <div *ngIf="displayCouponError">
+                    <mat-icon color="warn">close</mat-icon>
+                  </div>
 
                   <button
                     *ngIf="!couponLoading && !couponCodeValid"
@@ -271,7 +273,9 @@
                     [color]="'accent'"
                     class="spinner--xs"
                   ></atom-spinner>
-                  <p *ngIf="!couponLoading && couponCodeValid">Le code est valide</p>
+                  <p *ngIf="!couponLoading && couponCodeValid">
+                    <mat-icon color="primary">check</mat-icon>
+                  </p>
                 </div>
               </div>
             </div>
@@ -525,7 +529,7 @@
                 >
               </mat-form-field>
               <mat-form-field>
-                <mat-label>Mot de Passe</mat-label>
+                <mat-label>Mot de passe</mat-label>
                 <input
                   matInput
                   type="password"
@@ -543,6 +547,35 @@
                   >Veuillez renseigner un mot de passe</mat-error
                 >
               </mat-form-field>
+              <mat-form-field>
+                <mat-label>Confirmation du mot de passe</mat-label>
+                <input
+                  matInput
+                  type="password"
+                  name="passwordConfirmation"
+                  formControlName="passwordConfirmation"
+                  required
+                />
+                <mat-error
+                  *ngIf="
+                    subscriptionForm
+                      .get('accountCreation')
+                      .get('passwordConfirmation').invalid &&
+                    subscriptionForm
+                      .get('accountCreation')
+                      .get('passwordConfirmation').touched
+                  "
+                  >Les champs mot de passe doivent être identiques</mat-error
+                >
+              </mat-form-field>
+              <!-- <div
+                *ngIf="
+                  subscriptionForm.get('accountCreation').get('passwordConfirmation')
+                    .errors.confirmPasswordValidator
+                "
+              >
+                Passsword and Confirm Password didn't match.
+              </div> -->
             </div>
           </div>
         </ng-container>
@@ -570,7 +603,9 @@
         <div class="price__container">
           <p class="price__label">Montant total des inscriptions:</p>
           <p class="price__amount">{{ totalPrice }}€</p>
-          <p class="price__off" *ngIf="priceOff">({{ priceOff }}€ de réduction)</p>
+          <p class="price__off" *ngIf="priceOff">
+            ({{ priceOff }}€ de réduction)
+          </p>
         </div>
 
         <!-- BTNS -->

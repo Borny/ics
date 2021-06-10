@@ -27,6 +27,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 export class SubscriptionView implements OnInit {
   public loading = false;
   public couponLoading = false;
+  public subscriptionLoading = false;
   public formuleForm: FormGroup;
   public subscriptionForm: FormGroup = new FormGroup({});
   public subscriptionAdultForm: FormGroup = new FormGroup({});
@@ -154,6 +155,18 @@ export class SubscriptionView implements OnInit {
   public onSubmitSubscriptionForm(): void {
     console.log('submit sub form');
     console.log(this.subscriptionForm.value);
+this.subscriptionLoading = true;
+
+const subscriptionsData = {
+  formValues: this.subscriptionForm.value,
+  totalPrice: this.totalPrice
+}
+
+    this.subscriptionService.addSubscription(subscriptionsData).pipe(
+      finalize(() => this.subscriptionLoading = false)
+    ).subscribe(
+      res => console.log()
+    )
   }
 
   public onValidateSubscriptions(): void {}
@@ -170,8 +183,6 @@ export class SubscriptionView implements OnInit {
     this.formulesArray.at(formule.index).patchValue(formule.checked);
 
     this.formules[formule.index] = formule;
-
-    // console.log('formules', this.formules);
   }
 
   public onBackToFormules(): void {
@@ -179,6 +190,10 @@ export class SubscriptionView implements OnInit {
     this.formuleForm.reset();
     this.selectedFormules = [];
     this.totalPrice = 0;
+    this.displayCouponInput = false;
+    this.displayCouponError = false;
+    this.couponCodeValid = false;
+    this.priceOff = 0;
     this._getFormules();
   }
 
@@ -196,7 +211,6 @@ export class SubscriptionView implements OnInit {
   }
 
   public onValidateCoupon(couponCode: string): void {
-    console.log(couponCode);
     this.couponLoading = true;
 
     this.subscriptionService
@@ -230,7 +244,6 @@ export class SubscriptionView implements OnInit {
   }
 
   private _getTotalPrice(): void {
-    // console.log(this.selectedFormules);
     // Calculating the initial total price
     let totalFormules = 0;
     this.selectedFormules.forEach((formule) => {
@@ -242,14 +255,13 @@ export class SubscriptionView implements OnInit {
       }
     });
 
-    console.log(totalFormules);
+    // console.log(totalFormules);
 
     // Deducting 10% for each extra subscription
-    // const formuleLength = totalFormules.length;
     if (totalFormules > 1) {
       const percentage = 10 * (totalFormules - 1);
-      console.log(percentage);
-      console.log(this.totalPrice);
+      // console.log(percentage);
+      // console.log(this.totalPrice);
       this.priceOff = (percentage / 100) * this.totalPrice;
       this.totalPrice -= this.priceOff;
     }
@@ -272,35 +284,55 @@ export class SubscriptionView implements OnInit {
     }
   }
 
-  private _initAccountForm(): FormGroup {
-    return this.formBuilder.group({
-      email: this.formBuilder.control(null, [
-        Validators.required,
-        Validators.email,
-      ]),
-      password: this.formBuilder.control(null, [
-        Validators.required,
-        Validators.min(6),
-      ]),
-    });
+  private _confirmPasswordValidator(
+    controlName: string,
+    matchingControlName: string
+  ) {
+    return (formGroup: FormGroup) => {
+      let control = formGroup.controls[controlName];
+      let matchingControl = formGroup.controls[matchingControlName];
+      if (
+        matchingControl.errors &&
+        !matchingControl.errors.confirmPasswordValidator
+      ) {
+        return;
+      }
+      if (control.value !== matchingControl.value) {
+        matchingControl.setErrors({ confirmPasswordValidator: true });
+      } else {
+        matchingControl.setErrors(null);
+      }
+    };
   }
 
   private _initSubscriptionForm(): void {
     this.subscriptionForm = this.formBuilder.group({
       adultsForms: this.formBuilder.array([]),
       kidsForms: this.formBuilder.array([]),
-      accountCreation: this.formBuilder.group({
-        firstName: this.formBuilder.control(null, [Validators.required]),
-        lastName: this.formBuilder.control(null, [Validators.required]),
-        email: this.formBuilder.control(null, [
-          Validators.required,
-          Validators.email,
-        ]),
-        password: this.formBuilder.control(null, [
-          Validators.required,
-          Validators.min(6),
-        ]),
-      }),
+      accountCreation: this.formBuilder.group(
+        {
+          firstName: this.formBuilder.control(null, [Validators.required]),
+          lastName: this.formBuilder.control(null, [Validators.required]),
+          email: this.formBuilder.control(null, [
+            Validators.required,
+            Validators.email,
+          ]),
+          password: this.formBuilder.control(null, [
+            Validators.required,
+            Validators.minLength(6),
+          ]),
+          passwordConfirmation: this.formBuilder.control(null, [
+            Validators.required,
+            Validators.minLength(6),
+          ]),
+        },
+        {
+          validator: this._confirmPasswordValidator(
+            'password',
+            'passwordConfirmation'
+          ),
+        }
+      ),
       termsAndConditions: this.formBuilder.control(
         false,
         Validators.requiredTrue

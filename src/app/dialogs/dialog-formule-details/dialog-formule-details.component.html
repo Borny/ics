@@ -19,14 +19,24 @@
   <p class="display-flex flex-column schedules__container">
     <strong>Horaires:</strong>
     <span class="display-flex" *ngFor="let schedule of formule.schedules">
-      <span class="color-primary-font bold schedules__day">{{ schedule.day }}: </span>
+      <span class="color-primary-font bold schedules__day"
+        >{{ schedule.day }}:
+      </span>
       <span>{{ schedule.time }}</span>
     </span>
   </p>
 
-  <p *ngIf="formule.physicalClass">Cours en présentiel</p>
-  <p *ngIf="formule.onlineAccess">Accès illimité au contenu en ligne</p>
-  <p *ngIf="formule.graduation">Passage de grade</p>
+  <p *ngIf="formule.physicalClass" class="display-flex align-center">
+    <mat-icon color="primary">check</mat-icon> Cours en présentiel
+  </p>
+  <p *ngIf="formule.onlineAccess" class="display-flex align-center">
+    <mat-icon color="primary">check</mat-icon>
+    Accès illimité au contenu en ligne
+  </p>
+  <p *ngIf="formule.graduation" class="display-flex align-center">
+    <mat-icon color="primary">check</mat-icon>
+    Passage de grade
+  </p>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-raised-button color="accent" (click)="onCancel()" type="button">
