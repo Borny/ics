@@ -1,9 +1,9 @@
-export interface KidData {
+export interface KidSubscription {
   _id: string;
-  lessonLocations?: string[];
-  firstName: string;
-  lastName: string;
+  memberLastName: string;
+  memberFirstName: string;
   birthdate: string;
+  gender: string;
   guardianLastName: string;
   guardianFirstName: string;
   guardianEmail: string;
@@ -12,7 +12,10 @@ export interface KidData {
   secondGuardianFirstName?: string;
   secondGuardianEmail?: string;
   secondGuardianPhone?: string;
-  imageRights?: boolean;
-  extraInfo?: string;
-  firstSubscription: boolean;
+  renew: string;
+  extraInfo: string;
+  formuleId: string;
+  couponCodeValid?: boolean;
+  couponValue?: number;
+  subscriptionAmount: number;
 }

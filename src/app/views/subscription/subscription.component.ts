@@ -262,6 +262,9 @@ export class SubscriptionView implements OnInit {
               .get('formule')
               .get('price')
               .patchValue(updatedFormulePrice);
+            subscription
+              .get('subscriptionAmount')
+              .patchValue(updatedFormulePrice);
           } else {
             subscription.get('couponCodeValid').patchValue(false);
           }
@@ -413,6 +416,7 @@ export class SubscriptionView implements OnInit {
       couponInput: this.formBuilder.control(''),
       couponCodeValid: this.formBuilder.control(null),
       couponValue: this.formBuilder.control(null),
+      subscriptionAmount: this.formBuilder.control(formule.price),
       formule: this.formBuilder.group({
         id: this.formBuilder.control(formule._id),
         title: this.formBuilder.control(formule.title),
@@ -446,6 +450,7 @@ export class SubscriptionView implements OnInit {
       couponInput: this.formBuilder.control(''),
       couponCodeValid: this.formBuilder.control(null),
       couponValue: this.formBuilder.control(null),
+      subscriptionAmount: this.formBuilder.control(formule.price),
       formule: this.formBuilder.group({
         id: this.formBuilder.control(formule._id),
         title: this.formBuilder.control(formule.title),

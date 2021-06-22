@@ -1,13 +1,17 @@
-<div>
-  <p>Choix du groupe:</p>
-  <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+<div
+  *ngIf="(formules$ | async)?.length && !isLoading"
+  class="display-flex flex-column"
+>
+  <mat-button-toggle-group vertical name="fontStyle" aria-label="Font Style">
     <mat-button-toggle
-      *ngFor="let ageGroup of ageGroups; let groupNumber = index"
-      [value]="groupNumber"
-      [checked]="groupNumber === 0"
-      (change)="ageGroupOptionHandler($event)"
+      *ngFor="let formule of formules$ | async; let formuleIndex = index"
+      [value]="{ formId: formule._id, formuleAge: formule.ageGroup }"
+      [checked]="formuleIndex === 0"
+      (change)="formuleOptionHandler($event)"
     >
-      {{ ageGroup }}
+      {{ formule.title }} -
+      <span class="color-primary-font bold">{{ formule.ageGroup }}</span>
+      {{ formule.kidAge }}
     </mat-button-toggle>
   </mat-button-toggle-group>
 </div>
@@ -15,6 +19,7 @@
 <mat-spinner *ngIf="isLoading" class="spinner"></mat-spinner>
 
 <section class="tab-section" *ngIf="!isLoading">
+  {{ name }}
   <member-data-table
     [subscriptionAgeMode]="subscriptionAgeMode"
     [membersData]="membersData"
