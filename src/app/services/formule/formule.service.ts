@@ -12,6 +12,7 @@ import { environment } from 'src/environments/environment';
 export class FormuleService {
   private readonly _API_URL = environment.apiUrl;
   private readonly _FORMULE_URL = `${this._API_URL}/formule`;
+  private readonly _FORMULES_URL = `${this._API_URL}/formules`;
 
   constructor(private http: HttpClient) {}
 
@@ -25,10 +26,9 @@ export class FormuleService {
     return this.http.put<string>(`${this._FORMULE_URL}/${data._id}`, data);
   }
 
-  public getFormules(): Observable<Formule[]> {
-    return this.http.get<Formule[]>(`${this._FORMULE_URL}`).pipe(
+  public getFormules(mode?: string): Observable<Formule[]> {
+    return this.http.get<Formule[]>(`${this._FORMULES_URL}/${mode}`).pipe(
       shareReplay(),
-      // tap((result) => console.log(result['message'])),
       map((res) => res['formules'])
     );
   }

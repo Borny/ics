@@ -38,6 +38,7 @@ export class SubscriptionService {
     return this.http.post(`${url}`, formValues);
   }
 
+  // delete
   public sendAdultForm(formValues: AdultFormData): Observable<any> {
     return this.http.post(this.ADULT_SUBSCRIPTION_URL, formValues);
   }
@@ -70,18 +71,22 @@ export class SubscriptionService {
 
   // COUPON
   public validateCoupon(
-    couponValue: string
-  ): Observable<{ message: string; valid: boolean; amount?: number }> {
-    console.log(couponValue);
-    const code = { couponValue };
+    couponInput: string,
+    formuleId: string
+  ): Observable<{ message: string; valid: boolean; couponValue?: number }> {
+    console.log('coupon value', couponInput);
+    const code = { couponInput, formuleId };
     return this.http
       .post<{ message: string; valid: boolean; amount?: number }>(
         this.COUPON_URL,
         code
       )
       .pipe(
-        tap((res) => console.log(res['message']))
-        // catchError(err => console.log(res['message']))
+        tap((res) => console.log(res['message'])),
+        // catchError((err) => {
+        //   console.log(res['message']);
+        //   return err;
+        // })
       );
   }
 }

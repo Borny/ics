@@ -1,4 +1,3 @@
-import { InteractivityChecker } from '@angular/cdk/a11y';
 import { AgeGroupEnum } from './age-group.enum';
 import { KidAgeEnum } from './kid-age.enum';
 
@@ -12,7 +11,11 @@ export interface Formule {
   schedules: Schedule[];
   street: string;
   location: string;
-  coupon: boolean;
+  hasCoupon: boolean;
+  couponCode: string;
+  couponValue: number;
+  showCoupon: boolean;
+  couponInput: string;
   formuleCount: number;
   physicalClass: boolean;
   onlineAccess: boolean;

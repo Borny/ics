@@ -21,6 +21,7 @@ import { KidAgeEnum } from 'src/app/models/kid-age.enum';
 import { WeekDaysEnum } from 'src/app/models/week-days.enum';
 
 import { Formule } from '../../../models/formule.models';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
   selector: 'formule-dialog',
@@ -91,6 +92,10 @@ export class FormuleDialog {
     return this.formuleForm.controls['schedules'] as FormArray;
   }
 
+  public onCouponToggle(checkbox: MatCheckboxChange): void {
+    this.formuleForm.get('hasCoupon').patchValue(checkbox.checked);
+  }
+
   ////////////
   // PRIVATE
   ////////////
@@ -98,6 +103,7 @@ export class FormuleDialog {
   private _initForm(formData?: Formule): void {
     let initialData;
     if (this.mode === this.EDIT_MODE) {
+      console.log('initialData', initialData);
       initialData = formData;
     }
 
@@ -138,8 +144,20 @@ export class FormuleDialog {
       new FormControl(initialData?.street || null, Validators.required)
     );
     this.formuleForm.addControl(
-      'coupon',
-      new FormControl(initialData?.coupon || false, Validators.required)
+      'hasCoupon',
+      new FormControl(initialData?.hasCoupon || false, Validators.required)
+    );
+    this.formuleForm.addControl(
+      'showCoupon',
+      new FormControl(false, Validators.required)
+    );
+    this.formuleForm.addControl(
+      'couponCode',
+      new FormControl(initialData?.couponCode || null)
+    );
+    this.formuleForm.addControl(
+      'couponValue',
+      new FormControl(initialData?.couponValue || null)
     );
     this.formuleForm.addControl(
       'onlineAccess',

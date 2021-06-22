@@ -18,6 +18,7 @@ import { AgeGroupEnum } from 'src/app/models/age-group.enum';
 import { GenderEnum } from 'src/app/models/gender.enum';
 import { DialogTerms } from 'src/app/dialogs/dialog-terms/dialog-terms.component';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { StepperSelectionEvent } from '@angular/cdk/stepper';
 
 @Component({
   selector: 'subscription',
@@ -39,13 +40,19 @@ export class SubscriptionView implements OnInit {
   public genders = Object.values(GenderEnum);
   public ageGroupEnum = AgeGroupEnum;
   public totalPrice: number = 0;
+  public initialTotalPrice: number = 0;
+  public updatedTotalPrice: number = 0;
   public priceOff: number = 0;
+  public priceOffCoupon: number = 0;
   public displayCouponInput: boolean;
   public formules: Formule[] = [];
   public selectedFormules: Formule[] = [];
   public couponError: string;
   public displayCouponError = false;
   public couponCodeValid = false;
+  public totalFormules = 0;
+  public multipleSubscriptionDiscount = false;
+  public couponDiscount = false;
 
   public formules$: Observable<Formule[]>;
 
@@ -153,24 +160,25 @@ export class SubscriptionView implements OnInit {
   }
 
   public onSubmitSubscriptionForm(): void {
-    console.log('submit sub form');
-    console.log(this.subscriptionForm.value);
-this.subscriptionLoading = true;
+    // console.log('submit sub form');
+    // console.log(this.subscriptionForm.value);
+    this.subscriptionLoading = true;
 
-const subscriptionsData = {
-  formValues: this.subscriptionForm.value,
-  totalPrice: this.totalPrice
-}
+    const subscriptionsData = {
+      formValues: this.subscriptionForm.value,
+      // totalPrice: this.totalPrice,
+    };
 
-    this.subscriptionService.addSubscription(subscriptionsData).pipe(
-      finalize(() => this.subscriptionLoading = false)
-    ).subscribe(
-      res => console.log()
-    )
+    this.subscriptionService
+      .addSubscription(subscriptionsData)
+      .pipe(finalize(() => (this.subscriptionLoading = false)))
+      .subscribe((res) => console.log(res));
   }
 
+  // PAYMENT
   public onValidateSubscriptions(): void {}
 
+  // SUBSCRIPTION FORM
   public onUpdateCardFormule(formule: Formule): void {
     this.formules[formule.index] = formule;
   }
@@ -185,16 +193,26 @@ const subscriptionsData = {
     this.formules[formule.index] = formule;
   }
 
-  public onBackToFormules(): void {
-    this.subscriptionForm.reset();
-    this.formuleForm.reset();
-    this.selectedFormules = [];
-    this.totalPrice = 0;
-    this.displayCouponInput = false;
-    this.displayCouponError = false;
-    this.couponCodeValid = false;
-    this.priceOff = 0;
-    this._getFormules();
+  public onBackToFormules(stepEvent?: StepperSelectionEvent): void {
+    if (stepEvent && stepEvent.selectedIndex === 0) {
+      this.subscriptionForm.reset();
+      this.formuleForm.reset();
+      this.selectedFormules = [];
+      this.totalPrice = 0;
+      this.initialTotalPrice = 0;
+      this.updatedTotalPrice = 0;
+      this.displayCouponInput = false;
+      this.displayCouponError = false;
+      this.couponCodeValid = false;
+      this.priceOff = 0;
+      this.priceOffCoupon = 0;
+      this.couponLoading = false;
+      this.multipleSubscriptionDiscount = false;
+      this.couponDiscount = false;
+      this.totalFormules = 0;
+
+      this._getFormules();
+    }
   }
 
   public onOpenTerms(): void {
@@ -206,30 +224,52 @@ const subscriptionsData = {
     dialogRef.beforeClosed().subscribe();
   }
 
-  public onToggleCoupon(couponCheckbox: MatCheckboxChange): void {
-    this.displayCouponInput = couponCheckbox.checked;
+  public onToggleCoupon(
+    couponCheckbox: MatCheckboxChange,
+    subscription: any
+  ): void {
+    // console.log('sub', couponCheckbox);
+    // console.log('sub', subscription);
+    // console.log('sub', subscription.value.formule.hasCoupon);
+    if (subscription.value.formule.hasCoupon) {
+      subscription.showCoupon = couponCheckbox.checked;
+    }
   }
 
-  public onValidateCoupon(couponCode: string): void {
-    this.couponLoading = true;
+  public onValidateCoupon(event: Event, subscription): void {
+    // this.couponLoading = true;
+    // this.couponError = '';
+    // this.displayCouponError = false;
+
+    // console.log(subscription);
 
     this.subscriptionService
-      .validateCoupon(couponCode)
+      .validateCoupon(
+        subscription.value.couponInput,
+        subscription.value.formule.id
+      )
       .pipe(finalize(() => (this.couponLoading = false)))
       .subscribe(
         (res) => {
           if (res.valid) {
-            this._updateTotalPriceCoupon(res.amount);
-            // this.couponMessageSuccess =
-            this.couponError = '';
-            this.displayCouponError = false;
-            this.couponCodeValid = true;
+            // console.log('res', res);
+            this._updateTotalPriceWithCoupon(res.couponValue);
+            subscription.get('couponCodeValid').patchValue(true);
+            subscription.get('couponValue').patchValue(res.couponValue);
+            const updatedFormulePrice =
+              subscription.get('formule').get('price').value - res.couponValue;
+            subscription
+              .get('formule')
+              .get('price')
+              .patchValue(updatedFormulePrice);
+          } else {
+            subscription.get('couponCodeValid').patchValue(false);
           }
         },
         (error) => {
-          console.log(error.message.message);
-          this.couponError = 'nope';
-          this.displayCouponError = true;
+          console.log('coupon check error', error.message.message);
+          // this.couponError = 'nope';
+          // this.displayCouponError = true;
         }
       );
   }
@@ -238,32 +278,50 @@ const subscriptionsData = {
   // PRIVATE
   ////////////
 
-  private _updateTotalPriceCoupon(amount: number): void {
-    this.totalPrice -= amount;
-    this.priceOff += amount;
+  private _updateTotalPriceWithCoupon(amount: number): void {
+    // this.initialTotalPrice -= amount;
+    this.updatedTotalPrice -= amount;
+    this.totalPrice = this.updatedTotalPrice;
+    this.priceOffCoupon += amount;
+    this.priceOff = this.priceOffCoupon;
+    this.couponDiscount = true;
+
+    if (this.totalFormules > 1) {
+      const PERCENTAGE = 10;
+      let priceOff;
+
+      priceOff = (PERCENTAGE / 100) * this.totalPrice;
+
+      // console.log(this.priceOff);
+      // console.log(priceOff);
+      this.priceOff += priceOff;
+      this.totalPrice -= priceOff;
+    }
   }
 
   private _getTotalPrice(): void {
     // Calculating the initial total price
-    let totalFormules = 0;
     this.selectedFormules.forEach((formule) => {
       let count = 1;
       while (count <= formule.formuleCount) {
         count++;
-        totalFormules++;
+        this.totalFormules++;
+        this.initialTotalPrice = +formule.price;
+        this.updatedTotalPrice += +formule.price;
         this.totalPrice += +formule.price;
       }
     });
 
-    // console.log(totalFormules);
+    // console.log('initialTotalPrice :', this.initialTotalPrice);
 
-    // Deducting 10% for each extra subscription
-    if (totalFormules > 1) {
-      const percentage = 10 * (totalFormules - 1);
+    // Deducting 10% on the total price if more than one formule
+    if (this.totalFormules > 1) {
+      const PERCENTAGE = 10;
       // console.log(percentage);
       // console.log(this.totalPrice);
-      this.priceOff = (percentage / 100) * this.totalPrice;
+      this.priceOff = (PERCENTAGE / 100) * this.totalPrice;
       this.totalPrice -= this.priceOff;
+      this.multipleSubscriptionDiscount = true;
     }
   }
 
@@ -346,16 +404,23 @@ const subscriptionsData = {
       memberFirstName: this.formBuilder.control(null, Validators.required),
       birthdate: this.formBuilder.control(null, Validators.required),
       gender: this.formBuilder.control(null, Validators.required),
-      phone: this.formBuilder.control(null, Validators.required),
+      phone: this.formBuilder.control(null, [
+        Validators.required,
+        Validators.minLength(10),
+      ]),
       renew: this.formBuilder.control(false, Validators.required),
       extraInfo: this.formBuilder.control(null),
+      couponInput: this.formBuilder.control(''),
+      couponCodeValid: this.formBuilder.control(null),
+      couponValue: this.formBuilder.control(null),
       formule: this.formBuilder.group({
+        id: this.formBuilder.control(formule._id),
         title: this.formBuilder.control(formule.title),
         ageGroup: this.formBuilder.control(formule.ageGroup),
         price: this.formBuilder.control(formule.price),
         location: this.formBuilder.control(formule.location),
         street: this.formBuilder.control(formule.street),
-        coupon: this.formBuilder.control(formule.coupon),
+        hasCoupon: this.formBuilder.control(formule.hasCoupon),
       }),
     });
   }
@@ -367,15 +432,29 @@ const subscriptionsData = {
       birthdate: this.formBuilder.control(null, Validators.required),
       gender: this.formBuilder.control(null, Validators.required),
       renew: this.formBuilder.control(false, Validators.required),
-      coupon: this.formBuilder.control(null, Validators.required),
+      guardianLastName: this.formBuilder.control(null, Validators.required),
+      guardianFirstName: this.formBuilder.control(null, Validators.required),
+      guardianEmail: this.formBuilder.control(null, [
+        Validators.required,
+        Validators.email,
+      ]),
+      guardianPhone: this.formBuilder.control(null, [
+        Validators.required,
+        Validators.minLength(20),
+      ]),
       extraInfo: this.formBuilder.control(null),
+      couponInput: this.formBuilder.control(''),
+      couponCodeValid: this.formBuilder.control(null),
+      couponValue: this.formBuilder.control(null),
       formule: this.formBuilder.group({
+        id: this.formBuilder.control(formule._id),
         title: this.formBuilder.control(formule.title),
         ageGroup: this.formBuilder.control(formule.ageGroup),
+        kidAge: this.formBuilder.control(formule.kidAge),
         price: this.formBuilder.control(formule.price),
         location: this.formBuilder.control(formule.location),
         street: this.formBuilder.control(formule.street),
-        coupon: this.formBuilder.control(formule.coupon),
+        hasCoupon: this.formBuilder.control(formule.hasCoupon),
       }),
     });
   }

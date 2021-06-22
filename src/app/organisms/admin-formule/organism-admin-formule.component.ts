@@ -25,6 +25,7 @@ export class OrganismAdminFormule {
 
   private readonly _CONFIRM = 'confirm';
   private readonly _EDIT_MODE = 'edit';
+  private readonly _ADMIN_MODE = 'admin';
 
   constructor(
     public dialog: MatDialog,
@@ -52,6 +53,7 @@ export class OrganismAdminFormule {
   }
 
   public onOpenModalUpdate(formule: Formule): void {
+    console.log(formule);
     const dialogRef = this.dialog.open(FormuleDialog, {
       minWidth: '320px',
       maxWidth: '600px',
@@ -86,8 +88,9 @@ export class OrganismAdminFormule {
 
   private _getFormules(): void {
     this.loading = true;
-    this.formules$ = this.formuleService
-      .getFormules()
-      .pipe(finalize(() => (this.loading = false)));
+    this.formules$ = this.formuleService.getFormules(this._ADMIN_MODE).pipe(
+      finalize(() => (this.loading = false)),
+      tap((res) => console.log(res))
+    );
   }
 }

@@ -35,6 +35,16 @@
       <span class="color-primary-font bold">{{ formule.price }}€</span>
     </p>
 
+    <p class="display-flex flex-column schedules schedules__container">
+      <strong>Horaires:</strong>
+      <span class="display-flex" *ngFor="let schedule of formule.schedules">
+        <span class="color-primary-font bold schedules__day"
+          >{{ schedule.day }}:
+        </span>
+        <span>{{ schedule.time }}</span>
+      </span>
+    </p>
+
     <p *ngIf="mode === USER" class="text-center">
       Ajustez le nombre de formules
     </p>
@@ -84,11 +94,13 @@
       <p *ngIf="formule.onlineAccess">Accès en ligne</p>
       <p *ngIf="formule.graduation">Passage de grade</p>
       <p class="display-flex align-center">
-        <mat-icon [color]="formule.coupon ? 'primary' : 'warn'">
-          {{ formule.coupon ? "check" : "close" }}</mat-icon
+        <mat-icon [color]="formule.hasCoupon ? 'primary' : 'warn'">
+          {{ formule.hasCoupon ? "check" : "close" }}</mat-icon
         >
-        {{ formule.coupon ? HAS_COUPON : NO_COUPON }}
+        {{ formule.hasCoupon ? HAS_COUPON : NO_COUPON }}
       </p>
+      <p *ngIf="formule.hasCoupon">Coupon code : {{ formule.couponCode }}</p>
+      <p *ngIf="formule.hasCoupon">Coupon valeur : {{ formule.couponValue }}</p>
     </div>
   </mat-card-content>
 

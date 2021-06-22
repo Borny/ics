@@ -4,7 +4,12 @@
   </p>
 </section>
 
-<mat-horizontal-stepper linear #stepper labelPosition="bottom">
+<mat-horizontal-stepper
+  linear
+  #stepper
+  (selectionChange)="onBackToFormules($event)"
+  labelPosition="bottom"
+>
   <!-- FORMULES -->
   <mat-step
     [stepControl]="formuleForm"
@@ -92,13 +97,12 @@
   <!-- SUBSCRIPTIONS -->
   <mat-step [stepControl]="subscriptionForm" label="Formulaire d'inscription">
     <ng-template matStepContent>
-      <!-- ADULT FORMS -->
-
       <form
         *ngIf="showSubscriptionForm"
         [formGroup]="subscriptionForm"
         (ngSubmit)="onSubmitSubscriptionForm()"
       >
+        <!-- ADULT FORMS -->
         <ng-container
           *ngIf="showAdultSubscriptionForm"
           formArrayName="adultsForms"
@@ -117,6 +121,7 @@
                 {{ subscription.get("formule").get("ageGroup").value }}
               </mat-panel-title>
             </mat-expansion-panel-header>
+
             <!-- MEMBER INFO -->
             <div class="form-section">
               <p class="form-section__label">Adhérent</p>
@@ -130,13 +135,13 @@
                     formControlName="memberLastName"
                     required
                   />
-                  <!-- <mat-error
+                  <mat-error
                     *ngIf="
-                      idx.get('memberLastName').invalid &&
-                      idx.touched
+                      subscription.get('memberLastName').invalid &&
+                      subscription.get('memberLastName').touched
                     "
                     >Veuillez renseigner le nom</mat-error
-                  > -->
+                  >
                 </mat-form-field>
                 <mat-form-field>
                   <mat-label>Prénom</mat-label>
@@ -147,14 +152,15 @@
                     formControlName="memberFirstName"
                     required
                   />
-                  <!-- <mat-error
+                  <mat-error
                     *ngIf="
-                      idx.get('memberFirstName').invalid &&
-                      idx.touched
+                      subscription.get('memberFirstName').invalid &&
+                      subscription.get('memberFirstName').touched
                     "
                     >Veuillez renseigner le prénom</mat-error
-                  > -->
+                  >
                 </mat-form-field>
+
                 <mat-form-field appearance="fill" class="date-picker">
                   <mat-label>Date de naissance</mat-label>
                   <input
@@ -167,20 +173,14 @@
                   <mat-datepicker-toggle matSuffix [for]="picker">
                   </mat-datepicker-toggle>
                   <mat-datepicker #picker disabled="false"></mat-datepicker>
-                  <!-- <mat-error
-                    *ngIf="
-                      idx.get('birthdate').invalid &&
-                      idx.touched
-                    "
-                    >Veuillez renseigner la date de naissance</mat-error
-                  > -->
                 </mat-form-field>
 
-                <mat-label>Genre</mat-label>
+                <mat-label>Genre *</mat-label>
                 <mat-radio-group
                   class="radio-group"
                   aria-label="Genre"
                   formControlName="gender"
+                  required
                 >
                   <mat-radio-button
                     *ngFor="let gender of genders; let idx = index"
@@ -200,13 +200,13 @@
                     formControlName="phone"
                     required
                   />
-                  <!-- <mat-error
+                  <mat-error
                     *ngIf="
-                      idx.get('phone').invalid &&
-                      idx.touched
+                      subscription.get('phone').invalid &&
+                      subscription.get('phone').touched
                     "
                     >Veuillez renseigner votre numéro de téléphone</mat-error
-                  > -->
+                  >
                 </mat-form-field>
 
                 <!-- RENEWAL -->
@@ -232,48 +232,58 @@
 
               <!-- COUPON -->
               <div
-                *ngIf="subscription.get('formule').get('coupon').value"
+                *ngIf="subscription.get('formule').get('hasCoupon').value"
                 class="form-group"
               >
-                <mat-checkbox (change)="onToggleCoupon($event)">
+                <mat-checkbox (change)="onToggleCoupon($event, subscription)">
                   Je possède un code de réduction
                 </mat-checkbox>
 
-                <div *ngIf="displayCouponInput" class="coupon__input">
+                <div *ngIf="subscription.showCoupon" class="coupon__input">
                   <mat-form-field>
                     <mat-label>Code</mat-label>
                     <input
                       matInput
-                      #couponInput
+                      formControlName="couponInput"
                       type="text"
                       name="coupon"
                       required
                     />
-                    <mat-error *ngIf="displayCouponError"
-                      >{{ couponError }}
-                      dflqksjdfmlksdjf
-                    </mat-error>
                   </mat-form-field>
-                  <div *ngIf="displayCouponError">
-                    <mat-icon color="warn">close</mat-icon>
-                  </div>
 
+                  <!-- BTN VALIDATE -->
                   <button
-                    *ngIf="!couponLoading && !couponCodeValid"
+                    *ngIf="!subscription.get('couponCodeValid').value === true"
                     mat-raised-button
                     color="primary"
                     type="button"
-                    [disabled]="couponInput.value === ''"
-                    (click)="onValidateCoupon(couponInput.value)"
+                    [disabled]="subscription.get('couponInput').value === ''"
+                    (click)="onValidateCoupon($event, subscription)"
                   >
                     Valider
                   </button>
-                  <atom-spinner
+
+                  <!-- SPINNER -->
+                  <!-- <atom-spinner
                     *ngIf="couponLoading"
                     [color]="'accent'"
                     class="spinner--xs"
-                  ></atom-spinner>
-                  <p *ngIf="!couponLoading && couponCodeValid">
+                  ></atom-spinner> -->
+
+                  <!-- ERROR MESSAGE -->
+                  <mat-error
+                    *ngIf="subscription.get('couponCodeValid').value === false"
+                    class="padding-left-1"
+                    >{{ "Le code n'est pas valide" }}
+                  </mat-error>
+
+                  <!-- CHECK MARK -->
+                  <p
+                    *ngIf="
+                      !couponLoading &&
+                      subscription.get('couponCodeValid').value
+                    "
+                  >
                     <mat-icon color="primary">check</mat-icon>
                   </p>
                 </div>
@@ -285,6 +295,10 @@
                 Montant de l'inscription :
                 <span
                   >{{ subscription.get("formule").get("price").value }}€</span
+                >
+                <span *ngIf="subscription.get('couponCodeValid').value === true"
+                  >({{ subscription.get("couponValue").value }}€ de
+                  réduction)</span
                 >
               </p>
             </div>
@@ -305,6 +319,15 @@
               <mat-panel-title>
                 {{ subscription.get("formule").get("title").value }} -
                 {{ subscription.get("formule").get("ageGroup").value }}
+                <small
+                  *ngIf="
+                    subscription.get('formule').get('ageGroup').value ===
+                    ageGroupEnum.KIDS
+                  "
+                  class="expansion-panel--small"
+                >
+                  {{ subscription.get("formule").get("kidAge").value }}
+                </small>
               </mat-panel-title>
             </mat-expansion-panel-header>
 
@@ -321,13 +344,13 @@
                     formControlName="memberLastName"
                     required
                   />
-                  <!-- <mat-error
+                  <mat-error
                     *ngIf="
-                      idx.get('memberLastName').invalid &&
-                      idx.touched
+                      subscription.get('memberLastName').invalid &&
+                      subscription.touched
                     "
                     >Veuillez renseigner le nom</mat-error
-                  > -->
+                  >
                 </mat-form-field>
                 <mat-form-field>
                   <mat-label>Prénom</mat-label>
@@ -338,13 +361,13 @@
                     formControlName="memberFirstName"
                     required
                   />
-                  <!-- <mat-error
+                  <mat-error
                     *ngIf="
-                      idx.get('memberFirstName').invalid &&
-                      idx.touched
+                      subscription.get('memberFirstName').invalid &&
+                      subscription.touched
                     "
                     >Veuillez renseigner le prénom</mat-error
-                  > -->
+                  >
                 </mat-form-field>
                 <mat-form-field appearance="fill" class="date-picker">
                   <mat-label>Date de naissance</mat-label>
@@ -358,20 +381,14 @@
                   <mat-datepicker-toggle matSuffix [for]="picker">
                   </mat-datepicker-toggle>
                   <mat-datepicker #picker disabled="false"></mat-datepicker>
-                  <!-- <mat-error
-                    *ngIf="
-                      idx.get('birthdate').invalid &&
-                      idx.touched
-                    "
-                    >Veuillez renseigner la date de naissance</mat-error
-                  > -->
                 </mat-form-field>
 
-                <mat-label>Genre</mat-label>
+                <mat-label>Genre *</mat-label>
                 <mat-radio-group
                   class="radio-group"
                   aria-label="Genre"
                   formControlName="gender"
+                  required
                 >
                   <mat-radio-button
                     *ngFor="let gender of genders; let idx = index"
@@ -386,68 +403,84 @@
                 <mat-checkbox class="form__group" formControlName="renew">
                   Réinscription
                 </mat-checkbox>
-
-                <!-- <mat-form-field>
-                  <mat-label>Téléphone</mat-label>
-                  <input
-                    matInput
-                    type="text"
-                    name="phone"
-                    formControlName="phone"
-                    required
-                  />
-                  <mat-error
-                    *ngIf="
-                      idx.get('phone').invalid &&
-                      idx.touched
-                    "
-                    >Veuillez renseigner votre numéro de téléphone</mat-error
-                  >
-                </mat-form-field> -->
               </div>
             </div>
 
-            <!-- ACCOUNT CREATION -->
-            <!-- <div class="form-section">
-              <p class="form-section__label">Création du compte</p>
-
+            <!-- LEGAL GUARDIAN -->
+            <div class="form-section">
+              <p class="form-section__label">Représentant Légal</p>
               <div class="form-group">
                 <mat-form-field>
-                  <mat-label>E-mail</mat-label>
+                  <mat-label>Nom</mat-label>
+                  <input
+                    matInput
+                    type="text"
+                    name="guardianLastName"
+                    formControlName="guardianLastName"
+                    required
+                  />
+                  <mat-error
+                    *ngIf="
+                      subscription.get('guardianLastName').invalid &&
+                      subscription.get('guardianLastName').touched
+                    "
+                    >Veuillez renseigner un nom</mat-error
+                  >
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Prénom</mat-label>
+                  <input
+                    matInput
+                    type="text"
+                    name="guardianFirstName"
+                    formControlName="guardianFirstName"
+                    required
+                  />
+                  <mat-error
+                    *ngIf="
+                      subscription.get('guardianFirstName').invalid &&
+                      subscription.get('guardianFirstName').touched
+                    "
+                    >Veuillez renseigner un prénom</mat-error
+                  >
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Email</mat-label>
                   <input
                     matInput
                     type="email"
-                    name="email"
-                    formControlName="email"
+                    name="guardianEmail"
+                    formControlName="guardianEmail"
                     required
                   />
                   <mat-error
                     *ngIf="
-                      idx.get('email').invalid &&
-                      idx.touched
+                      subscription.get('guardianEmail').invalid &&
+                      subscription.get('guardianEmail').touched
                     "
-                    >Veuillez renseigner votre email</mat-error
+                    >Veuillez renseigner un email valid</mat-error
                   >
                 </mat-form-field>
                 <mat-form-field>
-                  <mat-label>Mot de Passe</mat-label>
+                  <mat-label>Phone</mat-label>
                   <input
                     matInput
-                    type="password"
-                    name="password"
-                    formControlName="password"
+                    type="number"
+                    name="guardianPhone"
+                    formControlName="guardianPhone"
                     required
                   />
                   <mat-error
                     *ngIf="
-                      idx.get('password').invalid &&
-                      idx.touched
+                      subscription.get('guardianPhone').invalid &&
+                      subscription.get('guardianPhone').touched
                     "
-                    >Veuillez renseigner un mot de passe</mat-error
+                    >Veuillez renseigner un numéro de téléphone
+                    valide</mat-error
                   >
                 </mat-form-field>
               </div>
-            </div> -->
+            </div>
 
             <!-- EXTRA INFO -->
             <div class="form-section">
@@ -462,6 +495,78 @@
                   ></textarea>
                 </mat-form-field>
               </div>
+
+              <!-- COUPON -->
+              <div
+                *ngIf="subscription.get('formule').get('hasCoupon').value"
+                class="form-group"
+              >
+                <mat-checkbox (change)="onToggleCoupon($event, subscription)">
+                  Je possède un code de réduction
+                </mat-checkbox>
+
+                <div *ngIf="subscription.showCoupon" class="coupon__input">
+                  <mat-form-field>
+                    <mat-label>Code</mat-label>
+                    <input
+                      matInput
+                      formControlName="couponInput"
+                      type="text"
+                      name="coupon"
+                      required
+                    />
+                  </mat-form-field>
+
+                  <!-- BTN VALIDATE -->
+                  <button
+                    *ngIf="!subscription.get('couponCodeValid').value === true"
+                    mat-raised-button
+                    color="primary"
+                    type="button"
+                    [disabled]="subscription.get('couponInput').value === ''"
+                    (click)="onValidateCoupon($event, subscription)"
+                  >
+                    Valider
+                  </button>
+
+                  <!-- SPINNER -->
+                  <!-- <atom-spinner
+                    *ngIf="couponLoading"
+                    [color]="'accent'"
+                    class="spinner--xs"
+                  ></atom-spinner> -->
+
+                  <!-- ERROR MESSAGE -->
+                  <mat-error
+                    *ngIf="subscription.get('couponCodeValid').value === false"
+                    class="padding-left-1"
+                    >{{ "Le code n'est pas valide" }}
+                  </mat-error>
+
+                  <!-- CHECK MARK -->
+                  <p
+                    *ngIf="
+                      !couponLoading &&
+                      subscription.get('couponCodeValid').value
+                    "
+                  >
+                    <mat-icon color="primary">check</mat-icon>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <p class="form-section__subscription-amount">
+                Montant de l'inscription :
+                <span
+                  >{{ subscription.get("formule").get("price").value }}€</span
+                >
+                <span *ngIf="subscription.get('couponCodeValid').value === true"
+                  >({{ subscription.get("couponValue").value }}€ de
+                  réduction)</span
+                >
+              </p>
             </div>
           </mat-expansion-panel>
         </ng-container>
@@ -568,14 +673,6 @@
                   >Les champs mot de passe doivent être identiques</mat-error
                 >
               </mat-form-field>
-              <!-- <div
-                *ngIf="
-                  subscriptionForm.get('accountCreation').get('passwordConfirmation')
-                    .errors.confirmPasswordValidator
-                "
-              >
-                Passsword and Confirm Password didn't match.
-              </div> -->
             </div>
           </div>
         </ng-container>
@@ -595,7 +692,7 @@
             class="form__group"
             formControlName="termsAndConditions"
           >
-            J'accepte toutes les conditions
+            Je confirme avoir pris connaissance et accepter le réglement
           </mat-checkbox>
         </div>
 
@@ -604,8 +701,10 @@
           <p class="price__label">Montant total des inscriptions:</p>
           <p class="price__amount">{{ totalPrice }}€</p>
           <p class="price__off" *ngIf="priceOff">
-            ({{ priceOff }}€ de réduction)
+            (<strong>{{ priceOff }}€</strong> de réduction)
           </p>
+          <p *ngIf="couponDiscount">Réduction de coupon inclus</p>
+          <p *ngIf="multipleSubscriptionDiscount">-10% de réduction inclus</p>
         </div>
 
         <!-- BTNS -->
@@ -635,6 +734,20 @@
 
   <!-- PAYMENT -->
   <mat-step [stepControl]="paymentForm" label="Paiement">
+    <!-- DETAILS -->
+    <div>
+      Details:
+      <br />
+      number of formules/subscriptions <br />
+      - formule 01 => location / age group / (kid age group) / price / discount
+      <br />
+      .....
+    </div>
+    <div>
+      Price: <br />
+      Total Price to pay
+    </div>
+
     <div class="btn__container">
       <button mat-raised-button color="accent" matStepperPrevious>
         Retour
