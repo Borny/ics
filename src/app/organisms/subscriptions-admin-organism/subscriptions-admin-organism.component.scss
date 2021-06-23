@@ -1,9 +1,13 @@
-@import '../../../styles/tools/variables';
-@import '../../../styles/tools/mixins';
+@import "../../../styles/tools/variables";
+@import "../../../styles/tools/mixins";
 
 :host {
   display: block;
   padding: 1rem;
+}
+
+.mat-button-toggle-group {
+  width: 400px;
 }
 
 .spinner {

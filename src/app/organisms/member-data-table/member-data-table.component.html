@@ -31,6 +31,9 @@
     <div>Tarif Inscription</div>
     <div></div>
   </li>
+  <li *ngIf="!membersData.length" class="data-table__row data-table__row-body data-table__row-body--no-data">
+    Aucune inscription
+  </li>
   <li
     class="data-table__row data-table__row-body"
     [ngClass]="{ odd: odd, even: even }"
@@ -47,7 +50,7 @@
         mat-flat-button
         type="button"
         color="primary"
-        (click)="onOpenMemberManager(member, i)"
+        (click)="onOpenModalUpdate(member)"
       >
         <mat-icon>create</mat-icon>
       </button>
@@ -95,7 +98,7 @@
         mat-flat-button
         type="button"
         color="primary"
-        (click)="onOpenMemberManager(member, i)"
+        (click)="onOpenModalUpdate(member)"
       >
         <mat-icon>create</mat-icon>
       </button>

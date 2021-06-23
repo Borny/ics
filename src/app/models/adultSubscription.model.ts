@@ -1,7 +1,7 @@
 export interface AdultSubscription {
   _id: string;
   memberLastName: string;
-  memberfirstName: string;
+  memberFirstName: string;
   birthdate: string;
   gender: string;
   phone: number;

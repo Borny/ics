@@ -1,5 +1,5 @@
-@import '../../../styles/tools/variables';
-@import '../../../styles/tools/mixins';
+@import "../../../styles/tools/variables";
+@import "../../../styles/tools/mixins";
 
 .data-table__container {
   width: 100%;
@@ -69,6 +69,10 @@
         text-overflow: clip;
         white-space: normal;
       }
+    }
+
+    &--no-data {
+      padding: 1rem;
     }
   }
 

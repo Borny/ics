@@ -444,7 +444,7 @@ export class SubscriptionView implements OnInit {
       ]),
       guardianPhone: this.formBuilder.control(null, [
         Validators.required,
-        Validators.minLength(20),
+        Validators.minLength(10),
       ]),
       extraInfo: this.formBuilder.control(null),
       couponInput: this.formBuilder.control(''),

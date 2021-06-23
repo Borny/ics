@@ -7,6 +7,9 @@ import { environment } from '../../../environments/environment';
 import { AdultFormData } from '../../models/adultFormData.model';
 import { KidsFormData } from '../../models/kidsFormData.model';
 import { catchError, map, tap } from 'rxjs/operators';
+import { KidSubscription } from 'src/app/models/kidSubscription.model';
+import { AdultSubscriptionFormComponent } from 'src/app/organisms/subscription-forms/adult-subscription-form/adult-subscription-form.component';
+import { AdultSubscription } from 'src/app/models/adultSubscription.model';
 
 @Injectable({
   providedIn: 'root',
@@ -57,6 +60,24 @@ export class SubscriptionService {
   //   return this.http.get<any>(`${this.ELEMENTARY_SUBSCRIPTION_URL}`);
   // }
 
+  // GET ONE
+  public getKid(memberId: string): Observable<any> {
+    return this.http.get<any>(`${this.KID_SUBSCRIPTION_URL}/${memberId}`).pipe(
+      tap((response) => console.log(response.message)),
+      map((response) => response['data'])
+    );
+  }
+
+  public getAdult(memberId: string): Observable<any> {
+    return this.http
+      .get<any>(`${this.ADULT_SUBSCRIPTION_URL}/${memberId}`)
+      .pipe(
+        tap((response) => console.log(response.message)),
+        map((response) => response['data'])
+      );
+  }
+
+  // GET ALL
   public getKidData(): Observable<any> {
     return this.http.get<any>(`${this.KID_SUBSCRIPTION_URL}`).pipe(
       tap((response) => console.log(response.message)),
@@ -75,6 +96,34 @@ export class SubscriptionService {
   //   console.log('gettting the excel file');
   //   this.router.navigate([`${this.ADULT_SUBSCRIPTION_URL}/excel`]);
   // }
+
+  // UPDATE
+  public updateKid(member: KidSubscription): Observable<any> {
+    console.log(member);
+    return this.http
+      .put<any>(`${this.KID_SUBSCRIPTION_URL}/${member._id}`, member)
+      .pipe(tap((response) => console.log(response.message)));
+  }
+
+  public updateAdult(member: AdultSubscription): Observable<any> {
+    console.log(member);
+    return this.http
+      .put<any>(`${this.ADULT_SUBSCRIPTION_URL}/${member._id}`, member)
+      .pipe(tap((response) => console.log(response.message)));
+  }
+
+  // DELETE
+  public deleteKid(memberId: string): Observable<any> {
+    return this.http
+      .delete<any>(`${this.KID_SUBSCRIPTION_URL}/${memberId}`)
+      .pipe(tap((response) => console.log(response.message)));
+  }
+
+  public deleteAdult(memberId: string): Observable<any> {
+    return this.http
+      .delete<any>(`${this.ADULT_SUBSCRIPTION_URL}/${memberId}`)
+      .pipe(tap((response) => console.log(response.message)));
+  }
 
   // COUPON
   public validateCoupon(

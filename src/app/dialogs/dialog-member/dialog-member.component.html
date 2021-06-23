@@ -1,0 +1,286 @@
+<h2 class="title">
+  {{ dialogTitle }}
+  <strong *ngIf="!loading" class="color-primary-font">
+    {{
+      ageMode === subscriptionAgeMode.SubscriptionAgeModeAdults
+        ? adult.memberFirstName
+        : kid.memberFirstName
+    }}
+  </strong>
+</h2>
+
+<mat-dialog-content>
+  <atom-spinner
+    *ngIf="loading"
+    [color]="'accent'"
+    class="spinner"
+  ></atom-spinner>
+
+  <!-- Adult form -->
+  <form
+    *ngIf="
+      !loading && ageMode === subscriptionAgeMode.SubscriptionAgeModeAdults
+    "
+    class="form"
+    [formGroup]="adultForm"
+    (ngSubmit)="onSubmit()"
+  >
+    <div class="form__group">
+      <mat-form-field>
+        <mat-label>Nom</mat-label>
+        <input
+          matInput
+          type="text"
+          name="memberLastName"
+          formControlName="memberLastName"
+          required
+        />
+        <mat-error
+          *ngIf="
+            adultForm.get('memberLastName').invalid &&
+            adultForm.get('memberLastName').touched
+          "
+          >Veuillez renseigner le nom</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Prénom</mat-label>
+        <input
+          matInput
+          type="text"
+          name="memberFirstName"
+          formControlName="memberFirstName"
+          required
+        />
+        <mat-error
+          *ngIf="
+            adultForm.get('memberFirstName').invalid &&
+            adultForm.get('memberFirstName').touched
+          "
+          >Veuillez renseigner le prénom</mat-error
+        >
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="date-picker">
+        <mat-label>Date de naissance</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          formControlName="birthdate"
+          required
+          disabled
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker">
+        </mat-datepicker-toggle>
+        <mat-datepicker #picker disabled="false"></mat-datepicker>
+      </mat-form-field>
+
+      <mat-label>Genre *</mat-label>
+      <mat-radio-group
+        class="radio-group"
+        aria-label="Genre"
+        formControlName="gender"
+        required
+      >
+        <mat-radio-button
+          *ngFor="let gender of genders; let idx = index"
+          class="radio-button"
+          [value]="idx"
+        >
+          {{ gender }}
+        </mat-radio-button>
+      </mat-radio-group>
+
+      <mat-form-field>
+        <mat-label>Téléphone</mat-label>
+        <input
+          matInput
+          type="number"
+          name="phone"
+          formControlName="phone"
+          required
+        />
+        <mat-error
+          *ngIf="
+            adultForm.get('phone').invalid && adultForm.get('phone').touched
+          "
+          >Veuillez renseigner votre numéro de téléphone</mat-error
+        >
+      </mat-form-field>
+
+      <!-- RENEWAL -->
+      <mat-checkbox formControlName="renew"> Réinscription </mat-checkbox>
+    </div>
+  </form>
+
+  <!-- Kid form -->
+  <form
+    *ngIf="!loading && ageMode === subscriptionAgeMode.SubscriptionAgeModeKids"
+    class="form"
+    [formGroup]="kidForm"
+    (ngSubmit)="onSubmit()"
+  >
+    <div class="form__group">
+      <mat-form-field>
+        <mat-label>Nom</mat-label>
+        <input
+          matInput
+          type="text"
+          name="memberLastName"
+          formControlName="memberLastName"
+          required
+        />
+        <mat-error
+          *ngIf="
+            kidForm.get('memberLastName').invalid &&
+            kidForm.get('memberLastName').touched
+          "
+          >Veuillez renseigner le nom</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Prénom</mat-label>
+        <input
+          matInput
+          type="text"
+          name="memberFirstName"
+          formControlName="memberFirstName"
+          required
+        />
+        <mat-error
+          *ngIf="
+            kidForm.get('memberFirstName').invalid &&
+            kidForm.get('memberFirstName').touched
+          "
+          >Veuillez renseigner le prénom</mat-error
+        >
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="date-picker">
+        <mat-label>Date de naissance</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          formControlName="birthdate"
+          required
+          disabled
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker">
+        </mat-datepicker-toggle>
+        <mat-datepicker #picker disabled="false"></mat-datepicker>
+      </mat-form-field>
+
+      <mat-label>Genre *</mat-label>
+      <mat-radio-group
+        class="radio-group"
+        aria-label="Genre"
+        formControlName="gender"
+        required
+      >
+        <mat-radio-button
+          *ngFor="let gender of genders; let idx = index"
+          class="radio-button"
+          [value]="idx"
+        >
+          {{ gender }}
+        </mat-radio-button>
+      </mat-radio-group>
+
+      <!-- RENEWAL -->
+      <mat-checkbox formControlName="renew"> Réinscription </mat-checkbox>
+
+
+      <h3 class="color-primary-font">Représentant légal</h3>
+      <mat-form-field>
+        <mat-label>Nom</mat-label>
+        <input
+          matInput
+          type="text"
+          name="guardianLastName"
+          formControlName="guardianLastName"
+          required
+        />
+        <mat-error
+          *ngIf="
+            kidForm.get('guardianLastName').invalid &&
+            kidForm.get('guardianLastName').touched
+          "
+          >Veuillez renseigner un nom</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Prénom</mat-label>
+        <input
+          matInput
+          type="text"
+          name="guardianFirstName"
+          formControlName="guardianFirstName"
+          required
+        />
+        <mat-error
+          *ngIf="
+            kidForm.get('guardianFirstName').invalid &&
+            kidForm.get('guardianFirstName').touched
+          "
+          >Veuillez renseigner un prénom</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          type="email"
+          name="guardianEmail"
+          formControlName="guardianEmail"
+          required
+        />
+        <mat-error
+          *ngIf="
+            kidForm.get('guardianEmail').invalid &&
+            kidForm.get('guardianEmail').touched
+          "
+          >Veuillez renseigner un email valid</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Phone</mat-label>
+        <input
+          matInput
+          type="number"
+          name="guardianPhone"
+          formControlName="guardianPhone"
+          required
+        />
+        <mat-error
+          *ngIf="
+            kidForm.get('guardianPhone').invalid &&
+            kidForm.get('guardianPhone').touched
+          "
+          >Veuillez renseigner un numéro de téléphone valide</mat-error
+        >
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+<div mat-dialog-actions align="end">
+  <button
+    mat-raised-button
+    color="warn"
+    type="button"
+    (click)="onDeleteMember($event)"
+  >
+    Supprimer
+  </button>
+  <button mat-raised-button color="accent" (click)="onCancel()" type="button">
+    Annuler
+  </button>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="onSubmit()"
+    type="submit"
+    [disabled]="adultForm.invalid || kidForm.invalid"
+  >
+    Modifier
+  </button>
+</div>
