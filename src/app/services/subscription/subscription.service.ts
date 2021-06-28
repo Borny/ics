@@ -63,7 +63,7 @@ export class SubscriptionService {
   // GET ONE
   public getKid(memberId: string): Observable<any> {
     return this.http.get<any>(`${this.KID_SUBSCRIPTION_URL}/${memberId}`).pipe(
-      tap((response) => console.log(response.message)),
+      // tap((response) => console.log(response.message)),
       map((response) => response['data'])
     );
   }
@@ -72,7 +72,7 @@ export class SubscriptionService {
     return this.http
       .get<any>(`${this.ADULT_SUBSCRIPTION_URL}/${memberId}`)
       .pipe(
-        tap((response) => console.log(response.message)),
+        // tap((response) => console.log(response.message)),
         map((response) => response['data'])
       );
   }
@@ -80,14 +80,14 @@ export class SubscriptionService {
   // GET ALL
   public getKidData(): Observable<any> {
     return this.http.get<any>(`${this.KID_SUBSCRIPTION_URL}`).pipe(
-      tap((response) => console.log(response.message)),
+      // tap((response) => console.log(response.message)),
       map((response) => response['data'])
     );
   }
 
   public getAdultData(): Observable<any> {
     return this.http.get<any>(`${this.ADULT_SUBSCRIPTION_URL}`).pipe(
-      tap((response) => console.log(response.message)),
+      // tap((response) => console.log(response.message)),
       map((response) => response['data'])
     );
   }
@@ -99,14 +99,14 @@ export class SubscriptionService {
 
   // UPDATE
   public updateKid(member: KidSubscription): Observable<any> {
-    console.log(member);
+    // console.log(member);
     return this.http
       .put<any>(`${this.KID_SUBSCRIPTION_URL}/${member._id}`, member)
       .pipe(tap((response) => console.log(response.message)));
   }
 
   public updateAdult(member: AdultSubscription): Observable<any> {
-    console.log(member);
+    // console.log(member);
     return this.http
       .put<any>(`${this.ADULT_SUBSCRIPTION_URL}/${member._id}`, member)
       .pipe(tap((response) => console.log(response.message)));
@@ -130,19 +130,19 @@ export class SubscriptionService {
     couponInput: string,
     formuleId: string
   ): Observable<{ message: string; valid: boolean; couponValue?: number }> {
-    console.log('coupon value', couponInput);
+    // console.log('coupon value', couponInput);
     const code = { couponInput, formuleId };
     return this.http
       .post<{ message: string; valid: boolean; amount?: number }>(
         this.COUPON_URL,
         code
       )
-      .pipe(
-        tap((res) => console.log(res['message']))
-        // catchError((err) => {
-        //   console.log(res['message']);
-        //   return err;
-        // })
-      );
+      .pipe
+      // tap((res) => console.log(res['message']))
+      // catchError((err) => {
+      //   console.log(res['message']);
+      //   return err;
+      // })
+      ();
   }
 }

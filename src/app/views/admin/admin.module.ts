@@ -9,6 +9,8 @@ import { AdminView } from './admin.component';
 import { MemberDataTable } from 'src/app/organisms/member-data-table/member-data-table.component';
 import { SubscriptionsAdminOrganism } from 'src/app/organisms/subscriptions-admin-organism/subscriptions-admin-organism.component';
 import { OrganismAdminFormule } from 'src/app/organisms/admin-formule/organism-admin-formule.component';
+import { OrganismAdminUsers } from 'src/app/organisms/organism-admin-users/organism-admin-users.component';
+import { OrganismTableUsers } from 'src/app/organisms/organism-table-users/organism-table-users.component';
 
 @NgModule({
   declarations: [
@@ -16,8 +18,16 @@ import { OrganismAdminFormule } from 'src/app/organisms/admin-formule/organism-a
     MemberDataTable,
     SubscriptionsAdminOrganism,
     OrganismAdminFormule,
+    OrganismAdminUsers,
+    OrganismTableUsers,
   ],
   imports: [CommonModule, AdminRoutingModule, MaterialModule, SharedModule],
-  exports: [MemberDataTable, SubscriptionsAdminOrganism, OrganismAdminFormule],
+  exports: [
+    MemberDataTable,
+    SubscriptionsAdminOrganism,
+    OrganismAdminFormule,
+    OrganismAdminUsers,
+    OrganismTableUsers,
+  ],
 })
 export class AdminViewModule {}

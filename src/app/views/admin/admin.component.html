@@ -4,6 +4,11 @@
 
 <section class="main-section">
   <mat-tab-group mat-align-tabs="center" animationDuration="0ms">
+    <mat-tab label="Utilisateurs">
+      <ng-template matTabContent>
+        <organism-admin-users></organism-admin-users>
+      </ng-template>
+    </mat-tab>
     <mat-tab label="Inscriptions">
       <ng-template matTabContent>
         <subscriptions-admin-organism></subscriptions-admin-organism>
@@ -12,11 +17,6 @@
     <mat-tab label="Formules">
       <ng-template matTabContent>
         <organism-admin-formule></organism-admin-formule>
-      </ng-template>
-    </mat-tab>
-    <mat-tab label="Utilisateurs">
-      <ng-template matTabContent>
-
       </ng-template>
     </mat-tab>
     <!-- <mat-tab label="Cours">

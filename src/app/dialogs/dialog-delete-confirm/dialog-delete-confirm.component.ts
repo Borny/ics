@@ -8,7 +8,9 @@ import {
   FormsModule,
 } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Action } from 'rxjs/internal/scheduler/Action';
 import { MaterialModule } from 'src/app/angular-material/angular-material.module';
+import { ActionLabel } from 'src/app/models/action-label.enum';
 
 @Component({
   selector: 'dialog-delete-confirm',
@@ -17,9 +19,6 @@ import { MaterialModule } from 'src/app/angular-material/angular-material.module
 })
 export class DialogDeleteConfirm {
   public title: string;
-
-  public readonly CONFIRM = 'confirm';
-  public readonly CANCEL = 'cancel';
 
   constructor(
     public dialogRef: MatDialogRef<DialogDeleteConfirm>,
@@ -31,11 +30,11 @@ export class DialogDeleteConfirm {
   ngOnInit(): void {}
 
   public onCancel(): void {
-    this.dialogRef.close({action: this.CANCEL});
+    this.dialogRef.close({ action: ActionLabel.CANCEL });
   }
 
   public onConfirm(): void {
-    this.dialogRef.close({ action: this.CONFIRM });
+    this.dialogRef.close({ action: ActionLabel.CONFIRM });
   }
 }
 

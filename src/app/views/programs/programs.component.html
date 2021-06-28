@@ -4,11 +4,11 @@
       <p class="title-xl uppercase">Nos Programmes</p>
     </div>
     <mat-tab-group
-    class="front-end-tabs"
-    mat-align-tabs="center"
-    [backgroundColor]="'primary'"
-    mat-stretch-tabs
-    dynamicHeight
+      class="front-end-tabs"
+      mat-align-tabs="center"
+      [backgroundColor]="'primary'"
+      mat-stretch-tabs
+      dynamicHeight
     >
       <mat-tab label="Ecoles">
         <div class="tab__content">
@@ -49,7 +49,7 @@
           (clickEvent)="onNavigateContact($event)"
         ></atom-button>
       </mat-tab>
-      <mat-tab label="Enfants">
+      <mat-tab label="Enfants / Ados">
         <div class="tab__content">
           <h1>Enfants</h1>
           <p class="color-primary-font">Camaradinhas</p>
@@ -96,16 +96,23 @@
           alt="enfants équilibre"
         />
         <organism-sessions
-          *ngFor="let session of sessionsKids; let even = even; let odd = odd"
+          *ngFor="
+            let formule of formules$ | async | filter: ageGroupEnum.KIDS;
+            let even = even;
+            let odd = odd
+          "
           [style]="{ odd: odd, even: even }"
-          [sessionsKids]="session"
+          [formule]="formule"
         ></organism-sessions>
-        <!-- <atom-button
-          class="btn"
-          [type]="'button'"
-          [text]="CONTACT_BTN_TEXT"
-          (clickEvent)="onNavigateContact($event)"
-        ></atom-button> -->
+        <organism-sessions
+          *ngFor="
+            let formule of formules$ | async | filter: ageGroupEnum.TEENS;
+            let even = even;
+            let odd = odd
+          "
+          [style]="{ odd: odd, even: even }"
+          [formule]="formule"
+        ></organism-sessions>
         <atom-button
           class="btn"
           [type]="'button'"
@@ -113,9 +120,9 @@
           (clickEvent)="onNavigateSubscriptions($event)"
         ></atom-button>
       </mat-tab>
-      <mat-tab label="Ados-Adultes">
+      <mat-tab label="Adultes">
         <div class="tab__content">
-          <h1>Adultes / Adolescents</h1>
+          <h1>Adultes</h1>
           <p class="color-primary">Pour le corps et pour l’esprit</p>
           <p>
             Le dialogue corporel, l’improvisation, l’équilibre, tout comme les
@@ -164,16 +171,14 @@
           alt="enfants équilibre"
         />
         <organism-sessions
-          *ngFor="let session of sessionsAdults; let even = even; let odd = odd"
+          *ngFor="
+            let formule of formules$ | async | filter: ageGroupEnum.ADULTS;
+            let even = even;
+            let odd = odd
+          "
           [style]="{ odd: odd, even: even }"
-          [sessionsAdults]="session"
+          [formule]="formule"
         ></organism-sessions>
-        <!-- <atom-button
-          class="btn"
-          [type]="'button'"
-          [text]="CONTACT_BTN_TEXT"
-          (clickEvent)="onNavigateContact($event)"
-        ></atom-button> -->
         <atom-button
           class="btn"
           [text]="SUBSCRIPTIONS_BTN_TEXT"

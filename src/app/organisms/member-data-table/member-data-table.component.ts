@@ -18,7 +18,6 @@ export class MemberDataTable {
 
   private readonly _DELETE = 'delete';
   private readonly _CONFIRM = 'confirm';
-  private readonly _CANCEL = 'cancel';
 
   constructor(
     public dialog: MatDialog,
@@ -52,7 +51,7 @@ export class MemberDataTable {
             .pipe(tap(() => location.reload()))
             .subscribe();
         }
-      }else if(result.action === this._DELETE){
+      } else if (result.action === this._DELETE) {
         if (
           this.subscriptionAgeMode ===
           SubscriptionAgeMode.SubscriptionAgeModeAdults
@@ -70,7 +69,6 @@ export class MemberDataTable {
             .pipe(tap(() => location.reload()))
             .subscribe();
         }
-
       }
     });
   }

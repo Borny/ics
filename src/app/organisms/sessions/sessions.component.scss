@@ -27,15 +27,26 @@
   font-weight: $fontWeightBold;
 }
 
+.schedules {
+  &__container {
+  }
+  &__day {
+    padding: 0 0.5rem 0 0;
+  }
+}
+
 .even {
   background: $white;
 
-  .session__city,
-  .session__day,
-  .session__age {
-    color: $color-primary;
+  .title {
+    strong {
+      color: $color-primary;
+    }
   }
 
+  .session__days {
+    color: $color-primary;
+  }
 }
 
 .odd {

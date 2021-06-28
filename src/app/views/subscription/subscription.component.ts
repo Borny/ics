@@ -172,7 +172,9 @@ export class SubscriptionView implements OnInit {
     this.subscriptionService
       .addSubscription(subscriptionsData)
       .pipe(finalize(() => (this.subscriptionLoading = false)))
-      .subscribe((res) => console.log(res));
+      .subscribe
+      // (res) => console.log(res)
+      ();
   }
 
   // PAYMENT
@@ -270,7 +272,7 @@ export class SubscriptionView implements OnInit {
           }
         },
         (error) => {
-          console.log('coupon check error', error.message.message);
+          // console.log('coupon check error', error.message.message);
           // this.couponError = 'nope';
           // this.displayCouponError = true;
         }

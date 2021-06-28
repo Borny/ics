@@ -89,8 +89,8 @@ export class OrganismAdminFormule {
   private _getFormules(): void {
     this.loading = true;
     this.formules$ = this.formuleService.getFormules(this._ADMIN_MODE).pipe(
-      finalize(() => (this.loading = false)),
-      tap((res) => console.log(res))
+      finalize(() => (this.loading = false))
+      // tap((res) => console.log(res))
     );
   }
 }
