@@ -11,4 +11,5 @@ export interface AdultSubscription {
   couponCodeValid?: boolean;
   couponValue?: number;
   subscriptionAmount: number;
+  subscriptionDate: Date;
 }

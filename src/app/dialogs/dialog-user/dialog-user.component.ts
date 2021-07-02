@@ -98,10 +98,17 @@ export class DialogUser {
       lastName: this.formBuilder.control(userData.lastName, [
         Validators.required,
       ]),
-      email: this.formBuilder.control(userData.email, [
-        Validators.required,
-        Validators.email,
-      ]),
+      email: this.formBuilder.control(
+        { value: userData.email, disabled: true },
+        [Validators.required, Validators.email]
+      ),
+      signUpDate: this.formBuilder.control(
+        {
+          value: new Date(userData.signUpDate).toLocaleDateString(),
+          disabled: true,
+        },
+        [Validators.required]
+      ),
     });
   }
 }

@@ -1,10 +1,10 @@
-<section class="contact-header">
+<section class="title__container">
   <p class="title-xl">
     {{ "Inscriptions" | uppercase }}
   </p>
 </section>
 
-<mat-horizontal-stepper
+<mat-stepper
   linear
   #stepper
   (selectionChange)="onBackToFormules($event)"
@@ -71,10 +71,8 @@
 
         <p class="text-center">
           <small>
-            Vous bénéficiez d'une réduction de
-            <span class="color-primary-font bold">-10%</span> sur le prix total
-            pour chaque inscription supplémentaire d'un membre de la même
-            famille
+            <span class="color-primary-font bold">-10%</span> pour toutes
+            inscriptions de 2 personnes d'une même famille
           </small>
         </p>
 
@@ -210,7 +208,11 @@
                 </mat-form-field>
 
                 <!-- RENEWAL -->
-                <mat-checkbox class="form__group" formControlName="renew">
+                <mat-checkbox
+                  class="form__group"
+                  formControlName="renew"
+                  (change)="subscription.showCoupon = false"
+                >
                   Réinscription
                 </mat-checkbox>
               </div>
@@ -232,7 +234,10 @@
 
               <!-- COUPON -->
               <div
-                *ngIf="subscription.get('formule').get('hasCoupon').value"
+                *ngIf="
+                  subscription.get('formule').get('hasCoupon').value &&
+                  subscription.get('renew').value
+                "
                 class="form-group"
               >
                 <mat-checkbox (change)="onToggleCoupon($event, subscription)">
@@ -400,7 +405,11 @@
                 </mat-radio-group>
 
                 <!-- RENEWAL -->
-                <mat-checkbox class="form__group" formControlName="renew">
+                <mat-checkbox
+                  (change)="subscription.showCoupon = false"
+                  class="form__group"
+                  formControlName="renew"
+                >
                   Réinscription
                 </mat-checkbox>
               </div>
@@ -498,7 +507,10 @@
 
               <!-- COUPON -->
               <div
-                *ngIf="subscription.get('formule').get('hasCoupon').value"
+                *ngIf="
+                  subscription.get('formule').get('hasCoupon').value &&
+                  subscription.get('renew').value
+                "
                 class="form-group"
               >
                 <mat-checkbox (change)="onToggleCoupon($event, subscription)">
@@ -718,7 +730,7 @@
           >
             Retour
           </button>
-          <button
+          <!-- <button
             mat-raised-button
             type="submit"
             color="primary"
@@ -726,6 +738,17 @@
             [disabled]="subscriptionForm.invalid"
           >
             Suivant
+          </button> -->
+
+          <!-- TODO: delete when payment is ready -->
+          <button
+            mat-raised-button
+            type="submit"
+            color="primary"
+            matStepperNext
+            [disabled]="subscriptionForm.invalid"
+          >
+            Valider
           </button>
         </div>
       </form>
@@ -733,7 +756,8 @@
   </mat-step>
 
   <!-- PAYMENT -->
-  <mat-step [stepControl]="paymentForm" label="Paiement">
+  <!-- <mat-step [stepControl]="paymentForm" label="Paiement"> -->
+  <mat-step [stepControl]="paymentForm" label="Confirmation">
     <!-- DETAILS -->
     <div>
       Details:
@@ -762,4 +786,4 @@
       <!-- <button mat-raised-button  (click)="stepper.reset()">Annuler</button> -->
     </div>
   </mat-step>
-</mat-horizontal-stepper>
+</mat-stepper>

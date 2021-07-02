@@ -142,6 +142,13 @@ export class DialogMember {
         Validators.required
       ),
       gender: this.formBuilder.control(gender, Validators.required),
+      subscriptionDate: this.formBuilder.control(
+        {
+          value: new Date(kidData.subscriptionDate).toLocaleDateString(),
+          disabled: true,
+        },
+        [Validators.required]
+      ),
       renew: this.formBuilder.control(renew, Validators.required),
       guardianLastName: this.formBuilder.control(
         kidData.guardianLastName,
@@ -188,6 +195,13 @@ export class DialogMember {
         Validators.required,
         Validators.minLength(10),
       ]),
+      subscriptionDate: this.formBuilder.control(
+        {
+          value: new Date(adultData.subscriptionDate).toLocaleDateString(),
+          disabled: true,
+        },
+        [Validators.required]
+      ),
       renew: this.formBuilder.control(renew, Validators.required),
       extraInfo: this.formBuilder.control(adultData.extraInfo),
       couponUse: this.formBuilder.control(adultData.couponCodeValid),

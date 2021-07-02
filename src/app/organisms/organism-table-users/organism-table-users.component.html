@@ -5,6 +5,7 @@
     <div>Prénom</div>
     <div>Nom</div>
     <div>Email</div>
+    <div>Date d'inscription</div>
     <div></div>
   </li>
   <li
@@ -37,6 +38,7 @@
     <div>{{ user.firstName }}</div>
     <div>{{ user.lastName }}</div>
     <div>{{ user.email }}</div>
+    <div>{{ user.signUpDate | date: "dd/MM/yyyy" }}</div>
     <div>
       <button
         mat-flat-button

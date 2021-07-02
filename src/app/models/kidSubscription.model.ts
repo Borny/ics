@@ -18,4 +18,5 @@ export interface KidSubscription {
   couponCodeValid?: boolean;
   couponValue?: number;
   subscriptionAmount: number;
+  subscriptionDate: Date;
 }

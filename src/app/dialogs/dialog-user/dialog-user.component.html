@@ -56,15 +56,22 @@
         <mat-label>E-mail</mat-label>
         <input
           matInput
+          disabled
           type="email"
           name="email"
           formControlName="email"
           required
         />
-        <mat-error
-          *ngIf="userForm.get('email').invalid && userForm.get('email').touched"
-          >Veuillez renseigner votre email</mat-error
-        >
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Date d'inscription</mat-label>
+        <input
+          matInput
+          type="text"
+          name="signUpDate"
+          formControlName="signUpDate"
+          required
+        />
       </mat-form-field>
     </div>
   </form>

@@ -16,7 +16,9 @@
     <ng-container *ngIf="mode === USER">
       <mat-card-title>
         <mat-checkbox [checked]="isChecked" (change)="onToggleCheck()">
-          {{ formule.title }}
+          <span class="color-primary-font">
+            {{ formule.title }}
+          </span>
         </mat-checkbox>
         <mat-card-subtitle>
           <ng-container *ngIf="formule.ageGroup === ageGroup.KIDS">
@@ -78,16 +80,6 @@
         <strong>Lieu:</strong>
         <span>{{ formule.location }}</span>
         <span>{{ formule.street }}</span>
-      </p>
-
-      <p class="display-flex flex-column schedules schedules__container">
-        <strong>Horaires:</strong>
-        <span class="display-flex" *ngFor="let schedule of formule.schedules">
-          <span class="color-primary-font bold schedules__day"
-            >{{ schedule.day }}:
-          </span>
-          <span>{{ schedule.time }}</span>
-        </span>
       </p>
 
       <p *ngIf="formule.physicalClass">Cours en présentiel</p>

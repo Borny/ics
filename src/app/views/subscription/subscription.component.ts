@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -54,6 +54,12 @@ export class SubscriptionView implements OnInit {
   public multipleSubscriptionDiscount = false;
   public couponDiscount = false;
 
+  public isVertical = 'vertical';
+
+  @HostListener('window:resize') onWindowResize() {
+    this.isVertical = window.innerWidth <= 768 ? 'vertical' : 'horizontal';
+  }
+
   public formules$: Observable<Formule[]>;
 
   public readonly HOME_BTN_TEXT = 'Accueil';
@@ -105,6 +111,8 @@ export class SubscriptionView implements OnInit {
     this.showAdultSubscriptionForm = false;
     this.showKidSubscriptionForm = false;
     this.selectedFormules = [];
+
+    this._scrollToTop();
 
     // Populating the selectedFormules
     this.formuleForm.value.formules.forEach(
@@ -163,6 +171,7 @@ export class SubscriptionView implements OnInit {
     // console.log('submit sub form');
     // console.log(this.subscriptionForm.value);
     this.subscriptionLoading = true;
+    this._scrollToTop();
 
     const subscriptionsData = {
       formValues: this.subscriptionForm.value,
@@ -283,6 +292,10 @@ export class SubscriptionView implements OnInit {
   // PRIVATE
   ////////////
 
+  private _scrollToTop(): void {
+    window.scrollTo(0, 0);
+  }
+
   private _updateTotalPriceWithCoupon(amount: number): void {
     // this.initialTotalPrice -= amount;
     this.updatedTotalPrice -= amount;
@@ -388,6 +401,7 @@ export class SubscriptionView implements OnInit {
             Validators.required,
             Validators.minLength(6),
           ]),
+          signUpDate: this.formBuilder.control(new Date(), Validators.required),
         },
         {
           validator: this._confirmPasswordValidator(
@@ -419,6 +433,10 @@ export class SubscriptionView implements OnInit {
       couponCodeValid: this.formBuilder.control(null),
       couponValue: this.formBuilder.control(null),
       subscriptionAmount: this.formBuilder.control(formule.price),
+      subscriptionDate: this.formBuilder.control(
+        new Date(),
+        Validators.required
+      ),
       formule: this.formBuilder.group({
         id: this.formBuilder.control(formule._id),
         title: this.formBuilder.control(formule.title),
@@ -453,6 +471,10 @@ export class SubscriptionView implements OnInit {
       couponCodeValid: this.formBuilder.control(null),
       couponValue: this.formBuilder.control(null),
       subscriptionAmount: this.formBuilder.control(formule.price),
+      subscriptionDate: this.formBuilder.control(
+        new Date(),
+        Validators.required
+      ),
       formule: this.formBuilder.group({
         id: this.formBuilder.control(formule._id),
         title: this.formBuilder.control(formule.title),

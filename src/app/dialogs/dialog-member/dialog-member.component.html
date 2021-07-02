@@ -108,6 +108,17 @@
         >
       </mat-form-field>
 
+      <mat-form-field>
+        <mat-label>Date d'inscription</mat-label>
+        <input
+          matInput
+          type="text"
+          name="subscriptionDate"
+          formControlName="subscriptionDate"
+          required
+        />
+      </mat-form-field>
+
       <!-- RENEWAL -->
       <mat-checkbox formControlName="renew"> Réinscription </mat-checkbox>
     </div>
@@ -186,9 +197,19 @@
         </mat-radio-button>
       </mat-radio-group>
 
+      <mat-form-field>
+        <mat-label>Date d'inscription</mat-label>
+        <input
+          matInput
+          type="text"
+          name="subscriptionDate"
+          formControlName="subscriptionDate"
+          required
+        />
+      </mat-form-field>
+
       <!-- RENEWAL -->
       <mat-checkbox formControlName="renew"> Réinscription </mat-checkbox>
-
 
       <h3 class="color-primary-font">Représentant légal</h3>
       <mat-form-field>

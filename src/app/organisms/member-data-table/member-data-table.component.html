@@ -6,7 +6,9 @@
     <div>Prénom</div>
     <div>Date de naissance</div>
     <div>Genre</div>
+    <div>Date d'inscription</div>
     <div>Réinscription</div>
+    <div>Date Inscription</div>
 
     <!-- Adults -->
     <ng-container *ngIf="subscriptionAgeMode === 1">
@@ -31,7 +33,10 @@
     <div>Tarif Inscription</div>
     <div></div>
   </li>
-  <li *ngIf="!membersData.length" class="data-table__row data-table__row-body data-table__row-body--no-data">
+  <li
+    *ngIf="!membersData.length"
+    class="data-table__row data-table__row-body data-table__row-body--no-data"
+  >
     Aucune inscription
   </li>
   <li
@@ -59,6 +64,7 @@
     <div>{{ member.memberFirstName }}</div>
     <div>{{ member.birthdate | date: "dd/MM/YYYY" }}</div>
     <div>{{ member.gender }}</div>
+    <div>{{ member.subscriptionDate | date: 'dd/MM/yyyy' }}</div>
     <div>{{ member.renew }}</div>
 
     <!-- Adults -->

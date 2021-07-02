@@ -1,3 +1,6 @@
+import { AdultSubscription } from './adultSubscription.model';
+import { KidSubscription } from './kidSubscription.model';
+
 export interface User {
   _id?: string;
   email?: string;
@@ -6,4 +9,6 @@ export interface User {
   lastName?: string;
   nickName?: string;
   profileImagePath?: string;
+  subscriptions?: AdultSubscription[] | KidSubscription[];
+  signUpDate: Date;
 }
