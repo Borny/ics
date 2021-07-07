@@ -2,14 +2,12 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { MatStepper } from '@angular/material/stepper';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { finalize, map, tap } from 'rxjs/operators';
 
 import { SubscriptionService } from '../../services/subscription/subscription.service';
-import { AdultFormData } from '../../models/adultFormData.model';
-import { KidsFormData } from '../../models/kidsFormData.model';
-import { ClassDeals } from '../../models/classDeals.model';
-import { SubscriptionType } from '../../models/subscriptionType.enum';
 import { requireCheckboxesToBeCheckedValidator } from '../../validators/checkbox';
 
 import { Formule } from 'src/app/models/formule.models';
@@ -18,7 +16,11 @@ import { AgeGroupEnum } from 'src/app/models/age-group.enum';
 import { GenderEnum } from 'src/app/models/gender.enum';
 import { DialogTerms } from 'src/app/dialogs/dialog-terms/dialog-terms.component';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { StepperSelectionEvent } from '@angular/cdk/stepper';
+import {
+  StepperOrientation,
+  StepperSelectionEvent,
+} from '@angular/cdk/stepper';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
   selector: 'subscription',
@@ -53,7 +55,11 @@ export class SubscriptionView implements OnInit {
   public totalFormules = 0;
   public multipleSubscriptionDiscount = false;
   public couponDiscount = false;
+  public subscriptionsData: any;
+  public showValidation = false;
+  public showUserExist = false;
 
+  public stepperOrientation$: Observable<StepperOrientation>;
   public isVertical = 'vertical';
 
   @HostListener('window:resize') onWindowResize() {
@@ -72,27 +78,20 @@ export class SubscriptionView implements OnInit {
     private router: Router,
     public dialog: MatDialog,
     private formuleService: FormuleService,
-    private formBuilder: FormBuilder
-  ) {}
+    private formBuilder: FormBuilder,
+    private _snackBar: MatSnackBar,
+    private breakpointObserver: BreakpointObserver
+  ) {
+    this.stepperOrientation$ = breakpointObserver
+      .observe('(min-width: 800px)')
+      .pipe(map(({ matches }) => (matches ? 'horizontal' : 'vertical')));
+  }
 
   ngOnInit() {
     this._getFormules();
     this._initFormuleForm();
+    this._stepperDirectionUpdate();
   }
-
-  // NAVIGATION
-  // public onNavigateHome(event: Event): void {
-  //   this.router.navigateByUrl('/accueil');
-  // }
-
-  // public onNavigatePrograms(event: Event): void {
-  //   this.router.navigateByUrl('/programmes');
-  // }
-
-  // // Reload page
-  // public onReloadPage(event: Event): void {
-  //   location.reload();
-  // }
 
   get formulesArray() {
     return this.formuleForm.controls['formules'] as FormArray;
@@ -111,8 +110,6 @@ export class SubscriptionView implements OnInit {
     this.showAdultSubscriptionForm = false;
     this.showKidSubscriptionForm = false;
     this.selectedFormules = [];
-
-    this._scrollToTop();
 
     // Populating the selectedFormules
     this.formuleForm.value.formules.forEach(
@@ -165,25 +162,55 @@ export class SubscriptionView implements OnInit {
 
     // Getting the total price
     this._getTotalPrice();
+    this._scrollToTop();
   }
 
-  public onSubmitSubscriptionForm(): void {
+  public scrollToTop(): void {
+    window.scrollTo(0, 0);
+  }
+
+  public onSubmitSubscriptionForm(stepper: MatStepper): void {
     // console.log('submit sub form');
     // console.log(this.subscriptionForm.value);
     this.subscriptionLoading = true;
-    this._scrollToTop();
 
-    const subscriptionsData = {
+    this.subscriptionsData = {
       formValues: this.subscriptionForm.value,
       // totalPrice: this.totalPrice,
     };
+    console.log(this.subscriptionsData);
 
     this.subscriptionService
-      .addSubscription(subscriptionsData)
-      .pipe(finalize(() => (this.subscriptionLoading = false)))
-      .subscribe
-      // (res) => console.log(res)
-      ();
+      .addSubscription(this.subscriptionsData)
+      .pipe(
+        finalize(() => {
+          this.subscriptionLoading = false;
+        })
+      )
+      .subscribe(
+        (res) => {
+          console.log(res);
+          console.log(this.subscriptionsData);
+          stepper.next();
+          this.showValidation = true;
+          this._scrollToTop();
+          this.subscriptionForm.reset();
+          this.formuleForm.reset();
+        },
+        (error) => {
+          console.log('sub error', error.error.message);
+          if (error.error.message === 'User already exists') {
+            // TODO: add error on email input
+            // this.showUserExist = true;
+
+            this._snackBar.open(
+              `L'adresse email existe déjà. Veuillez la modifier`
+            );
+          } else {
+            this._snackBar.open(`Une erreur est survenue, veuillez réessayer`);
+          }
+        }
+      );
   }
 
   // PAYMENT
@@ -221,6 +248,8 @@ export class SubscriptionView implements OnInit {
       this.multipleSubscriptionDiscount = false;
       this.couponDiscount = false;
       this.totalFormules = 0;
+      // this.showUserExist = false;
+      this.showValidation = false;
 
       this._getFormules();
     }
@@ -288,16 +317,29 @@ export class SubscriptionView implements OnInit {
       );
   }
 
+  public onNavigateHome(): void {
+    this.router.navigateByUrl('/accueil');
+  }
+
+  public onNavigateSignIn(): void {
+    this.router.navigateByUrl('/connexion');
+  }
+
   ////////////
   // PRIVATE
   ////////////
 
+  private _stepperDirectionUpdate(): void {
+    this.isVertical = window.innerWidth <= 768 ? 'vertical' : 'horizontal';
+  }
+
   private _scrollToTop(): void {
-    window.scrollTo(0, 0);
+    // TODO: improve this
+    const sidenavContent = document.getElementsByTagName('mat-sidenav-content');
+    sidenavContent[0].scrollTo(0, 0);
   }
 
   private _updateTotalPriceWithCoupon(amount: number): void {
-    // this.initialTotalPrice -= amount;
     this.updatedTotalPrice -= amount;
     this.totalPrice = this.updatedTotalPrice;
     this.priceOffCoupon += amount;
@@ -310,8 +352,6 @@ export class SubscriptionView implements OnInit {
 
       priceOff = (PERCENTAGE / 100) * this.totalPrice;
 
-      // console.log(this.priceOff);
-      // console.log(priceOff);
       this.priceOff += priceOff;
       this.totalPrice -= priceOff;
     }
@@ -425,10 +465,12 @@ export class SubscriptionView implements OnInit {
       gender: this.formBuilder.control(null, Validators.required),
       phone: this.formBuilder.control(null, [
         Validators.required,
+        Validators.pattern('^[0-9]*$'),
         Validators.minLength(10),
       ]),
       renew: this.formBuilder.control(false, Validators.required),
       extraInfo: this.formBuilder.control(null),
+      imageRights: this.formBuilder.control(false, Validators.required),
       couponInput: this.formBuilder.control(''),
       couponCodeValid: this.formBuilder.control(null),
       couponValue: this.formBuilder.control(null),
@@ -464,9 +506,11 @@ export class SubscriptionView implements OnInit {
       ]),
       guardianPhone: this.formBuilder.control(null, [
         Validators.required,
+        Validators.pattern('^[0-9]*$'),
         Validators.minLength(10),
       ]),
       extraInfo: this.formBuilder.control(null),
+      imageRights: this.formBuilder.control(false, Validators.required),
       couponInput: this.formBuilder.control(''),
       couponCodeValid: this.formBuilder.control(null),
       couponValue: this.formBuilder.control(null),

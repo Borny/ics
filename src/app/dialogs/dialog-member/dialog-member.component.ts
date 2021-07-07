@@ -128,6 +128,7 @@ export class DialogMember {
   private _initKidForm(kidData: KidSubscription): void {
     const gender = kidData.gender === GenderEnum.FEMALE ? 0 : 1;
     const renew = kidData.renew === YesNoEnum.YES ? true : false;
+    const imageRights = kidData.imageRights === YesNoEnum.YES ? true : false;
     this.kidForm = this.formBuilder.group({
       memberLastName: this.formBuilder.control(
         kidData.memberLastName,
@@ -164,9 +165,18 @@ export class DialogMember {
       ]),
       guardianPhone: this.formBuilder.control(kidData.guardianPhone, [
         Validators.required,
+        Validators.pattern('^[0-9]*$'),
         Validators.minLength(10),
       ]),
       extraInfo: this.formBuilder.control(kidData.extraInfo),
+      imageRights: this.formBuilder.control(imageRights, Validators.required),
+      userEmail: this.formBuilder.control(
+        {
+          value: kidData.userEmail,
+          disabled: true,
+        },
+        [Validators.required]
+      ),
     });
 
     console.log(this.kidForm);
@@ -177,6 +187,8 @@ export class DialogMember {
   private _initAdultForm(adultData: AdultSubscription): void {
     const gender = adultData.gender === GenderEnum.FEMALE ? 0 : 1;
     const renew = adultData.renew === YesNoEnum.YES ? true : false;
+    const imageRights = adultData.imageRights === YesNoEnum.YES ? true : false;
+
     this.adultForm = this.formBuilder.group({
       memberLastName: this.formBuilder.control(
         adultData.memberLastName,
@@ -193,6 +205,7 @@ export class DialogMember {
       gender: this.formBuilder.control(gender, Validators.required),
       phone: this.formBuilder.control(adultData.phone, [
         Validators.required,
+        Validators.pattern('^[0-9]*$'),
         Validators.minLength(10),
       ]),
       subscriptionDate: this.formBuilder.control(
@@ -204,7 +217,15 @@ export class DialogMember {
       ),
       renew: this.formBuilder.control(renew, Validators.required),
       extraInfo: this.formBuilder.control(adultData.extraInfo),
+      imageRights: this.formBuilder.control(imageRights, Validators.required),
       couponUse: this.formBuilder.control(adultData.couponCodeValid),
+      userEmail: this.formBuilder.control(
+        {
+          value: adultData.userEmail,
+          disabled: true,
+        },
+        [Validators.required]
+      ),
     });
 
     this.loading = false;

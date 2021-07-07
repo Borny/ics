@@ -13,6 +13,7 @@ import { AuthInterceptor } from './interceptors/auth-interceptor';
 
 import { AppComponent } from './app.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,7 +25,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     BrowserAnimationsModule,
     MaterialModule,
     SharedModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [
     {
@@ -36,6 +37,7 @@ import { ReactiveFormsModule } from '@angular/forms';
       provide: STEPPER_GLOBAL_OPTIONS,
       useValue: { displayDefaultIndicatorType: false },
     },
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2500 } },
   ],
   bootstrap: [AppComponent],
 })

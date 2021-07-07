@@ -1,11 +1,18 @@
 <h2 class="title">
   {{ dialogTitle }}
-  <strong *ngIf="!loading" class="color-primary-font">
-    {{
-      ageMode === subscriptionAgeMode.SubscriptionAgeModeAdults
-        ? adult.memberFirstName
-        : kid.memberFirstName
-    }}
+  <strong
+    *ngIf="
+      !loading && ageMode === subscriptionAgeMode.SubscriptionAgeModeAdults
+    "
+    class="color-primary-font"
+  >
+    {{ adult.memberFirstName }} {{ adult.memberLastName }}
+  </strong>
+  <strong
+    *ngIf="!loading && ageMode === subscriptionAgeMode.SubscriptionAgeModeKids"
+    class="color-primary-font"
+  >
+    {{ kid.memberFirstName }} {{ kid.memberLastName }}
   </strong>
 </h2>
 
@@ -95,7 +102,7 @@
         <mat-label>Téléphone</mat-label>
         <input
           matInput
-          type="number"
+          type="text"
           name="phone"
           formControlName="phone"
           required
@@ -121,6 +128,20 @@
 
       <!-- RENEWAL -->
       <mat-checkbox formControlName="renew"> Réinscription </mat-checkbox>
+
+      <!-- IMAGE RIGHTS -->
+      <mat-checkbox formControlName="imageRights">Droit à l'image</mat-checkbox>
+
+      <mat-form-field>
+        <mat-label>Utilisateur associé</mat-label>
+        <input
+          matInput
+          type="email"
+          name="userEmail"
+          formControlName="userEmail"
+          required
+        />
+      </mat-form-field>
     </div>
   </form>
 
@@ -211,6 +232,9 @@
       <!-- RENEWAL -->
       <mat-checkbox formControlName="renew"> Réinscription </mat-checkbox>
 
+      <!-- IMAGE RIGHTS -->
+      <mat-checkbox formControlName="imageRights">Droit à l'image</mat-checkbox>
+
       <h3 class="color-primary-font">Représentant légal</h3>
       <mat-form-field>
         <mat-label>Nom</mat-label>
@@ -264,10 +288,10 @@
         >
       </mat-form-field>
       <mat-form-field>
-        <mat-label>Phone</mat-label>
+        <mat-label>Téléphone</mat-label>
         <input
           matInput
-          type="number"
+          type="text"
           name="guardianPhone"
           formControlName="guardianPhone"
           required
@@ -280,9 +304,21 @@
           >Veuillez renseigner un numéro de téléphone valide</mat-error
         >
       </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Utilisateur associé</mat-label>
+        <input
+          matInput
+          type="email"
+          name="userEmail"
+          formControlName="userEmail"
+          required
+        />
+      </mat-form-field>
     </div>
   </form>
 </mat-dialog-content>
+
 <div mat-dialog-actions align="end">
   <button
     mat-raised-button
@@ -295,12 +331,29 @@
   <button mat-raised-button color="accent" (click)="onCancel()" type="button">
     Annuler
   </button>
+
+  <!--  ADULTS SUBMIT -->
   <button
+    *ngIf="
+      !loading && ageMode === subscriptionAgeMode.SubscriptionAgeModeAdults
+    "
     mat-raised-button
     color="primary"
     (click)="onSubmit()"
     type="submit"
-    [disabled]="adultForm.invalid || kidForm.invalid"
+    [disabled]="adultForm.invalid"
+  >
+    Modifier
+  </button>
+
+  <!-- KIDS SUBMIT -->
+  <button
+    *ngIf="!loading && ageMode === subscriptionAgeMode.SubscriptionAgeModeKids"
+    mat-raised-button
+    color="primary"
+    (click)="onSubmit()"
+    type="submit"
+    [disabled]="kidForm.invalid"
   >
     Modifier
   </button>

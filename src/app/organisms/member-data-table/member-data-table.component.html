@@ -8,7 +8,7 @@
     <div>Genre</div>
     <div>Date d'inscription</div>
     <div>Réinscription</div>
-    <div>Date Inscription</div>
+    <div>Droit à l'image</div>
 
     <!-- Adults -->
     <ng-container *ngIf="subscriptionAgeMode === 1">
@@ -31,6 +31,7 @@
     <div>Utilisation coupon</div>
     <div>Valeur coupon</div>
     <div>Tarif Inscription</div>
+    <div>Compte Associé</div>
     <div></div>
   </li>
   <li
@@ -64,8 +65,9 @@
     <div>{{ member.memberFirstName }}</div>
     <div>{{ member.birthdate | date: "dd/MM/YYYY" }}</div>
     <div>{{ member.gender }}</div>
-    <div>{{ member.subscriptionDate | date: 'dd/MM/yyyy' }}</div>
+    <div>{{ member.subscriptionDate | date: "dd/MM/yyyy" }}</div>
     <div>{{ member.renew }}</div>
+    <div>{{ member.imageRights }}</div>
 
     <!-- Adults -->
     <ng-container *ngIf="subscriptionAgeMode === 1">
@@ -99,6 +101,7 @@
     <div>{{ member.couponCodeValid ? "Oui" : "Non" }}</div>
     <div>{{ member.couponValue || "-" }}</div>
     <div>{{ member.subscriptionAmount }}</div>
+    <div>{{ member.userEmail }}</div>
     <div>
       <button
         mat-flat-button

@@ -9,12 +9,10 @@
   #stepper
   (selectionChange)="onBackToFormules($event)"
   labelPosition="bottom"
+  [orientation]="(stepperOrientation$ | async)!"
 >
   <!-- FORMULES -->
-  <mat-step
-    [stepControl]="formuleForm"
-    label="Choisissez votre/vos formule(s) "
-  >
+  <mat-step [stepControl]="formuleForm" label="Choisissez votre/vos formule(s)">
     <!-- LOADER -->
     <atom-spinner
       *ngIf="loading"
@@ -98,7 +96,7 @@
       <form
         *ngIf="showSubscriptionForm"
         [formGroup]="subscriptionForm"
-        (ngSubmit)="onSubmitSubscriptionForm()"
+        (ngSubmit)="onSubmitSubscriptionForm(stepper)"
       >
         <!-- ADULT FORMS -->
         <ng-container
@@ -193,7 +191,7 @@
                   <mat-label>Téléphone</mat-label>
                   <input
                     matInput
-                    type="number"
+                    type="text"
                     name="phone"
                     formControlName="phone"
                     required
@@ -230,6 +228,15 @@
                     formControlName="extraInfo"
                   ></textarea>
                 </mat-form-field>
+
+                <!-- IMAGE RIGHTS -->
+                <mat-checkbox class="form__group" formControlName="imageRights">
+                  {{
+                    subscription.get("imageRights").value
+                      ? "Je soussigné(e), adhérent ou représentant légal de l'adhérent, autorise ACDO et ACDOIDFP, groupe ICS France, à utiliser l'image de mon enfant, à des fins de communication des activités du groupe ICS France"
+                      : "Je soussigné(e), adhérent ou représentant légal de l'adhérent, n'autorise pas ACDO et ACDOIDFP, groupe ICS France, à utiliser l'image de mon enfant, à des fins de communication des activités du groupe ICS France"
+                  }}
+                </mat-checkbox>
               </div>
 
               <!-- COUPON -->
@@ -474,7 +481,7 @@
                   <mat-label>Phone</mat-label>
                   <input
                     matInput
-                    type="number"
+                    type="text"
                     name="guardianPhone"
                     formControlName="guardianPhone"
                     required
@@ -503,6 +510,15 @@
                     formControlName="extraInfo"
                   ></textarea>
                 </mat-form-field>
+
+                <!-- IMAGE RIGHTS -->
+                <mat-checkbox class="form__group" formControlName="imageRights">
+                  {{
+                    subscription.get("imageRights").value
+                      ? "Je soussigné(e), adhérent ou représentant légal de l'adhérent, autorise ACDO et ACDOIDFP, groupe ICS France, à utiliser l'image de mon enfant, à des fins de communication des activités du groupe ICS France"
+                      : "Je soussigné(e), adhérent ou représentant légal de l'adhérent, n'autorise pas ACDO et ACDOIDFP, groupe ICS France, à utiliser l'image de mon enfant, à des fins de communication des activités du groupe ICS France"
+                  }}
+                </mat-checkbox>
               </div>
 
               <!-- COUPON -->
@@ -719,8 +735,15 @@
           <p *ngIf="multipleSubscriptionDiscount">-10% de réduction inclus</p>
         </div>
 
+        <!-- SPINNER -->
+        <atom-spinner
+          *ngIf="subscriptionLoading"
+          [color]="'accent'"
+          class="spinner--xs"
+        ></atom-spinner>
+
         <!-- BTNS -->
-        <div class="btn__container">
+        <div *ngIf="!subscriptionLoading" class="btn__container">
           <button
             type="button"
             mat-raised-button
@@ -745,45 +768,81 @@
             mat-raised-button
             type="submit"
             color="primary"
-            matStepperNext
             [disabled]="subscriptionForm.invalid"
           >
             Valider
           </button>
+
+          <!-- <button
+            mat-raised-button
+            type="submit"
+            color="primary"
+            matStepperNext
+            [disabled]="subscriptionForm.invalid"
+          >
+            Valider
+          </button> -->
         </div>
       </form>
     </ng-template>
   </mat-step>
 
   <!-- PAYMENT -->
+  <!--  TODO: update the label when payment is ready  -->
   <!-- <mat-step [stepControl]="paymentForm" label="Paiement"> -->
   <mat-step [stepControl]="paymentForm" label="Confirmation">
-    <!-- DETAILS -->
-    <div>
-      Details:
-      <br />
-      number of formules/subscriptions <br />
-      - formule 01 => location / age group / (kid age group) / price / discount
-      <br />
-      .....
-    </div>
-    <div>
-      Price: <br />
-      Total Price to pay
-    </div>
+    <ng-template matStepContent>
+      <!-- DETAILS -->
 
-    <div class="btn__container">
-      <button mat-raised-button color="accent" matStepperPrevious>
-        Retour
-      </button>
-      <button
+      <!-- LOADER -->
+      <atom-spinner
+        *ngIf="subscriptionLoading"
+        [color]="'accent'"
+        class="spinner"
+      ></atom-spinner>
+
+      <div *ngIf="!subscriptionLoading && showValidation">
+        <h2 class="margin-bottom-1 text-center">
+          Inscription validée!
+          <br />
+          Merci, un email vient d'être envoyé à
+          <span class="color-primary-font">
+            {{ subscriptionsData.formValues.accountCreation.email }} </span
+          >.
+        </h2>
+
+        <!-- <p class="margin-bottom-1">
+          Vous pouvez également trouver les détails dans votre espace privé.
+          Connectez-vous en utilisant votre email
+          {{ subscriptionsData.formValues.accountCreation.email }} ainsi que le
+          mot de passe associé.
+        </p> -->
+      </div>
+
+      <div class="btn__container">
+        <!-- <button mat-raised-button color="accent" matStepperPrevious>
+          Retour
+        </button> -->
+        <!-- <button
+          mat-raised-button
+          color="accent"
+          type="button"
+          (click)="onNavigateSignIn()"
+        >
+          Connexion
+        </button> -->
+        <button mat-raised-button color="primary" (click)="onNavigateHome()">
+          Accueil
+        </button>
+        <!-- <button
         mat-raised-button
         color="primary"
         (click)="onValidateSubscriptions()"
       >
         Valider
-      </button>
-      <!-- <button mat-raised-button  (click)="stepper.reset()">Annuler</button> -->
-    </div>
+      </button> -->
+        <!-- <button mat-raised-button  (click)="stepper.reset()">Annuler</button> -->
+      </div>
+    </ng-template>
   </mat-step>
 </mat-stepper>

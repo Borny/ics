@@ -24,6 +24,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   exports: [
@@ -49,6 +50,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatDividerModule,
     MatSelectModule,
     MatTooltipModule,
+    MatSnackBarModule,
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'fr-FR' }],
 })
