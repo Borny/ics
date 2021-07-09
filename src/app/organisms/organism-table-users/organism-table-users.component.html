@@ -6,6 +6,8 @@
     <div>Nom</div>
     <div>Email</div>
     <div>Date d'inscription</div>
+    <div>Prix total</div>
+    <!-- <div>Status Paiement</div> -->
     <div></div>
   </li>
   <li
@@ -39,6 +41,8 @@
     <div>{{ user.lastName }}</div>
     <div>{{ user.email }}</div>
     <div>{{ user.signUpDate | date: "dd/MM/yyyy" }}</div>
+    <div>{{ user.totalPrice }}€</div>
+    <!-- <div>{{ user.paymentMade }}</div> -->
     <div>
       <button
         mat-flat-button

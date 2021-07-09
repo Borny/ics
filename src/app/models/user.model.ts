@@ -11,4 +11,6 @@ export interface User {
   profileImagePath?: string;
   subscriptions?: AdultSubscription[] | KidSubscription[];
   signUpDate: Date;
+  totalPrice?: number;
+  paymentMade?: boolean;
 }

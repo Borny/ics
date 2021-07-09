@@ -47,8 +47,8 @@ export class SubscriptionService {
   }
 
   // POST
-  public addSubscription(formValues: any): Observable<any> {
-    return this.http.post(this.SUBSCRIPTION_URL, formValues);
+  public addSubscription(data: any): Observable<any> {
+    return this.http.post(this.SUBSCRIPTION_URL, data);
   }
 
   // GET DATA

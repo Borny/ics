@@ -176,9 +176,9 @@ export class SubscriptionView implements OnInit {
 
     this.subscriptionsData = {
       formValues: this.subscriptionForm.value,
-      // totalPrice: this.totalPrice,
+      totalPrice: this.totalPrice,
     };
-    console.log(this.subscriptionsData);
+    console.log([this.subscriptionsData, this.totalPrice]);
 
     this.subscriptionService
       .addSubscription(this.subscriptionsData)
