@@ -1,0 +1,19 @@
+<div matDialogTitle>
+  <h2 class="title">
+    Suppression de <strong class="color-primary-font">{{ title }}</strong>
+  </h2>
+</div>
+<mat-dialog-content class="dialog__content">
+  <p>
+    Êtes-vous sûr de vouloir supprimer
+    <strong class="color-primary-font">{{ title }}</strong> ?
+  </p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-raised-button color="accent" (click)="onCancel()" type="button">
+    Annuler
+  </button>
+  <button mat-raised-button color="primary" (click)="onConfirm()" type="submit">
+    Supprimer
+  </button>
+</mat-dialog-actions>

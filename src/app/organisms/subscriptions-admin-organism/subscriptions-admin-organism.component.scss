@@ -1,0 +1,19 @@
+@import "../../../styles/tools/variables";
+@import "../../../styles/tools/mixins";
+
+:host {
+  display: block;
+  padding: 1rem;
+}
+
+.mat-button-toggle-group {
+  width: 400px;
+}
+
+.spinner {
+  margin: 0 auto;
+}
+
+.tab-section {
+  margin: 1rem 0;
+}

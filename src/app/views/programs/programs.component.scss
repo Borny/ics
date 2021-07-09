@@ -1,5 +1,5 @@
-@import "../../../styles/tools/variables";
-@import "../../../styles/tools/mixins";
+@import '../../../styles/tools/variables';
+@import '../../../styles/tools/mixins';
 
 .main {
   background: $white;
@@ -8,7 +8,7 @@
 .hero {
   display: flex;
   justify-content: center;
-  background: url(../../../assets/mobile/edinho-aula-mobile.jpg);
+  background: url('../../../assets/mobile/edinho-aula-mobile.jpg');
   background-size: cover;
   background-position: center;
 
@@ -18,13 +18,12 @@
 
   @include screen-sm {
     min-height: 400px;
-    background-image: url(../../../assets/desktop/edinho-aula-desktop.jpg);
+    background-image: url('../../../assets/desktop/edinho-aula-desktop.jpg');
 
     p {
       margin: 12rem auto 0;
     }
   }
-
 }
 
 .tab__content {
@@ -44,7 +43,10 @@
     margin: 0 auto;
     padding: 0 1rem 1rem;
   }
+}
 
+.tab__img {
+  width: 100%;
 }
 
 .bottom-image {
@@ -52,9 +54,8 @@
   min-height: 150px;
   background-size: cover;
 
-
   &.school {
-    background-image: url(../../../assets/edinho-kid.jpg);
+    background-image: url('../../../assets/edinho-kid.jpg');
 
     @include screen-sm {
       min-height: 700px;
@@ -62,7 +63,7 @@
   }
 
   &.kids {
-    background-image: url(../../../assets/kids-bananeira.jpg);
+    background-image: url('../../../assets/kids-bananeira.jpg');
 
     @include screen-sm {
       min-height: 580px;

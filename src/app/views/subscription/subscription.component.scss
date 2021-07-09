@@ -1,10 +1,9 @@
-@import '../../../styles/tools/variables';
-@import '../../../styles/tools/mixins';
+@import "../../../styles/tools/variables";
+@import "../../../styles/tools/mixins";
 
 :host {
   display: flex;
   flex-flow: column;
-  justify-content: center;
   min-height: calc(100% - (56px + 132px));
 
   @include screen-sm {
@@ -12,70 +11,34 @@
   }
 }
 
-.deal-card__container {
-  background: $color-primary;
-  padding: 1rem;
+// TITLE
+.title__container {
+  @include screen-sm {
+    position: sticky;
+    top: 64px;
+    z-index: 5;
+    background: $white;
+  }
 }
 
-.deal-card__wrapper {
-  max-width: $screen-md;
+// STEPPER
+.mat-stepper-horizontal {
+  max-width: 992px;
+  width: 100%;
   margin: 0 auto;
 }
 
-.deal-card__group {
-  display: flex;
-  flex-flow: column;
-
-  @include screen-sm {
-    flex-flow: row;
-  }
-
-  .deal-card {
-    display: flex;
-    flex-flow: column;
-    flex: 1;
-    margin: 0 0 1rem;
-
+::ng-deep {
+  .mat-horizontal-stepper-header-container {
     @include screen-sm {
-      &:not(:last-child) {
-        margin: 0 1rem 1rem 0;
-      }
-    }
-
-    .mat-card-content {
-      flex: 1;
+      position: sticky;
+      top: 159px;
+      z-index: 4;
+      margin: 0 0 2rem;
+      background: $white;
+      box-shadow: 0 3px 12px 0px rgb(0 0 0 / 50%);
     }
   }
-}
-
-.deal-card__content {
-  font-family: $fontPoppins;
-  // font-size: 1rem;
-}
-
-.deal-card__footer {
-  padding: 0 1rem 1rem;
-  font-family: $fontPoppins;
-  font-size: 1.2rem;
-  text-align: center;
-}
-
-.deal-options {
-  padding: 1rem 0 0;
-}
-
-.deal-options__content {
-  @include screen-sm {
-    padding: 1rem;
-    max-width: $screen-md;
-    margin: 0 auto;
-    border-radius: 4px;
-  }
-}
-
-.deal-options__title {
-  text-align: center;
-  font-weight: $fontWeightBold;
 }
 
 .forms__container {
@@ -108,10 +71,8 @@
 
 .mat-expansion-panel {
   @include screen-sm {
-    // padding: 0 3rem;
     max-width: $screen-sm;
     margin: 1rem auto;
-    // border: 1px solid $color-secondary;
     border-radius: 4px;
   }
 }
@@ -125,43 +86,172 @@
   justify-content: center;
 }
 
-// RADIO BUTTONS
-.radio-group {
+.expansion-panel--small {
   display: flex;
-  flex-flow: column;
-  padding: 1rem;
-  justify-content: stretch;
   align-items: center;
-
-  @include screen-md {
-    flex-flow: row;
-    justify-content: space-evenly;
-  }
+  padding: 0 0 0 1rem;
+  color: $color-secondary;
 }
 
+// RADIO BUTTONS
 .radio-button {
-  border-radius: 100px;
-  margin: 0 0 1rem;
-  padding: 0.5rem 1rem;
-  min-width: 280px;
-  background-color: $color-primary;
-  color: $white;
+  // border-radius: 100px;
+  // margin: 0 0 1rem;
+  // padding: 0.5rem 1rem;
+  // min-width: 280px;
+  // background-color: $color-primary;
+  // color: $white;
 }
 
 .subscription-amount__container {
+  // display: flex;
+  // flex-flow: column;
+  // align-items: center;
+  // padding: 1rem;
+
+  // @include screen-sm {
+  //   max-width: $screen-sm;
+  //   margin: 0 auto;
+  //   border-radius: 4px;
+  //   border: 1px solid $color-secondary;
+  // }
+
+  // .btn {
+  //   margin: 1rem 0;
+  // }
+}
+
+// CARDS
+.card__container {
   display: flex;
-  flex-flow: column;
-  align-items: center;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+}
+
+// BTNS
+.btn__container {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 1rem auto;
+  width: 320px;
+}
+
+//////////////
+
+.form-section__label {
+  padding: 0.5rem 1rem;
+  background: $color-primary;
+  color: $white;
+
+  @include screen-sm {
+    padding: 0.5rem 2rem;
+  }
+}
+
+.form-section__subscription-amount {
+  text-align: center;
   padding: 1rem;
 
   @include screen-sm {
-    max-width: $screen-sm;
-    margin: 0 auto;
-    border-radius: 4px;
-    border: 1px solid $color-secondary;
+    padding: 1rem 3rem;
   }
+  span {
+    color: $color-primary;
+    font-weight: $fontWeightBold;
+  }
+}
 
-  .btn {
-    margin: 1rem 0;
+.form-group {
+  display: flex;
+  flex-flow: column;
+  padding: 1rem;
+
+  @include screen-sm {
+    padding: 1rem 3rem;
+  }
+}
+
+.btn {
+  margin: 0 auto 2rem;
+  display: block;
+}
+
+// RADIO BUTTONS
+// .checkbox-list,
+// .radio-group {
+//   display: flex;
+//   flex-flow: column;
+//   padding: 1rem;
+//   justify-content: stretch;
+// }
+
+// .checkbox-item,
+.radio-button {
+  padding: 0.5rem 0;
+
+  @include screen-sm {
+    padding: 0.5rem 1rem;
+  }
+}
+
+.date-picker {
+  width: 250px;
+}
+
+.legal-guardian-checkbox {
+  margin: 1rem auto;
+}
+
+.img-rights-checkbox {
+  .mat-checkbox-inner-container {
+    margin-top: 4px;
+  }
+}
+
+// COUPON
+.coupon__input {
+  display: flex;
+  align-items: center;
+  button {
+    margin: 0 0 0 1rem;
+  }
+}
+
+// ACCOUNT CREATION
+.account-creation__container {
+  width: 100%;
+  max-width: $screen-sm;
+  margin: 0 auto;
+  border: 3px solid$color-primary;
+  border-radius: 4px;
+}
+
+// TERMS
+.terms {
+  &__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    > * {
+      margin: 1rem 0 0;
+    }
+  }
+}
+
+// PRICE SECTION
+.price {
+  &__container {
+    max-width: $screen-sm;
+    margin: 3rem auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    border: 3px solid $color-primary;
+    border-radius: 4px;
+  }
+  &__amount {
+    color: $color-primary;
+    font-weight: $fontWeightBold;
   }
 }

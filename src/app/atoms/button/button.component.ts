@@ -1,12 +1,17 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
+import { buttonAnimation } from 'src/app/animations/animations';
+
 @Component({
   selector: 'atom-button',
   templateUrl: './button.component.html',
-  styleUrls: ['./button.component.scss']
+  styleUrls: ['./button.component.scss'],
+  // animations: [
+  //   buttonAnimation
+  // ]
 })
 
-export class ButtonComponent implements OnInit {
+export class AtomButton implements OnInit {
   @Input() text: string;
   @Input() isDisabled = false;
   @Input() type: string;

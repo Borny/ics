@@ -4,14 +4,16 @@
       <p class="title-xl uppercase">Nos Programmes</p>
     </div>
     <mat-tab-group
+      class="front-end-tabs"
       mat-align-tabs="center"
       [backgroundColor]="'primary'"
       mat-stretch-tabs
+      dynamicHeight
     >
       <mat-tab label="Ecoles">
         <div class="tab__content">
           <h1>Capoeira à l'école</h1>
-          <p class="color-primary">Capoeira, culture et éducation</p>
+          <p class="color-primary-font">Capoeira, culture et éducation</p>
           <p>
             Le programme Capoeira Culture et Education va plus loin qu’une
             simple activité à l’école. L’objectif de ce programme est de
@@ -36,6 +38,7 @@
           </p>
         </div>
         <img
+          class="tab__img"
           src="../../../assets/edinho-kid.jpg"
           alt="contramestre edinho et enfant"
         />
@@ -46,10 +49,10 @@
           (clickEvent)="onNavigateContact($event)"
         ></atom-button>
       </mat-tab>
-      <mat-tab label="Enfants">
+      <mat-tab label="Enfants / Ados">
         <div class="tab__content">
           <h1>Enfants</h1>
-          <p class="color-primary">Camaradinhas</p>
+          <p class="color-primary-font">Camaradinhas</p>
           <p>
             Les mouvements de base de la capoeira sont adaptés et enseignés aux
             enfants à travers des jeux. Notre méthode probante est de faire
@@ -87,28 +90,39 @@
             un excellent outil pour aider à l'éducation de l'enfant.
           </p>
         </div>
-        <img src="../../../assets/kids-bananeira.jpg" alt="enfants équilibre" />
+        <img
+          class="tab__img"
+          src="../../../assets/kids-bananeira.jpg"
+          alt="enfants équilibre"
+        />
         <organism-sessions
-          *ngFor="let session of sessionsKids; let even = even; let odd = odd"
+          *ngFor="
+            let formule of formules$ | async | filter: ageGroupEnum.KIDS;
+            let even = even;
+            let odd = odd
+          "
           [style]="{ odd: odd, even: even }"
-          [sessionsKids]="session"
+          [formule]="formule"
+        ></organism-sessions>
+        <organism-sessions
+          *ngFor="
+            let formule of formules$ | async | filter: ageGroupEnum.TEENS;
+            let even = even;
+            let odd = odd
+          "
+          [style]="{ odd: odd, even: even }"
+          [formule]="formule"
         ></organism-sessions>
         <atom-button
           class="btn"
           [type]="'button'"
-          [text]="CONTACT_BTN_TEXT"
-          (clickEvent)="onNavigateContact($event)"
-        ></atom-button>
-        <!-- <atom-button
-          class="btn"
-          [type]="'button'"
           [text]="SUBSCRIPTIONS_BTN_TEXT"
           (clickEvent)="onNavigateSubscriptions($event)"
-        ></atom-button> -->
+        ></atom-button>
       </mat-tab>
-      <mat-tab label="Ados-Adultes">
+      <mat-tab label="Adultes">
         <div class="tab__content">
-          <h1>Adultes / Adolescents</h1>
+          <h1>Adultes</h1>
           <p class="color-primary">Pour le corps et pour l’esprit</p>
           <p>
             Le dialogue corporel, l’improvisation, l’équilibre, tout comme les
@@ -151,23 +165,25 @@
             faire à la maison. Il y aura également du matériel téléchargeable.
           </p>
         </div>
-        <img src="../../../assets/movement-duo.jpg" alt="enfants équilibre" />
+        <img
+          class="tab__img"
+          src="../../../assets/movement-duo.jpg"
+          alt="enfants équilibre"
+        />
         <organism-sessions
-          *ngFor="let session of sessionsAdults; let even = even; let odd = odd"
+          *ngFor="
+            let formule of formules$ | async | filter: ageGroupEnum.ADULTS;
+            let even = even;
+            let odd = odd
+          "
           [style]="{ odd: odd, even: even }"
-          [sessionsAdults]="session"
+          [formule]="formule"
         ></organism-sessions>
         <atom-button
           class="btn"
-          [type]="'button'"
-          [text]="CONTACT_BTN_TEXT"
-          (clickEvent)="onNavigateContact($event)"
-        ></atom-button>
-        <!-- <atom-button
-          class="btn"
           [text]="SUBSCRIPTIONS_BTN_TEXT"
           (clickEvent)="onNavigateSubscriptions($event)"
-        ></atom-button> -->
+        ></atom-button>
       </mat-tab>
     </mat-tab-group>
   </section>

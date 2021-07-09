@@ -125,12 +125,46 @@ textarea {
   }
 }
 
+.hidden {
+  display: none !important;
+}
+
 .display-flex {
-  display: flex;
+  display: flex !important;
+}
+
+.display-inline {
+  display: inline !important;
+}
+
+.align-center {
+  align-items: center !important;
+}
+
+.flex-column {
+  flex-direction: column !important;
 }
 
 .full-height {
   height: 100%;
+}
+
+.padding-left-1 {
+  padding-left: 1rem !important;
+}
+
+.margin-bottom-1 {
+  margin-bottom: 1rem !important;
+}
+
+.link {
+  color: $color-primary-light;
+  text-decoration: underline;
+  margin: 0.5rem 0;
+}
+
+.font-size-sm {
+  font-size: 0.8rem;
 }
 
 .color-primary-font {
@@ -152,6 +186,10 @@ textarea {
   text-transform: uppercase;
 }
 
+.text-center {
+  text-align: center;
+}
+
 .color-primary {
   color: $color-primary;
 }
@@ -160,6 +198,11 @@ textarea {
   font-weight: $fontWeightBold;
 }
 
+.error {
+  color: $color-warning;
+}
+
+// ANGULAR MATERIAL OVERRIDE
 .mat-expansion-panel-body {
   padding: 0 !important;
 }

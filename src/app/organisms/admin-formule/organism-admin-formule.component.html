@@ -1,0 +1,62 @@
+<div class="btn__container">
+  <button mat-raised-button color="primary" (click)="onOpenModalCreate()">
+    Ajouter une formule
+  </button>
+</div>
+
+<atom-spinner *ngIf="loading" [color]="'accent'"></atom-spinner>
+
+<!-- KIDS -->
+<atom-label-line [label]="ageGroupEnum.KIDS"></atom-label-line>
+<div
+  *ngIf="(formules$ | async)?.length && !loading; else noResult"
+  [ngClass]="{ hidden: loading }"
+  class="card__container"
+>
+  <molecule-card-formule
+    *ngFor="let formule of formules$ | async | filter: ageGroupEnum.KIDS"
+    [formule]="formule"
+    [mode]="ADMIN"
+    (delete)="onOpenModalDelete($event)"
+    (update)="onOpenModalUpdate($event)"
+  ></molecule-card-formule>
+</div>
+
+<!-- TEENS -->
+<atom-label-line [label]="ageGroupEnum.TEENS"></atom-label-line>
+<div
+  *ngIf="(formules$ | async)?.length && !loading; else noResult"
+  [ngClass]="{ hidden: loading }"
+  class="card__container"
+>
+  <molecule-card-formule
+    *ngFor="let formule of formules$ | async | filter: ageGroupEnum.TEENS"
+    [formule]="formule"
+    [mode]="ADMIN"
+    (delete)="onOpenModalDelete($event)"
+    (update)="onOpenModalUpdate($event)"
+  ></molecule-card-formule>
+</div>
+
+<!-- ADULTS -->
+<atom-label-line [label]="ageGroupEnum.ADULTS"></atom-label-line>
+<div
+  *ngIf="(formules$ | async)?.length && !loading; else noResult"
+  [ngClass]="{ hidden: loading }"
+  class="card__container"
+>
+  <molecule-card-formule
+    *ngFor="let formule of formules$ | async | filter: ageGroupEnum.ADULTS"
+    [formule]="formule"
+    [mode]="ADMIN"
+    (delete)="onOpenModalDelete($event)"
+    (update)="onOpenModalUpdate($event)"
+  ></molecule-card-formule>
+</div>
+
+<!-- NO RESULTS -->
+<ng-template #noResult>
+  <p *ngIf="!loading" class="error">
+    Aucune Formule n'existe. Veuillez en créer une.
+  </p>
+</ng-template>

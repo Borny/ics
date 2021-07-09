@@ -1,3 +1,13 @@
-<button [type]="type" (click)="onClick($event)" [disabled]="isDisabled">
+<!-- <button
+[@buttonState]="isDisabled ? 'invalid' : 'valid'"
+[type]="type" (click)="onClick($event)" [disabled]="isDisabled">
+  {{ text }}
+</button> -->
+
+<button
+  [type]="type"
+  (click)="onClick($event)"
+  [disabled]="isDisabled"
+>
   {{ text }}
 </button>

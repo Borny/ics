@@ -1,0 +1,5 @@
+<mat-spinner *ngIf="isLoading" class="spinner"></mat-spinner>
+
+<section class="tab-section" *ngIf="(users$ | async)?.length && !isLoading">
+  <organism-table-users [users$]="users$"></organism-table-users>
+</section>

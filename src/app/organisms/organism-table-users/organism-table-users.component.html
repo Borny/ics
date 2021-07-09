@@ -1,0 +1,57 @@
+<ul class="data-table__container">
+  <li class="data-table__row data-table__row-header">
+    <div class="first-column"></div>
+    <div></div>
+    <div>Prénom</div>
+    <div>Nom</div>
+    <div>Email</div>
+    <div>Date d'inscription</div>
+    <div>Prix total</div>
+    <!-- <div>Status Paiement</div> -->
+    <div></div>
+  </li>
+  <li
+    *ngIf="!(users$ | async)"
+    class="data-table__row data-table__row-body data-table__row-body--no-data"
+  >
+    Aucun adhérents
+  </li>
+  <li
+    class="data-table__row data-table__row-body"
+    [ngClass]="{ odd: odd, even: even }"
+    *ngFor="
+      let user of users$ | async;
+      let even = even;
+      let odd = odd;
+      let i = index
+    "
+  >
+    <div class="first-column">{{ i + 0 }}</div>
+    <div>
+      <button
+        mat-flat-button
+        type="button"
+        color="primary"
+        (click)="onOpenModalUpdate(user)"
+      >
+        <mat-icon>create</mat-icon>
+      </button>
+    </div>
+    <div>{{ user.firstName }}</div>
+    <div>{{ user.lastName }}</div>
+    <div>{{ user.email }}</div>
+    <div>{{ user.signUpDate | date: "dd/MM/yyyy" }}</div>
+    <div>{{ user.totalPrice }}€</div>
+    <!-- <div>{{ user.paymentMade }}</div> -->
+    <div>
+      <button
+        mat-flat-button
+        type="button"
+        color="primary"
+        (click)="onOpenModalUpdate(user)"
+      >
+        <mat-icon>create</mat-icon>
+      </button>
+    </div>
+  </li>
+</ul>

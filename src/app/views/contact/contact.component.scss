@@ -30,6 +30,11 @@
   }
 }
 
+mat-card {
+  width: 100%;
+  max-width: $screen-xs;
+}
+
 .contact-form__container {
   display: flex;
   flex-direction: column;

@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "icsfr-260da"
+    "default": "icsfr-260da",
+    "staging": "icsfrance-20f52"
   }
 }

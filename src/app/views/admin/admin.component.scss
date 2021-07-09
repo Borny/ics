@@ -3,95 +3,10 @@
 
 h1 {
   text-align: center;
-  margin: 2rem auto;
+  margin: 1rem auto;
 }
 
 .spinner {
   margin: 0 auto;
 }
 
-.adult-section {
-  padding: 1rem;
-}
-
-.data-table__container {
-  width: 100%;
-  display: flex;
-  flex-flow: column wrap;
-  overflow-x: auto;
-  border: 1px solid $color-secondary;
-}
-
-.data-table__item {
-  display: flex;
-  justify-content: flex-start;
-
-  div {
-    flex: 1;
-    width: 170px;
-    text-align: center;
-    font-size: 0.8rem;
-    padding: 0.3rem;
-
-    // Hidding overflowing text
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-    // Displaying the whole text content on hover
-    &:hover {
-      text-overflow: clip;
-      white-space: normal;
-    }
-
-    &:not(:last-child) {
-      border-right: 1px solid $color-secondary;
-    }
-
-    &:last-child {
-      color: $white;
-      border-bottom: 1px solid $color-secondary;
-    }
-
-    &.primary-color {
-      background-color: $color-primary;
-    }
-
-    &.warning-color {
-      background-color: #ff8800;
-    }
-  }
-
-  // Removing the border-bottom on the last cell of the table
-  &:last-child {
-    div {
-      &:last-child {
-        border: none;
-      }
-    }
-  }
-
-  &.data-table__item__header {
-    background: $color-primary;
-    color: $white;
-  }
-
-  &.odd {
-    background: $color-primary-light;
-  }
-
-  &.even {
-    background: $white;
-  }
-}
-
-.btn-container {
-  display: flex;
-  flex-flow: column;
-  align-items: center;
-  margin: 2rem auto;
-  p {
-    margin: 0 0 1rem;
-    text-align: center;
-  }
-}

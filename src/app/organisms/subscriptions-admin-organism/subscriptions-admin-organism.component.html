@@ -1,0 +1,27 @@
+<div
+  *ngIf="(formules$ | async)?.length && !isLoading"
+  class="mat-button-toggle-group"
+>
+  <mat-button-toggle-group vertical name="fontStyle" aria-label="Font Style">
+    <mat-button-toggle
+      *ngFor="let formule of formules$ | async; let formuleIndex = index"
+      [value]="{ formId: formule._id, formuleAge: formule.ageGroup }"
+      [checked]="formuleIndex === 0"
+      (change)="formuleOptionHandler($event)"
+    >
+      {{ formule.title }} -
+      <span class="color-primary-font bold">{{ formule.ageGroup }}</span>
+      {{ formule.kidAge }}
+    </mat-button-toggle>
+  </mat-button-toggle-group>
+</div>
+
+<mat-spinner *ngIf="isLoading" class="spinner"></mat-spinner>
+
+<section class="tab-section" *ngIf="!isLoading">
+  {{ name }}
+  <member-data-table
+    [subscriptionAgeMode]="subscriptionAgeMode"
+    [membersData]="membersData"
+  ></member-data-table>
+</section>

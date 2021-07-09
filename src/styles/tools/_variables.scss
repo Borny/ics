@@ -8,13 +8,26 @@ $white: #ffffff;
 $black: #000000;
 
 $minsk: #393185;
+$grey: #ccc;
 
 $cod-gray: #191919;
+$sasquatch-socks: #ff4081;
+
+$red: #f44336;
+$sea-buckthorn: #f4a734;
 
 $color-primary: $minsk;
 $color-secondary: $cod-gray;
+$color-accent: $sasquatch-socks;
 
-$color-primary-light: color.scale($minsk, $lightness: 70%);
+$color-warning: $red;
+$mild-warning: $sea-buckthorn;
+
+// #7b6dff
+
+$color-primary-light: color.scale($minsk, $lightness: 50%);
+$color-primary-lighter: color.scale($minsk, $lightness: 70%);
+
 $grey-dark: darken($cod-gray, 0.5);
 
 // $color-secondary: $yellow-sea;

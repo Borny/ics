@@ -1,12 +1,12 @@
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
-@import '~@angular/material/theming';
 // Plus imports for other components in your app.
+@use '~@angular/material' as mat;
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
-@include mat-core();
+@include mat.core();
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
@@ -27,43 +27,43 @@ $custom-theme-primary: (
   A400: #3d5afe,
   A700: #304ffe,
   contrast: (
-    50: $dark-primary-text,
-    100: $dark-primary-text,
-    200: $dark-primary-text,
-    300: $light-primary-text,
-    400: $light-primary-text,
-    500: $light-primary-text,
-    600: $light-primary-text,
-    700: $light-primary-text,
-    800: $light-primary-text,
-    900: $light-primary-text,
-    A100: $dark-primary-text,
-    A200: $light-primary-text,
-    A400: $light-primary-text,
-    A700: $light-primary-text,
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: rgba(black, 0.87),
+    A200: white,
+    A400: white,
+    A700: white,
   ),
 );
 
-$ics-primary: mat-palette($custom-theme-primary);
-$ics-accent: mat-palette($mat-pink, A200, A100, A400);
+$ics-primary: mat.define-palette($custom-theme-primary);
+$ics-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
-$ics-warn: mat-palette($mat-red);
+$ics-warn: mat.define-palette(mat.$red-palette);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$ics-theme: mat-light-theme($ics-primary, $ics-accent, $ics-warn);
+$ics-theme: mat.define-light-theme($ics-primary, $ics-accent, $ics-warn);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include angular-material-theme($ics-theme);
+@include mat.all-component-themes($ics-theme);
 
 /* You can add global styles to this file, and also import other style files */
-@import './styles/tools/variables';
-@import './styles/tools/mixins';
+@import "./styles/tools/variables";
+@import "./styles/tools/mixins";
 
-@import './styles/base/normalize';
-@import './styles/base/base';
+@import "./styles/base/normalize";
+@import "./styles/base/base";
 
-@import './styles/components/tabs';
-@import './styles/components/button';
+@import "./styles/components/tabs";
+@import "./styles/components/button";

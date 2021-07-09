@@ -1,0 +1,116 @@
+<ul class="data-table__container">
+  <li class="data-table__row data-table__row-header">
+    <div class="first-column"></div>
+    <div></div>
+    <div>Nom</div>
+    <div>Prénom</div>
+    <div>Date de naissance</div>
+    <div>Genre</div>
+    <div>Date d'inscription</div>
+    <div>Réinscription</div>
+    <div>Droit à l'image</div>
+
+    <!-- Adults -->
+    <ng-container *ngIf="subscriptionAgeMode === 1">
+      <div>Téléphone</div>
+    </ng-container>
+
+    <!-- Kids -->
+    <ng-container *ngIf="subscriptionAgeMode === 0">
+      <div>Nom du représentant légal</div>
+      <div>Prénom du représentant légal</div>
+      <div>Email du représentant légal</div>
+      <div>Téléphone du représentant légal</div>
+      <!-- <div>Nom du second représentant légal</div>
+      <div>Prénom du second représentant légal</div>
+      <div>Email du second représentant légal</div>
+      <div>Téléphone du second représentant légal</div> -->
+    </ng-container>
+
+    <div>Info Supplémentaire</div>
+    <div>Utilisation coupon</div>
+    <div>Valeur coupon</div>
+    <div>Tarif Inscription</div>
+    <div>Compte Associé</div>
+    <div></div>
+  </li>
+  <li
+    *ngIf="!membersData.length"
+    class="data-table__row data-table__row-body data-table__row-body--no-data"
+  >
+    Aucune inscription
+  </li>
+  <li
+    class="data-table__row data-table__row-body"
+    [ngClass]="{ odd: odd, even: even }"
+    *ngFor="
+      let member of membersData;
+      let even = even;
+      let odd = odd;
+      let i = index
+    "
+  >
+    <div class="first-column">{{ i + 0 }}</div>
+    <div>
+      <button
+        mat-flat-button
+        type="button"
+        color="primary"
+        (click)="onOpenModalUpdate(member)"
+      >
+        <mat-icon>create</mat-icon>
+      </button>
+    </div>
+    <div>{{ member.memberLastName }}</div>
+    <div>{{ member.memberFirstName }}</div>
+    <div>{{ member.birthdate | date: "dd/MM/YYYY" }}</div>
+    <div>{{ member.gender }}</div>
+    <div>{{ member.subscriptionDate | date: "dd/MM/yyyy" }}</div>
+    <div>{{ member.renew }}</div>
+    <div>{{ member.imageRights }}</div>
+
+    <!-- Adults -->
+    <ng-container *ngIf="subscriptionAgeMode === 1">
+      <div>{{ member.phone }}</div>
+    </ng-container>
+
+    <!-- Kids -->
+    <ng-container *ngIf="subscriptionAgeMode === 0">
+      <div>{{ member.guardianLastName }}</div>
+      <div>{{ member.guardianFirstName }}</div>
+      <div>{{ member.guardianEmail }}</div>
+      <div>{{ member.guardianPhone }}</div>
+      <!-- <div>
+        {{
+          member.secondGuardianLastName ? member.secondGuardianLastName : "-"
+        }}
+      </div>
+      <div>
+        {{
+          member.secondGuardianFirstName ? member.secondGuardianFirstName : "-"
+        }}
+      </div>
+      <div>
+        {{ member.secondGuardianEmail ? member.secondGuardianEmail : "-" }}
+      </div>
+      <div>
+        {{ member.secondGuardianPhone ? member.secondGuardianPhone : "-" }}
+      </div> -->
+    </ng-container>
+    <div>{{ member.extraInfo || "-" }}</div>
+    <div>{{ member.couponCodeValid ? "Oui" : "Non" }}</div>
+    <div>{{ member.couponValue || "-" }}</div>
+    <div>{{ member.subscriptionAmount }}</div>
+    <div>{{ member.userEmail }}</div>
+    <div>
+      <button
+        mat-flat-button
+        type="button"
+        color="primary"
+        (click)="onOpenModalUpdate(member)"
+      >
+        <mat-icon>create</mat-icon>
+      </button>
+    </div>
+  </li>
+</ul>

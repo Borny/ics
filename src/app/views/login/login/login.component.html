@@ -1,0 +1,132 @@
+<h1 class="color-primary-font">{{ heading }}</h1>
+<div class="form__container">
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+
+  <div class="error-message__container" *ngIf="!isLoading && loginFailed">
+    <p class="error-message__content">
+      Une erreur est survenue, veuillez réessayer
+    </p>
+    <atom-button
+      class="btn"
+      [type]="'button'"
+      [text]="RELOAD_BTN_TEXT"
+      (click)="onReload()"
+    ></atom-button>
+  </div>
+
+  <mat-card *ngIf="!isLoading && !loginFailed">
+    <!-- Log in form -->
+    <form
+      *ngIf="showLogInForm"
+      class="login-form"
+      (submit)="onLogin(loginForm)"
+      #loginForm="ngForm"
+    >
+      <p *ngIf="isUserCreated" class="color-primary text-center">
+        Votre compte à bien été créé, connectez-vous.
+      </p>
+      <p *ngIf="noUserFound" class="warning-text text-center">
+        Cette adresse email n'est associée à aucun compte.
+      </p>
+      <p *ngIf="wrongPassword" class="warning-text text-center">
+        Le mot de passe est incorrect.
+      </p>
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          type="email"
+          name="loginEmail"
+          ngModel
+          #loginEmail="ngModel"
+          placeholder="Email"
+          required
+          email
+        />
+        <mat-error *ngIf="loginEmail.invalid && loginForm.touched"
+          >Veuillez renseigner votre email</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Mot de passe</mat-label>
+        <input
+          matInput
+          type="password"
+          name="loginPassword"
+          placeholder="Mot de passe"
+          ngModel
+          #loginPassword="ngModel"
+          required
+          minlength="6"
+        />
+        <mat-error *ngIf="loginPassword.invalid && loginForm.touched"
+          >Veuillez renseigner un mot de passe valide</mat-error
+        >
+      </mat-form-field>
+      <a routerLink="/mot-de-passe-oublié" class="text-center link font-size-sm"
+        >Mot de passe oublié ?</a
+      >
+      <atom-button
+        class="btn"
+        [type]="'submit'"
+        [text]="CONNECT_BTN_TEXT"
+        [isDisabled]="loginForm.invalid"
+      ></atom-button>
+    </form>
+    <!-- Sign up form -->
+    <form
+      *ngIf="showSignUpForm"
+      class="login-form"
+      (submit)="onSignup(signupForm)"
+      #signupForm="ngForm"
+    >
+      <p *ngIf="!isLoading && userAlreadyExists" class="warning-text">
+        Cette adresse email existe déjà
+      </p>
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          type="email"
+          name="signupEmail"
+          ngModel
+          #signupEmail="ngModel"
+          placeholder="Email"
+          required
+          email
+        />
+        <mat-error *ngIf="signupEmail.invalid && signupForm.touched"
+          >Veuillez renseigner votre email</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Créer un mot de passe</mat-label>
+        <input
+          matInput
+          type="password"
+          name="signupPassword"
+          placeholder="Mot de passe"
+          ngModel
+          #signupPassword="ngModel"
+          required
+          minlength="6"
+        />
+        <mat-error *ngIf="signupPassword.invalid && signupForm.touched"
+          >Veuillez renseigner un mot de passe</mat-error
+        >
+      </mat-form-field>
+      <atom-button
+        class="btn"
+        [type]="'submit'"
+        [text]="SIGNUP_BTN_TEXT"
+        [isDisabled]="signupForm.invalid"
+      ></atom-button>
+    </form>
+  </mat-card>
+  <div *ngIf="!isLoading && !loginFailed" class="login__toggle-form">
+    <p>{{ toggleFormText }}</p>
+    <button mat-button color="primary" (click)="onToggleForm()">
+      {{ toggleFormBtnText }}
+    </button>
+  </div>
+</div>

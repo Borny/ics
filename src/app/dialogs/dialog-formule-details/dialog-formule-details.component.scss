@@ -1,0 +1,13 @@
+.dialog__content {
+  p {
+    margin: 1rem auto;
+  }
+
+  .schedules {
+    &__container {
+    }
+    &__day {
+      padding: 0 0.5rem 0 0;
+    }
+  }
+}

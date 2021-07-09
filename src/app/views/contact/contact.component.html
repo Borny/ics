@@ -7,10 +7,12 @@
       Contactez-nous pour toute question concernant les cours, tarifs,
       inscriptions ou pour d'autres informations.
       <br />
-      WhatsApp :
-      <a class="phone-number" href="tel:+33695616167"> 06 95 61 61 67 </a>
+      <strong>WhatsApp</strong> :
+      <a class="phone-number" href="tel:+33695616167">
+        <strong class="color-primary-font"> 06 95 61 61 67 </strong>
+      </a>
       <br />
-      contact@icsfrance.fr
+      <strong class="color-primary-font"> contact@icsfrance.fr </strong>
     </p>
     <div class="logo-container">
       <ics-logo [showSubTitle]="true" [color]="'minsk'"></ics-logo>
@@ -24,75 +26,77 @@
     >
       Votre message n'a pas pu être envoyé. Veuillez réessayer.
     </p>
-    <form
-      *ngIf="!isLoading && !isMessageSent"
-      class="contact-form"
-      [formGroup]="contactForm"
-      (ngSubmit)="onSubmit()"
-    >
-      <mat-form-field>
-        <mat-label>Nom</mat-label>
-        <input
-          matInput
-          type="text"
-          name="lastName"
-          formControlName="lastName"
-          required
-        />
-        <mat-error
-          *ngIf="contactForm.get('lastName').invalid && contactForm.touched"
-          >Veuillez renseigner votre nom</mat-error
-        >
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Prénom</mat-label>
-        <input
-          matInput
-          type="text"
-          name="firstName"
-          formControlName="firstName"
-          required
-        />
-        <mat-error
-          *ngIf="contactForm.get('firstName').invalid && contactForm.touched"
-          >Veuillez renseigner votre prénom</mat-error
-        >
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>E-mail</mat-label>
-        <input
-          matInput
-          type="email"
-          name="email"
-          formControlName="email"
-          required
-        />
-        <mat-error
-          *ngIf="contactForm.get('email').invalid && contactForm.touched"
-          >Veuillez renseigner votre email</mat-error
-        >
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Message</mat-label>
-        <textarea
-          matInput
-          name="message"
-          formControlName="message"
-          required
-        ></textarea>
-        <mat-error
-          *ngIf="contactForm.get('message').invalid && contactForm.touched"
-          >Veuillez écrire un message</mat-error
-        >
-      </mat-form-field>
-      <atom-button
-        class="btn"
-        type="submit"
-        [text]="'Envoyer'"
-        [isDisabled]="contactForm.invalid"
+
+    <mat-card *ngIf="!isLoading && !isMessageSent">
+      <form
+        class="contact-form"
+        [formGroup]="contactForm"
+        (ngSubmit)="onSubmit()"
       >
-      </atom-button>
-    </form>
+        <mat-form-field>
+          <mat-label>Nom</mat-label>
+          <input
+            matInput
+            type="text"
+            name="lastName"
+            formControlName="lastName"
+            required
+          />
+          <mat-error
+            *ngIf="contactForm.get('lastName').invalid && contactForm.touched"
+            >Veuillez renseigner votre nom
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Prénom</mat-label>
+          <input
+            matInput
+            type="text"
+            name="firstName"
+            formControlName="firstName"
+            required
+          />
+          <mat-error
+            *ngIf="contactForm.get('firstName').invalid && contactForm.touched"
+            >Veuillez renseigner votre prénom</mat-error
+          >
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>E-mail</mat-label>
+          <input
+            matInput
+            type="email"
+            name="email"
+            formControlName="email"
+            required
+          />
+          <mat-error
+            *ngIf="contactForm.get('email').invalid && contactForm.touched"
+            >Veuillez renseigner votre email
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Message</mat-label>
+          <textarea
+            matInput
+            name="message"
+            formControlName="message"
+            required
+          ></textarea>
+          <mat-error
+            *ngIf="contactForm.get('message').invalid && contactForm.touched"
+            >Veuillez écrire un message
+          </mat-error>
+        </mat-form-field>
+        <atom-button
+          class="btn"
+          type="submit"
+          [text]="'Envoyer'"
+          [isDisabled]="contactForm.invalid"
+        >
+        </atom-button>
+      </form>
+    </mat-card>
   </section>
   <section
     *ngIf="!isLoading && isMessageSent"

@@ -1,0 +1,19 @@
+@import "../../../styles/tools/variables";
+
+:host {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.btn__container {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.card__container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+}

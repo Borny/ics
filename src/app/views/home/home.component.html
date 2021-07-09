@@ -1,44 +1,51 @@
 <section class="hero">
-  <div class="logo-container">
+  <div class="logo-container" @fadeIn>
     <ics-logo [showSubTitle]="true" [color]="'minsk'"></ics-logo>
   </div>
+
+  <mat-card>
+    <mat-card-title>Saison 2021 / 2022</mat-card-title>
+    <mat-card-content class="text-center">
+        <button
+        mat-raised-button
+        color="primary"
+        type="button"
+        (click)="onNavigateSubscriptions()"
+        >
+        Inscriptions
+      </button>
+  </mat-card-content>
+  </mat-card>
 </section>
 <section class="welcome">
   <div class="section__content">
     <h1 class="color-primary-font">
-      Bienvenue sur le site de International Capoeira School France
+      Bienvenue sur le site de
+      <strong>International Capoeira School France</strong>
     </h1>
   </div>
 </section>
 <section class="description">
   <div class="section__content">
-    <div class="description__list">
-      <div class="description__item">
-        <p class="description__title">Agilité</p>
+    <div class="description__list" [@descriptionState]="descriptionList.length">
+      <mat-card
+        *ngFor="let description of descriptionList"
+        class="description__item"
+      >
+        <p class="description__title">{{ description.title }}</p>
         <p class="description__content">
-          La capoeira fait travailler l'agilité ainsi que l'équilibre
+          {{ description.content }}
         </p>
-      </div>
-      <div class="description__item">
-        <p class="description__title">Force</p>
-        <p class="description__content">
-          La capoeira fait travailler le poids de corps
-        </p>
-      </div>
-      <div class="description__item">
-        <p class="description__title">Musicalité</p>
-        <p class="description__content">
-          La capoeira fait travailler les instruments et le chant
-        </p>
-      </div>
+      </mat-card>
     </div>
     <div class="btn__container">
       <atom-button
-        class="btn"
         [text]="PROGRAMS_BTN_TEXT"
-        (clickEvent)="onNavigatePrograms($event)"
-        [type]="'button'"
-      ></atom-button>
+        class="btn"
+        (click)="onNavigatePrograms($event)"
+        type="button"
+      >
+      </atom-button>
     </div>
   </div>
 </section>

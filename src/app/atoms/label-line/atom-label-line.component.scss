@@ -1,0 +1,23 @@
+@import "../../../styles/tools/variables";
+@import "../../../styles/tools/mixins";
+
+.formule__label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+  padding: 0 1rem;
+  &--text {
+    font-size: 1.5rem;
+    color: $color-primary;
+    font-weight: 700;
+    margin: 0 1rem 0 0;
+  }
+  &--line {
+    background: $color-accent;
+    height: 3px;
+    flex: 1;
+    display: block;
+    border-radius: 10px;
+  }
+}

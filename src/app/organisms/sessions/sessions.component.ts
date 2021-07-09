@@ -1,24 +1,19 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { SessionsKids } from '../../models/sessionsKids.model';
-import { SessionsAdults } from '../../models/sessionsAdults.model';
+import { Component, Input } from '@angular/core';
+import { AgeGroupEnum } from 'src/app/models/age-group.enum';
+import { Formule } from 'src/app/models/formule.models';
 
 @Component({
   selector: 'organism-sessions',
   templateUrl: 'sessions.component.html',
-  styleUrls: ['sessions.component.scss']
+  styleUrls: ['sessions.component.scss'],
 })
-
-export class SessionsComponent implements OnInit {
-  @Input() sessionsKids: SessionsKids;
-  @Input() sessionsAdults: SessionsAdults;
+export class SessionsComponent {
+  @Input() formule: Formule;
   @Input() style: string;
 
-  constructor() {
-    console.log(this.sessionsAdults);
-  }
+  public ageGroup = AgeGroupEnum;
 
-  ngOnInit() {
-    // console.log(this.sessionsKids)
-    console.log(this.sessionsAdults);
+  ngOnInit(): void {
+    console.log(this.formule);
   }
 }
