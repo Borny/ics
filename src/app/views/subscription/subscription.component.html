@@ -96,7 +96,7 @@
       <form
         *ngIf="showSubscriptionForm"
         [formGroup]="subscriptionForm"
-        (ngSubmit)="onSubmitSubscriptionForm(stepper)"
+        (ngSubmit)="onCheckEmail(stepper)"
       >
         <!-- ADULT FORMS -->
         <ng-container
@@ -788,11 +788,9 @@
   </mat-step>
 
   <!-- PAYMENT -->
-  <!--  TODO: update the label when payment is ready  -->
-  <!-- <mat-step [stepControl]="paymentForm" label="Paiement"> -->
-  <mat-step [stepControl]="paymentForm" label="Confirmation">
+  <mat-step [stepControl]="paymentForm" label="Paiement">
     <ng-template matStepContent>
-      <!-- DETAILS -->
+      <!-- RECAP -->
 
       <!-- LOADER -->
       <atom-spinner
@@ -800,6 +798,68 @@
         [color]="'accent'"
         class="spinner"
       ></atom-spinner>
+
+      <div *ngIf="!subscriptionLoading && !showValidation">
+        <h3 class="text-center color-primary-font">
+          <strong> Récapitulatif </strong>
+        </h3>
+
+        <!-- Adult subscriptions -->
+        <div *ngIf="subscriptionForm.value.adultsForms.length">
+          <p class="color-primary-font">Inscriptions adulte:</p>
+          <p
+            *ngFor="
+              let adultForm of subscriptionForm.value.adultsForms;
+              let idx = index
+            "
+          >
+            <span class="color-primary-font">{{ idx + 1 }} -</span>
+            {{ adultForm.formule.title }} :
+            {{ adultForm.memberFirstName }}
+            {{ adultForm.memberLastName }}
+          </p>
+        </div>
+
+        <!-- Kids subscriptions -->
+        <div *ngIf="subscriptionForm.value.kidsForms.length; let idx = index">
+          <p class="color-primary-font">Inscriptions enfant/ado:</p>
+          <p
+            *ngFor="
+              let kidForm of subscriptionForm.value.kidsForms;
+              let idx = index
+            "
+          >
+            <span class="color-primary-font">{{ idx + 1 }} -</span>
+            {{ kidForm.formule.title }} {{ kidForm.formule.ageGroup }} :
+            {{ kidForm.memberFirstName }} {{ kidForm.memberLastName }}
+          </p>
+        </div>
+
+        <!-- Price -->
+        <div class="price__container">
+          <p class="price__label">Montant total des inscriptions:</p>
+          <p class="price__amount">{{ totalPrice }}€</p>
+          <p class="price__off" *ngIf="priceOff">
+            (<strong>{{ priceOff }}€</strong> de réduction)
+          </p>
+          <p *ngIf="couponDiscount">Réduction de coupon inclus</p>
+          <p *ngIf="multipleSubscriptionDiscount">-10% de réduction inclus</p>
+        </div>
+
+        <!-- PAYMENT -->
+
+        <p class="text-center color-primary-font">
+          <strong>Je choisi ma méthode de paiement</strong>
+        </p>
+        <mat-tab-group mat-align-tabs="center" animationDuration="0ms">
+          <mat-tab label="En ligne">
+            <ng-template matTabContent> Par carte </ng-template>
+          </mat-tab>
+          <mat-tab label="Autre">
+            <ng-template matTabContent> Autre... </ng-template>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
 
       <div *ngIf="!subscriptionLoading && showValidation">
         <h2 class="margin-bottom-1 text-center">
@@ -820,9 +880,9 @@
       </div>
 
       <div class="btn__container">
-        <!-- <button mat-raised-button color="accent" matStepperPrevious>
+        <button mat-raised-button color="accent" matStepperPrevious>
           Retour
-        </button> -->
+        </button>
         <!-- <button
           mat-raised-button
           color="accent"
@@ -831,9 +891,7 @@
         >
           Connexion
         </button> -->
-        <button mat-raised-button color="primary" (click)="onNavigateHome()">
-          Accueil
-        </button>
+
         <!-- <button
         mat-raised-button
         color="primary"
