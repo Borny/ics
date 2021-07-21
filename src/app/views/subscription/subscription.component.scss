@@ -255,3 +255,20 @@
     font-weight: $fontWeightBold;
   }
 }
+
+// PAYMENT
+.credit-card {
+  &__input {
+    width: 300px;
+    margin: 2rem auto 0;
+    border: 1px solid $color-primary;
+    border-radius: 4px;
+    padding: 1rem;
+  }
+  &__error {
+    width: 300px;
+    color: $color-warning;
+    font-size: 0.8rem;
+    margin: 0 auto;
+  }
+}

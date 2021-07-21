@@ -6,8 +6,10 @@
   padding: 1rem;
 }
 
-.mat-button-toggle-group {
-  width: 400px;
+.select__container {
+  .mat-form-field {
+    width: 400px;
+  }
 }
 
 .spinner {

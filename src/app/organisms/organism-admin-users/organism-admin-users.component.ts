@@ -28,6 +28,10 @@ export class OrganismAdminUsers implements OnInit {
     this._getUsers();
   }
 
+  public onUpdateUsers(): void {
+    this._getUsers();
+  }
+
   private _getUsers(): void {
     this.isLoading = true;
     this.users$ = this.authService.getUsers().pipe(

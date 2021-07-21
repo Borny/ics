@@ -56,7 +56,6 @@
         <mat-label>E-mail</mat-label>
         <input
           matInput
-          disabled
           type="email"
           name="email"
           formControlName="email"
@@ -73,6 +72,41 @@
           required
         />
       </mat-form-field>
+      <div class="display-flex">
+        <mat-label>Status du paiement: </mat-label>
+        <mat-checkbox formControlName="paymentMade">{{
+          userForm.get("paymentMade").value ? "OK" : "A régler"
+        }}</mat-checkbox>
+      </div>
+      <p>
+        Méthode de paiement :
+        {{ user.paymentMethod === "card" ? "Carte" : "Autre" }}
+      </p>
+      <p class="color-primary-font margin-top-1">
+        <strong>Inscriptions associées :</strong>
+      </p>
+      <div
+        *ngFor="let formule of user.subscriptionAssociated; let idx = index"
+        class="margin-bottom-1"
+      >
+        <p>
+          <span class="color-primary-font">{{ idx + 1 }} - </span>
+          <span class="color-primary-font">Formule :</span>
+          {{ formule.formuleTitle }}
+        </p>
+        <p>
+          <span class="color-primary-font">Prénom :</span>
+          {{ formule.firstName }}
+        </p>
+        <p>
+          <span class="color-primary-font">Nom :</span>
+          {{ formule.lastName }}
+        </p>
+        <p>
+          <span class="color-primary-font">Groupe d'âge :</span>
+          {{ formule.formuleAgeGroup }}
+        </p>
+      </div>
     </div>
   </form>
 </mat-dialog-content>

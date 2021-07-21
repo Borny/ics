@@ -42,19 +42,18 @@ export class SubscriptionsAdminOrganism implements OnInit {
     this._getFormules();
   }
 
-  public formuleOptionHandler(event: {
-    value: { formId: string; formuleAge: AgeGroupEnum };
-  }) {
-    const { formId, formuleAge } = event.value;
-    if (formuleAge === this.ageGroupEnum.ADULTS) {
+  public formuleOptionHandler(event: { value: any }) {
+    console.log(event);
+    const { _id, ageGroup } = event.value;
+    if (ageGroup === this.ageGroupEnum.ADULTS) {
       this.subscriptionAgeMode = SubscriptionAgeMode.SubscriptionAgeModeAdults;
       this.membersData = this.adultData.filter(
-        ({ formuleId }) => formuleId === formId
+        ({ formuleId }) => formuleId === _id
       );
     } else {
       this.subscriptionAgeMode = SubscriptionAgeMode.SubscriptionAgeModeKids;
       this.membersData = this.kidData.filter(
-        ({ formuleId }) => formuleId === formId
+        ({ formuleId }) => formuleId === _id
       );
     }
   }

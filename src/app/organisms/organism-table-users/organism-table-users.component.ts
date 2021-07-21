@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -15,6 +15,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 })
 export class OrganismTableUsers implements OnInit {
   @Input() users$: Observable<User[]>;
+  @Output() updateTable$: EventEmitter<any> = new EventEmitter();
 
   constructor(public dialog: MatDialog, private authService: AuthService) {}
 
@@ -31,7 +32,7 @@ export class OrganismTableUsers implements OnInit {
       if (result.action === ActionLabel.CONFIRM) {
         this.authService
           .updateUser(result.user)
-          .pipe(tap(() => location.reload()))
+          .pipe(tap(() => this.updateTable$.emit()))
           .subscribe();
       } else if (result.action === ActionLabel.DELETE) {
         console.log('delete', result.userId);

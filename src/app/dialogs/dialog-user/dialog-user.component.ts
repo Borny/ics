@@ -109,6 +109,12 @@ export class DialogUser {
         },
         [Validators.required]
       ),
+      paymentMade: this.formBuilder.control(userData.paymentMade, [
+        Validators.required,
+      ]),
+      paymentMethod: this.formBuilder.control(userData.paymentMethod, [
+        Validators.required,
+      ]),
     });
   }
 }

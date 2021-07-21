@@ -9,8 +9,11 @@ export interface User {
   lastName?: string;
   nickName?: string;
   profileImagePath?: string;
-  subscriptions?: AdultSubscription[] | KidSubscription[];
+  subscriptionAssociated?: Array<AdultSubscription[] | KidSubscription[]>;
   signUpDate: Date;
   totalPrice?: number;
   paymentMade?: boolean;
+  paymentMethod?: string;
+  paymentDate?: Date;
+  token: any; // StripeCheckoutOptions;
 }

@@ -662,7 +662,7 @@
                 >
               </mat-form-field>
               <mat-form-field>
-                <mat-label>Mot de passe (six charactères min)</mat-label>
+                <mat-label>Mot de passe (six caractères min)</mat-label>
                 <input
                   matInput
                   type="password"
@@ -720,7 +720,7 @@
             class="form__group"
             formControlName="termsAndConditions"
           >
-            Je confirme avoir pris connaissance et accepter le réglement
+            Je confirme avoir pris connaissance et accepté le réglement
           </mat-checkbox>
         </div>
 
@@ -737,13 +737,13 @@
 
         <!-- SPINNER -->
         <atom-spinner
-          *ngIf="subscriptionLoading"
+          *ngIf="checkEmailLoading"
           [color]="'accent'"
           class="spinner--xs"
         ></atom-spinner>
 
         <!-- BTNS -->
-        <div *ngIf="!subscriptionLoading" class="btn__container">
+        <div *ngIf="!checkEmailLoading" class="btn__container">
           <button
             type="button"
             mat-raised-button
@@ -753,86 +753,138 @@
           >
             Retour
           </button>
-          <!-- <button
-            mat-raised-button
-            type="submit"
-            color="primary"
-            matStepperNext
-            [disabled]="subscriptionForm.invalid"
-          >
-            Suivant
-          </button> -->
-
-          <!-- TODO: delete when payment is ready -->
           <button
             mat-raised-button
             type="submit"
             color="primary"
             [disabled]="subscriptionForm.invalid"
           >
-            Valider
+            Suivant
           </button>
-
-          <!-- <button
-            mat-raised-button
-            type="submit"
-            color="primary"
-            matStepperNext
-            [disabled]="subscriptionForm.invalid"
-          >
-            Valider
-          </button> -->
         </div>
       </form>
     </ng-template>
   </mat-step>
 
   <!-- PAYMENT -->
-  <mat-step [stepControl]="paymentForm" label="Paiement">
+  <mat-step [stepControl]="subscriptionForm" label="Paiement">
     <ng-template matStepContent>
       <!-- RECAP -->
 
-      <!-- LOADER -->
       <atom-spinner
-        *ngIf="subscriptionLoading"
+        *ngIf="paymentLoading"
         [color]="'accent'"
         class="spinner"
       ></atom-spinner>
 
-      <div *ngIf="!subscriptionLoading && !showValidation">
+      <div *ngIf="!paymentLoading && !showCardPaymentValidation">
         <h3 class="text-center color-primary-font">
           <strong> Récapitulatif </strong>
         </h3>
 
         <!-- Adult subscriptions -->
         <div *ngIf="subscriptionForm.value.adultsForms.length">
-          <p class="color-primary-font">Inscriptions adulte:</p>
-          <p
+          <p class="color-primary-font">
+            <strong>Inscriptions adulte :</strong>
+          </p>
+          <div
             *ngFor="
               let adultForm of subscriptionForm.value.adultsForms;
               let idx = index
             "
+            class="margin-bottom-1"
           >
-            <span class="color-primary-font">{{ idx + 1 }} -</span>
-            {{ adultForm.formule.title }} :
-            {{ adultForm.memberFirstName }}
-            {{ adultForm.memberLastName }}
-          </p>
+            <p>
+              <span class="color-primary-font">{{ idx + 1 }} - </span>
+              <span class="color-primary-font">Formule :</span>
+              {{ adultForm.formule.title }}
+            </p>
+            <p>
+              <span class="color-primary-font">Prénom :</span>
+              {{ adultForm.memberFirstName }}
+            </p>
+            <p>
+              <span class="color-primary-font">Nom :</span>
+              {{ adultForm.memberLastName }}
+            </p>
+          </div>
         </div>
 
         <!-- Kids subscriptions -->
         <div *ngIf="subscriptionForm.value.kidsForms.length; let idx = index">
-          <p class="color-primary-font">Inscriptions enfant/ado:</p>
-          <p
+          <p class="color-primary-font">
+            <strong>Inscriptions enfant/ado :</strong>
+          </p>
+          <div
             *ngFor="
               let kidForm of subscriptionForm.value.kidsForms;
               let idx = index
             "
+            class="margin-bottom-1"
           >
-            <span class="color-primary-font">{{ idx + 1 }} -</span>
-            {{ kidForm.formule.title }} {{ kidForm.formule.ageGroup }} :
-            {{ kidForm.memberFirstName }} {{ kidForm.memberLastName }}
+            <p>
+              <span class="color-primary-font">{{ idx + 1 }} - </span>
+              <span class="color-primary-font">Formule :</span>
+              {{ kidForm.formule.title }} - {{ kidForm.formule.ageGroup }}
+            </p>
+            <p>
+              <span class="color-primary-font">Prénom :</span>
+              {{ kidForm.memberFirstName }}
+            </p>
+            <p>
+              <span class="color-primary-font">Nom :</span>
+              {{ kidForm.memberLastName }}
+            </p>
+            <p>
+              <span class="color-primary-font"
+                >Prénom du représentant légal :</span
+              >
+              {{ kidForm.guardianFirstName }}
+            </p>
+            <p>
+              <span class="color-primary-font"
+                >Nom du représentant légal :</span
+              >
+              {{ kidForm.guardianLastName }}
+            </p>
+            <p>
+              <span class="color-primary-font"
+                >Email du représentant légal :</span
+              >
+              {{ kidForm.guardianEmail }}
+            </p>
+            <p>
+              <span class="color-primary-font"
+                >Numéro de téléphone du représentant légal :</span
+              >
+              {{ kidForm.guardianPhone }}
+            </p>
+          </div>
+        </div>
+
+        <!-- Account creation -->
+        <div class="margin-top-1">
+          <p class="color-primary-font">
+            <strong>Création du compte :</strong>
           </p>
+          <p>
+            <span class="color-primary-font">Prénom :</span>
+            {{ subscriptionForm.value.accountCreation.firstName }}
+          </p>
+          <p>
+            <span class="color-primary-font">Nom :</span>
+            {{ subscriptionForm.value.accountCreation.lastName }}
+          </p>
+          <p>
+            <span class="color-primary-font">Email :</span>
+            {{ subscriptionForm.value.accountCreation.email }}
+          </p>
+        </div>
+
+        <div class="btn__container">
+          <button mat-raised-button color="accent" matStepperPrevious>
+            Modifier les informations
+          </button>
         </div>
 
         <!-- Price -->
@@ -847,23 +899,50 @@
         </div>
 
         <!-- PAYMENT -->
-
         <p class="text-center color-primary-font">
-          <strong>Je choisi ma méthode de paiement</strong>
+          <strong>Je choisis ma méthode de paiement</strong>
         </p>
         <mat-tab-group mat-align-tabs="center" animationDuration="0ms">
           <mat-tab label="En ligne">
-            <ng-template matTabContent> Par carte </ng-template>
+            <p class="color-primary-font text-center bold margin-top-1">
+              Veuillez remplir les informations de votre carte
+            </p>
+
+            <!-- CREDIT CARD INPUT -->
+            <div class="credit-card__input" #creditCardElement></div>
+            <!-- CARD ERROR -->
+            <p class="credit-card__error">{{ cardErrors }}</p>
+
+            <!-- Submit button -->
+            <div
+              class="
+                btn__container btn__container--block btn__container--submit
+              "
+            >
+              <button
+                mat-raised-button
+                type="submit"
+                (click)="onCardPayment()"
+                color="primary"
+                [disabled]="
+                  subscriptionForm.invalid || totalPrice === 0 || !isCardValid
+                "
+              >
+                {{ PAY_BUTTON_TEXT }} {{ totalPrice | currency }}
+              </button>
+            </div>
           </mat-tab>
           <mat-tab label="Autre">
-            <ng-template matTabContent> Autre... </ng-template>
+            <p>Veuillez renseigner le montant de chaque méthode de paiement:</p>
+            <mat-checkbox class="form__group"> Chèques </mat-checkbox>
           </mat-tab>
         </mat-tab-group>
       </div>
 
-      <div *ngIf="!subscriptionLoading && showValidation">
+      <!-- SHOW VALIDATION -->
+      <div *ngIf="!paymentLoading && showCardPaymentValidation">
         <h2 class="margin-bottom-1 text-center">
-          Inscription validée!
+          Paiement et inscription validés!
           <br />
           Merci, un email vient d'être envoyé à
           <span class="color-primary-font">
@@ -880,9 +959,6 @@
       </div>
 
       <div class="btn__container">
-        <button mat-raised-button color="accent" matStepperPrevious>
-          Retour
-        </button>
         <!-- <button
           mat-raised-button
           color="accent"
@@ -891,15 +967,6 @@
         >
           Connexion
         </button> -->
-
-        <!-- <button
-        mat-raised-button
-        color="primary"
-        (click)="onValidateSubscriptions()"
-      >
-        Valider
-      </button> -->
-        <!-- <button mat-raised-button  (click)="stepper.reset()">Annuler</button> -->
       </div>
     </ng-template>
   </mat-step>
