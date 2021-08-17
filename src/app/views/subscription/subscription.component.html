@@ -945,6 +945,7 @@
           Paiement et inscription validés!
           <br />
           Merci, un email vient d'être envoyé à
+          <br>
           <span class="color-primary-font">
             {{ subscriptionsData.formValues.accountCreation.email }} </span
           >.
@@ -958,7 +959,15 @@
         </p> -->
       </div>
 
-      <div class="btn__container">
+      <div *ngIf="!paymentLoading && showCardPaymentValidation" class="btn__container">
+        <button
+          mat-raised-button
+          color="accent"
+          type="button"
+          (click)="onNavigateHome()"
+        >
+          Accueil
+        </button>
         <!-- <button
           mat-raised-button
           color="accent"

@@ -38,7 +38,7 @@ export class OrganismTableUsers implements OnInit {
         console.log('delete', result.userId);
         this.authService
           .deleteUser(result.userId)
-          .pipe(tap(() => location.reload()))
+          .pipe(tap(() => this.updateTable$.emit()))
           .subscribe();
       }
     });
