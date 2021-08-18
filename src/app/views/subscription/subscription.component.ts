@@ -68,6 +68,8 @@ export class SubscriptionView implements OnInit {
   public couponDiscount = false;
   public subscriptionsData: any;
   public showCardPaymentValidation = false;
+  public showOtherPaymentValidation = false;
+  public showSubscriptionValidation = false;
 
   public stepperOrientation$: Observable<StepperOrientation>;
   public isVertical = 'vertical';
@@ -246,6 +248,7 @@ export class SubscriptionView implements OnInit {
         .subscribe(
           (res) => {
             this.showCardPaymentValidation = true;
+            this.showSubscriptionValidation = true;
             this._scrollToTop();
             this.subscriptionForm.reset();
             this.formuleForm.reset();
@@ -259,6 +262,40 @@ export class SubscriptionView implements OnInit {
           }
         );
     }
+  }
+
+  public onOtherPayment(): void {
+    if (this.subscriptionForm.invalid) {
+      return;
+    }
+
+    this.subscriptionsData = {
+      formValues: this.subscriptionForm.value,
+      totalPrice: this.totalPrice,
+      paymentMethod: PaymentMethodEnum.OTHER,
+    };
+
+    this.paymentLoading = true;
+    this.subscriptionService
+      .validateSubscriptionOtherPayment(this.subscriptionsData)
+      .pipe(
+        finalize(() => {
+          this.paymentLoading = false;
+        })
+      )
+      .subscribe(
+        (res) => {
+          this.showOtherPaymentValidation = true;
+          this.showSubscriptionValidation = true;
+          this._scrollToTop();
+          this.subscriptionForm.reset();
+          this.formuleForm.reset();
+        },
+        (error) => {
+          console.log('sub error', error.error.message);
+          this._snackBar.open(`Une erreur est survenue, veuillez réessayer`);
+        }
+      );
   }
 
   // SUBSCRIPTION FORM
@@ -294,6 +331,8 @@ export class SubscriptionView implements OnInit {
       this.couponDiscount = false;
       this.totalFormules = 0;
       this.showCardPaymentValidation = false;
+      this.showOtherPaymentValidation = false;
+      this.showSubscriptionValidation = false;
       this.formuleForm.updateValueAndValidity();
       this.subscriptionForm.updateValueAndValidity();
 
