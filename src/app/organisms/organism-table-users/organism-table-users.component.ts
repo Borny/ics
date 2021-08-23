@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { DialogUser } from 'src/app/dialogs/dialog-user/dialog-user.component';
 import { ActionLabel } from 'src/app/models/action-label.enum';
+import { PaymentMethodEnum } from 'src/app/models/payment-method.enum';
 
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth/auth.service';
@@ -13,13 +14,25 @@ import { AuthService } from 'src/app/services/auth/auth.service';
   templateUrl: './organism-table-users.component.html',
   styleUrls: ['./organism-table-users.component.scss'],
 })
-export class OrganismTableUsers implements OnInit {
+export class OrganismTableUsers {
   @Input() users$: Observable<User[]>;
   @Output() updateTable$: EventEmitter<any> = new EventEmitter();
 
+  private _paymentMethodsEnum = PaymentMethodEnum;
+
   constructor(public dialog: MatDialog, private authService: AuthService) {}
 
-  ngOnInit(): void {}
+  public getPaymentMethodValue(user: User): string {
+    let value;
+    if (user.paymentMethod === this._paymentMethodsEnum.CARD) {
+      value = 'Carte';
+    } else if (user.paymentMethod === this._paymentMethodsEnum.OTHER) {
+      value = 'Autre';
+    } else if (user.paymentMethod === this._paymentMethodsEnum.MULTIPLE) {
+      value = 'Multiple';
+    }
+    return value;
+  }
 
   public onOpenModalUpdate(user: User): void {
     const dialogRef = this.dialog.open(DialogUser, {

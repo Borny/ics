@@ -15,5 +15,11 @@ export interface User {
   paymentMade?: boolean;
   paymentMethod?: string;
   paymentDate?: Date;
+  checkAmount: number;
+  cashAmount: number;
+  holidayCheckAmount: number;
+  pass92Amount: number;
+  cardAmount: number;
+  extraInfo: string;
   token: any; // StripeCheckoutOptions;
 }

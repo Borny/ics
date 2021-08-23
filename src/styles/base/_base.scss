@@ -161,6 +161,10 @@ textarea {
   margin-bottom: 1rem !important;
 }
 
+.margin-bottom-1 {
+  margin-bottom: 1rem !important;
+}
+
 .link {
   color: $color-primary-light;
   text-decoration: underline;
@@ -196,6 +200,10 @@ textarea {
 
 .color-primary {
   color: $color-primary;
+}
+
+.danger {
+  color: $color-warning;
 }
 
 .bold {

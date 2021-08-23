@@ -42,6 +42,10 @@ export class SubscriptionsAdminOrganism implements OnInit {
     this._getFormules();
   }
 
+  public onUpdateUsers(): void {
+    this._getFormules();
+  }
+
   public formuleOptionHandler(event: { value: any }) {
     console.log(event);
     const { _id, ageGroup } = event.value;

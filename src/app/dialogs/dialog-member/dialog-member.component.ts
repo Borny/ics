@@ -1,12 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, Inject, NgModule } from '@angular/core';
 import {
-  FormControl,
   FormGroup,
   Validators,
   ReactiveFormsModule,
   FormsModule,
-  FormArray,
   FormBuilder,
 } from '@angular/forms';
 import {
@@ -14,18 +12,10 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
-import { tap } from 'rxjs/operators';
 
 import { MaterialModule } from 'src/app/angular-material/angular-material.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { FormuleService } from 'src/app/services/formule/formule.service';
 
-import { AgeGroupEnum } from 'src/app/models/age-group.enum';
-import { KidAgeEnum } from 'src/app/models/kid-age.enum';
-import { WeekDaysEnum } from 'src/app/models/week-days.enum';
-
-// import { Formule } from '../../../models/formule.models';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 import { SubscriptionAgeMode } from 'src/app/models/SubscriptionAgeMode.enum';
 import { SubscriptionService } from 'src/app/services/subscription/subscription.service';
 import { AdultSubscription } from 'src/app/models/adultSubscription.model';
@@ -65,7 +55,6 @@ export class DialogMember {
     @Inject(MAT_DIALOG_DATA)
     public data: { memberId: string; ageMode: SubscriptionAgeMode }
   ) {
-    // console.log(data);
     this.loading = true;
     this.ageMode = data.ageMode;
     this.memberId = data.memberId;
@@ -104,8 +93,7 @@ export class DialogMember {
     this.dialogRef.close({ action: this._CONFIRM, member: this.member });
   }
 
-  public onDeleteMember(event): void {
-    console.log('open delete member');
+  public onDeleteMember(): void {
     const dialogRef = this.dialog.open(DialogDeleteConfirm, {
       minHeight: '200px',
       data:
@@ -179,8 +167,6 @@ export class DialogMember {
       ),
     });
 
-    console.log(this.kidForm);
-
     this.loading = false;
   }
 
@@ -233,7 +219,6 @@ export class DialogMember {
 }
 
 @NgModule({
-  declarations: [DialogMember],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -241,7 +226,5 @@ export class DialogMember {
     SharedModule,
     FormsModule,
   ],
-  exports: [],
-  providers: [],
 })
 class DialogMemberModule {}

@@ -27,7 +27,7 @@
       let i = index
     "
   >
-    <div class="first-column">{{ i + 0 }}</div>
+    <div class="first-column">{{ i + 1 }}</div>
     <div>
       <button
         mat-flat-button
@@ -44,7 +44,7 @@
     <div>{{ user.signUpDate | date: "dd/MM/yyyy" }}</div>
     <div>{{ user.totalPrice }}€</div>
     <div>{{ user.paymentMade ? "OK" : "A régler" }}</div>
-    <div>{{ user.paymentMethod === "card" ? "Carte" : "Autre" }}</div>
+    <div>{{ getPaymentMethodValue(user) }}</div>
     <div>
       <button
         mat-flat-button

@@ -206,7 +206,6 @@ export class FormuleDialog {
 }
 
 @NgModule({
-  declarations: [FormuleDialog],
   imports: [
     CommonModule,
     ReactiveFormsModule,

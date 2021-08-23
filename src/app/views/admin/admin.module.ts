@@ -11,6 +11,10 @@ import { SubscriptionsAdminOrganism } from 'src/app/organisms/subscriptions-admi
 import { OrganismAdminFormule } from 'src/app/organisms/admin-formule/organism-admin-formule.component';
 import { OrganismAdminUsers } from 'src/app/organisms/organism-admin-users/organism-admin-users.component';
 import { OrganismTableUsers } from 'src/app/organisms/organism-table-users/organism-table-users.component';
+import { DialogUser } from 'src/app/dialogs/dialog-user/dialog-user.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { DialogMember } from 'src/app/dialogs/dialog-member/dialog-member.component';
+import { FormuleDialog } from 'src/app/organisms/admin-formule/formule-dialog/formule-dialog.component';
 
 @NgModule({
   declarations: [
@@ -20,8 +24,17 @@ import { OrganismTableUsers } from 'src/app/organisms/organism-table-users/organ
     OrganismAdminFormule,
     OrganismAdminUsers,
     OrganismTableUsers,
+    DialogUser,
+    DialogMember,
+    FormuleDialog,
   ],
-  imports: [CommonModule, AdminRoutingModule, MaterialModule, SharedModule],
+  imports: [
+    CommonModule,
+    AdminRoutingModule,
+    MaterialModule,
+    SharedModule,
+    ReactiveFormsModule,
+  ],
   exports: [
     MemberDataTable,
     SubscriptionsAdminOrganism,

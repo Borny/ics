@@ -21,6 +21,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { Observable } from 'rxjs';
 import { finalize, map, tap } from 'rxjs/operators';
 import { ActionLabel } from 'src/app/models/action-label.enum';
+import { PaymentMethodEnum } from 'src/app/models/payment-method.enum';
 
 @Component({
   selector: 'dialog-user',
@@ -32,6 +33,8 @@ export class DialogUser {
   public userId: string;
   public userForm: FormGroup = new FormGroup({});
   public loading = false;
+  public paymentMethodsEnum = PaymentMethodEnum;
+  public paymentMethods = Object.values(PaymentMethodEnum);
 
   public readonly DIALOG_TITLE = "Modifier l'utilisateur :";
 
@@ -51,7 +54,9 @@ export class DialogUser {
       finalize(() => (this.loading = false)),
       map((res) => res.user),
       tap((user) => this._initUserForm(user)),
-      tap((user) => (this.user = user))
+      tap((user) => {
+        this.user = user;
+      })
     );
   }
 
@@ -115,12 +120,17 @@ export class DialogUser {
       paymentMethod: this.formBuilder.control(userData.paymentMethod, [
         Validators.required,
       ]),
+      checkAmount: this.formBuilder.control(userData.checkAmount),
+      cashAmount: this.formBuilder.control(userData.cashAmount),
+      pass92Amount: this.formBuilder.control(userData.pass92Amount),
+      holidayCheckAmount: this.formBuilder.control(userData.holidayCheckAmount),
+      cardAmount: this.formBuilder.control(userData.cardAmount),
+      extraInfo: this.formBuilder.control(userData.extraInfo),
     });
   }
 }
 
 @NgModule({
-  declarations: [DialogUser],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -128,7 +138,5 @@ export class DialogUser {
     SharedModule,
     FormsModule,
   ],
-  exports: [],
-  providers: [],
 })
 class DialogModule {}
