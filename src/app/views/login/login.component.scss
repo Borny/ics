@@ -1,5 +1,5 @@
-@import '../../../styles/tools/variables';
-@import '../../../styles/tools/mixins';
+@import "../../../styles/tools/variables";
+@import "../../../styles/tools/mixins";
 
 :host {
   display: flex;
@@ -19,7 +19,7 @@ h1 {
 
 .warning-text {
   text-align: center;
-  color: $mild-warning;
+  color: $color-warning;
 }
 
 mat-card {

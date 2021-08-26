@@ -50,9 +50,9 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // this._getUserAuthenticationStatus();
+    this._getUserAuthenticationStatus();
     this._getAdminUserAuthenticationStatus();
-    // this._getUserData();
+    this._getUserData();
   }
 
   ngOnDestroy(): void {

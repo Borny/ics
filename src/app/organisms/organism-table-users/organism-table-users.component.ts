@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { DialogUser } from 'src/app/dialogs/dialog-user/dialog-user.component';
 import { ActionLabel } from 'src/app/models/action-label.enum';
@@ -16,11 +16,36 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 })
 export class OrganismTableUsers {
   @Input() users$: Observable<User[]>;
+  @Input() users: User[];
   @Output() updateTable$: EventEmitter<any> = new EventEmitter();
+
+  public search = '';
 
   private _paymentMethodsEnum = PaymentMethodEnum;
 
   constructor(public dialog: MatDialog, private authService: AuthService) {}
+
+  public onSearch(): void {
+    if (this.search.trim() === '') {
+      return;
+    }
+    this.users$ = of(
+      this.users.filter((user) => {
+        const searchTerm = this.search.trim().toLowerCase();
+        console.log(user.lastName, searchTerm === user.lastName);
+        return (
+          user.email === searchTerm ||
+          user.firstName.toLowerCase() === searchTerm ||
+          user.lastName.toLowerCase() === searchTerm
+        );
+      })
+    );
+  }
+
+  public onClearInput(): void {
+    this.search = '';
+    this.users$ = of(this.users);
+  }
 
   public getPaymentMethodValue(user: User): string {
     let value;

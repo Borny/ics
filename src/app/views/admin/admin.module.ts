@@ -12,7 +12,7 @@ import { OrganismAdminFormule } from 'src/app/organisms/admin-formule/organism-a
 import { OrganismAdminUsers } from 'src/app/organisms/organism-admin-users/organism-admin-users.component';
 import { OrganismTableUsers } from 'src/app/organisms/organism-table-users/organism-table-users.component';
 import { DialogUser } from 'src/app/dialogs/dialog-user/dialog-user.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DialogMember } from 'src/app/dialogs/dialog-member/dialog-member.component';
 import { FormuleDialog } from 'src/app/organisms/admin-formule/formule-dialog/formule-dialog.component';
 
@@ -33,6 +33,7 @@ import { FormuleDialog } from 'src/app/organisms/admin-formule/formule-dialog/fo
     AdminRoutingModule,
     MaterialModule,
     SharedModule,
+    FormsModule,
     ReactiveFormsModule,
   ],
   exports: [

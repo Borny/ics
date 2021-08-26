@@ -316,7 +316,9 @@ export class SubscriptionView implements OnInit {
   public onBackToFormules(stepEvent?: StepperSelectionEvent): void {
     if (stepEvent && stepEvent.selectedIndex === 0) {
       this.subscriptionForm.reset();
+      this.subscriptionForm.clearValidators();
       this.formuleForm.reset();
+      this.formuleForm.clearValidators();
       this.selectedFormules = [];
       this.totalPrice = 0;
       this.initialTotalPrice = 0;
@@ -333,8 +335,8 @@ export class SubscriptionView implements OnInit {
       this.showCardPaymentValidation = false;
       this.showOtherPaymentValidation = false;
       this.showSubscriptionValidation = false;
-      this.formuleForm.updateValueAndValidity();
-      this.subscriptionForm.updateValueAndValidity();
+      // this.formuleForm.updateValueAndValidity();
+      // this.subscriptionForm.updateValueAndValidity();
 
       this._getFormules();
     }
@@ -367,7 +369,7 @@ export class SubscriptionView implements OnInit {
 
     this.subscriptionService
       .validateCoupon(
-        subscription.value.couponInput,
+        subscription.value.couponInput.trim(),
         subscription.value.formule.id
       )
       .pipe(finalize(() => (this.couponLoading = false)))

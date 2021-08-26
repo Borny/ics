@@ -1,27 +1,47 @@
 <main class="main">
   <section class="profile-header">
-    <p class="title-xl">
+    <p class="title-md">
       {{ "Mon Profil" | uppercase }}
     </p>
-    <p class="profile-header__content"></p>
   </section>
 
   <section class="profile__container">
-    <mat-spinner class="spinner" *ngIf="isLoading"></mat-spinner>
+    <mat-spinner
+      class="spinner"
+      *ngIf="isLoading"
+      color="accent"
+      diameter="50"
+    ></mat-spinner>
     <p class="error-message" *ngIf="!isLoading && userError">
       Les informations n'ont pas pu être chargées
     </p>
-    <mat-card class="card" *ngIf="!isLoading && !userError">
-      <div class="profile-image__container">
+
+    <div *ngIf="!isLoading" class="display-flex justify-center margin-bottom-1">
+      <mat-button-toggle-group
+        (change)="onToggle($event)"
+        name="fontStyle"
+        aria-label="Font Style"
+      >
+        <mat-button-toggle checked value="info">Infos</mat-button-toggle>
+        <mat-button-toggle value="subscription">Inscriptions</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+
+    <!-- INFOS -->
+    <mat-card
+      class="card"
+      *ngIf="!isLoading && !userError && displayInfoContainer"
+    >
+      <!-- <div class="profile-image__container">
         <img
           *ngIf="user.profileImagePath"
           [src]="user.profileImagePath"
           alt="profile picture"
         />
-        <mat-icon *ngIf="!user.profileImagePath" color="primary"
-          >account_circle</mat-icon
-        >
-      </div>
+        <mat-icon *ngIf="!user.profileImagePath" color="primary">
+          account_circle
+        </mat-icon>
+      </div> -->
       <p class="profile__info">
         <span class="bold font-size-sm"> Prénom </span>
         {{ user.firstName }}
@@ -30,20 +50,131 @@
         <span class="bold font-size-sm"> Nom </span>
         {{ user.lastName }}
       </p>
-      <p class="profile__info">
+      <!-- <p class="profile__info">
         <span class="bold font-size-sm"> Surnom de capoeira </span>
         {{ user.nickName }}
-      </p>
+      </p> -->
       <p class="profile__info">
-        <span class="bold font-size-sm"> email </span>{{ user.email }}
+        <span class="bold font-size-sm"> Email </span>{{ user.email }}
       </p>
-      <atom-button
-        class="btn"
-        [type]="'button'"
-        [text]="'Modifier mes informations'"
-        (click)="onOpenEditDialog(user)"
-      >
-      </atom-button>
+
+      <!-- CTA -->
+      <mat-card-actions>
+        <atom-button
+          class="btn"
+          [type]="'button'"
+          [text]="'Modifier mes informations'"
+          (click)="onOpenEditDialog(user)"
+        >
+        </atom-button>
+      </mat-card-actions>
     </mat-card>
+
+    <!-- SUBSCRIPTIONS -->
+    <div
+      class="subscription__container"
+      *ngIf="!isLoading && !userError && !displayInfoContainer"
+    >
+      <mat-expansion-panel
+        *ngFor="let formule of user.subscriptionAssociated; let idx = index"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{ formule.firstName }} {{ formule.lastName }}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="expansion-panel__content">
+          <p class="profile__info">
+            <span class="bold font-size-sm">Formule :</span>
+            {{ formule.formuleTitle }}
+          </p>
+          <p class="profile__info">
+            <span class="bold font-size-sm">Groupe d'âge :</span>
+            {{ formule.formuleAgeGroup }}
+          </p>
+          <p class="profile__info">
+            <span class="bold font-size-sm">Prénom :</span>
+            {{ formule.firstName }}
+          </p>
+          <p class="profile__info">
+            <span class="bold font-size-sm">Nom :</span>
+            {{ formule.lastName }}
+          </p>
+
+          <!-- CTA -->
+          <div class="btn__container">
+            <button
+              mat-raised-button
+              color="accent"
+              type="button"
+              class="btn"
+              (click)="onDisplayDetails(formule.formuleId)"
+            >
+              Détails de la formule
+            </button>
+          </div>
+        </div>
+      </mat-expansion-panel>
+
+      <p class="margin-y-1 text-center">
+        Montant: {{ user.totalPrice | currency }}
+      </p>
+
+      <!-- PAYMENT -->
+      <mat-card *ngIf="!user.paymentMade">
+        <mat-card-title *ngIf="!showCardPaymentValidation">
+          <p class="warning text-center">Paiement en attente</p>
+        </mat-card-title>
+        <mat-card-content *ngIf="!showCardPaymentValidation">
+          <p class="text-center margin-top-1">
+            Votre inscription sera validée dès le paiement effectué
+          </p>
+          <p class="color-primary-font text-center bold margin-top-1">
+            Veuillez remplir les informations de votre carte
+          </p>
+
+          <!-- CREDIT CARD INPUT -->
+          <div class="credit-card__input" #creditCardElement></div>
+
+          <!-- CARD ERROR -->
+          <p class="credit-card__error">{{ cardErrors }}</p>
+
+          <!-- Submit button -->
+          <div
+            class="btn__container btn__container--block btn__container--submit"
+          >
+            <mat-spinner
+              *ngIf="paymentLoading"
+              color="accent"
+              diameter="50"
+            ></mat-spinner>
+
+            <button
+              *ngIf="!paymentLoading"
+              mat-raised-button
+              type="submit"
+              (click)="onCardPayment()"
+              color="primary"
+              [disabled]="user.totalPrice === 0 || !isCardValid"
+            >
+              {{ PAY_BUTTON_TEXT }} {{ user.totalPrice | currency }}
+            </button>
+          </div>
+        </mat-card-content>
+
+        <!-- SHOW VALIDATION CARD PAYMENT -->
+        <mat-card-content *ngIf="!paymentLoading && showCardPaymentValidation">
+          <h2 class="margin-bottom-1 text-center">
+            Paiement validé!
+            <br />
+            Merci, un email vient d'être envoyé à
+            <br />
+            <span class="color-primary-font">
+              {{ user.email }}
+            </span>
+          </h2>
+        </mat-card-content>
+      </mat-card>
+    </div>
   </section>
 </main>

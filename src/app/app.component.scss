@@ -1,5 +1,5 @@
-@import '../styles/tools/variables';
-@import '../styles/tools/mixins';
+@import "../styles/tools/variables";
+@import "../styles/tools/mixins";
 
 .main-container {
   display: flex;
@@ -82,8 +82,9 @@ nav {
   }
 }
 
-.router__container{
+.router__container {
   min-height: calc(100% - (56px + 132px));
+  background: $white;
 
   @include screen-sm {
     min-height: calc(100% - (64px + 126px));

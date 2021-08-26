@@ -1,5 +1,23 @@
-<mat-spinner *ngIf="isLoading" class="spinner"></mat-spinner>
+<mat-spinner
+  *ngIf="isLoading"
+  class="spinner"
+  color="accent"
+  diameter="50"
+></mat-spinner>
+
+<!-- <mat-form-field *ngIf="(users$ | async)?.length && !isLoading">
+  <mat-label>Chercher</mat-label>
+  <input matInput type="text" name="search" [(ngModel)]="search" />
+</mat-form-field>
+
+<button mat-icon-button color="primary" (click)="onSearch()">
+  <mat-icon>search</mat-icon>
+</button> -->
 
 <section class="tab-section" *ngIf="(users$ | async)?.length && !isLoading">
-  <organism-table-users [users$]="users$" (updateTable$)="onUpdateUsers()"></organism-table-users>
+  <organism-table-users
+    [users$]="users$"
+    [users]="users"
+    (updateTable$)="onUpdateUsers()"
+  ></organism-table-users>
 </section>

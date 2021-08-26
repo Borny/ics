@@ -1,5 +1,5 @@
-@import '../../../styles/tools/variables';
-@import '../../../styles/tools/mixins';
+@import "../../../styles/tools/variables";
+@import "../../../styles/tools/mixins";
 
 :host {
   min-height: calc(100% - 174px);
@@ -25,9 +25,21 @@
   margin: auto;
 }
 
+// TOGGLE BTN
+.mat-button-toggle-checked {
+  background: $color-primary;
+  color: $white;
+}
+
+// CARD
 .card {
   width: 320px;
   margin: 0 auto;
+
+  .btn {
+    display: block;
+    margin: 0 auto;
+  }
 }
 
 .profile-image__container {
@@ -36,7 +48,6 @@
   margin: 0 auto 1rem;
   border-radius: 100px;
   border: 5px solid $color-primary;
-  box-shadow: 0 0 10px 0px $grey-dark;
   overflow: hidden;
 
   img {
@@ -56,35 +67,45 @@
   display: flex;
   flex-flow: column;
   margin: 0 0 1rem;
-  span {
-  }
 }
 
 .error-message {
   margin: 0 auto 1rem;
 }
 
-.profile-message-successful {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
-  text-align: center;
-  padding: 1rem;
+// SUBSCRIPTION
+.subscription {
+  &__container {
+    margin: 0 auto;
+    max-width: 500px;
 
-  .btn-container {
-    display: flex;
-    flex-flow: column;
-
-    @include screen-sm {
-      flex-flow: row;
-      justify-content: center;
+    .expansion-panel__content {
+      padding: 1rem;
     }
   }
+}
 
-  .btn {
-    display: flex;
-    justify-content: center;
-    margin: 1rem;
+// PAYMENT
+.credit-card {
+  &__input {
+    width: 300px;
+    margin: 1rem auto;
+    border: 1px solid $color-primary;
+    border-radius: 4px;
+    padding: 1rem;
   }
+  &__error {
+    width: 300px;
+    color: $color-danger;
+    font-size: 0.8rem;
+    margin: 0 auto;
+  }
+}
+
+// BTNS
+.btn__container {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 1rem auto;
+  width: 320px;
 }

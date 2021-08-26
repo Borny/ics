@@ -1,3 +1,27 @@
+<mat-form-field>
+  <mat-label>Chercher</mat-label>
+  <input
+    matInput
+    type="text"
+    name="search"
+    [(ngModel)]="search"
+    (keydown.enter)="onSearch()"
+  />
+  <button
+    *ngIf="search"
+    matSuffix
+    mat-icon-button
+    aria-label="Clear"
+    (click)="onClearInput()"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-form-field>
+
+<button mat-icon-button color="primary" (click)="onSearch()">
+  <mat-icon>search</mat-icon>
+</button>
+
 <ul class="data-table__container">
   <li class="data-table__row data-table__row-header">
     <div class="first-column"></div>
@@ -43,7 +67,7 @@
     <div>{{ user.email }}</div>
     <div>{{ user.signUpDate | date: "dd/MM/yyyy" }}</div>
     <div>{{ user.totalPrice }}€</div>
-    <div>{{ user.paymentMade ? "OK" : "A régler" }}</div>
+    <div [ngClass]="{'color-primary bold': user.paymentMade, 'danger': !user.paymentMade}">{{ user.paymentMade ? "OK" : "A régler" }}</div>
     <div>{{ getPaymentMethodValue(user) }}</div>
     <div>
       <button

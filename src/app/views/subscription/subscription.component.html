@@ -1,5 +1,5 @@
 <section class="title__container">
-  <p class="title-xl">
+  <p class="title-md">
     {{ "Inscriptions" | uppercase }}
   </p>
 </section>
@@ -966,7 +966,7 @@
                 color="primary"
                 [disabled]="subscriptionForm.invalid || totalPrice === 0"
               >
-                Validez l'inscription
+                Confirmer l'inscription
               </button>
             </div>
           </mat-tab>
@@ -981,19 +981,19 @@
           Merci, un email vient d'être envoyé à
           <br />
           <span class="color-primary-font">
-            {{ subscriptionsData.formValues.accountCreation.email }} </span
-          >.
+            {{ subscriptionsData.formValues.accountCreation.email }}
+          </span>
         </h2>
 
-        <!-- <p class="margin-bottom-1">
+        <p class="margin-bottom-1">
           Vous pouvez également trouver les détails dans votre espace privé.
           Connectez-vous en utilisant votre email
           {{ subscriptionsData.formValues.accountCreation.email }} ainsi que le
           mot de passe associé.
-        </p> -->
+        </p>
       </div>
 
-      <!-- SHOW VALIDATION CARD PAYMENT -->
+      <!-- SHOW VALIDATION OTHER PAYMENT -->
       <div *ngIf="!paymentLoading && showOtherPaymentValidation">
         <h2 class="margin-bottom-1 text-center">
           Inscription enregistrée!
@@ -1001,16 +1001,16 @@
           Merci, un email vient d'être envoyé à
           <br />
           <span class="color-primary-font">
-            {{ subscriptionsData.formValues.accountCreation.email }} </span
-          >.
+            {{ subscriptionsData.formValues.accountCreation.email }}
+          </span>
         </h2>
 
-        <!-- <p class="margin-bottom-1">
+        <p class="margin-bottom-1">
           Vous pouvez également trouver les détails dans votre espace privé.
           Connectez-vous en utilisant votre email
           {{ subscriptionsData.formValues.accountCreation.email }} ainsi que le
           mot de passe associé.
-        </p> -->
+        </p>
       </div>
 
       <div

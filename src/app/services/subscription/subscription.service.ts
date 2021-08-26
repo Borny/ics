@@ -26,6 +26,8 @@ export class SubscriptionService {
   // public readonly SUBSCRIPTION_URL = environment.apiUrl + '/subscription/';
   public readonly SUBSCRIPTION_CREDIT_CARD_URL =
     environment.apiUrl + '/subscription/credit-card';
+  public readonly PAYMENT_CREDIT_CARD_URL =
+    environment.apiUrl + '/subscription/payment-credit-card';
   public readonly SUBSCRIPTION_OTHER_PAYMENT_URL =
     environment.apiUrl + '/subscription/other';
   public readonly EMAIL_URL = environment.apiUrl + '/subscription/email';
@@ -58,6 +60,11 @@ export class SubscriptionService {
 
   public validateSubscriptionCardPayment(data: any): Observable<any> {
     return this.http.post(this.SUBSCRIPTION_CREDIT_CARD_URL, data);
+  }
+
+  public makeCardPayment(data: any): Observable<any> {
+    console.log(data)
+    return this.http.post(this.PAYMENT_CREDIT_CARD_URL, data);
   }
 
   // GET ONE

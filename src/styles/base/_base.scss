@@ -141,6 +141,10 @@ textarea {
   align-items: center !important;
 }
 
+.justify-center {
+  justify-content: center !important;
+}
+
 .flex-column {
   flex-direction: column !important;
 }
@@ -161,6 +165,10 @@ textarea {
   margin-bottom: 1rem !important;
 }
 
+.margin-y-1 {
+  margin: 1rem 0 !important;
+}
+
 .margin-bottom-1 {
   margin-bottom: 1rem !important;
 }
@@ -176,6 +184,13 @@ textarea {
 }
 
 .color-primary-font {
+  color: $color-primary;
+}
+
+.title-md {
+  font-family: $fontOswald;
+  font-size: 2rem;
+  text-align: center;
   color: $color-primary;
 }
 
@@ -202,8 +217,12 @@ textarea {
   color: $color-primary;
 }
 
-.danger {
+.warning {
   color: $color-warning;
+}
+
+.danger {
+  color: $color-danger;
 }
 
 .bold {
@@ -211,7 +230,7 @@ textarea {
 }
 
 .error {
-  color: $color-warning;
+  color: $color-danger;
 }
 
 // ANGULAR MATERIAL OVERRIDE

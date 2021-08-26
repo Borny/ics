@@ -9,7 +9,13 @@ export interface User {
   lastName?: string;
   nickName?: string;
   profileImagePath?: string;
-  subscriptionAssociated?: Array<AdultSubscription[] | KidSubscription[]>;
+  subscriptionAssociated?: {
+    lastName: string;
+    firstName: string;
+    formuleId: string;
+    formuleTitle: string;
+    formuleAgeGroup: string;
+  };
   signUpDate: Date;
   totalPrice?: number;
   paymentMade?: boolean;

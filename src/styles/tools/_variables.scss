@@ -20,8 +20,8 @@ $color-primary: $minsk;
 $color-secondary: $cod-gray;
 $color-accent: $sasquatch-socks;
 
-$color-warning: $red;
-$mild-warning: $sea-buckthorn;
+$color-danger: $red;
+$color-warning: $sea-buckthorn;
 
 // #7b6dff
 
@@ -38,9 +38,9 @@ $grey-dark: darken($cod-gray, 0.5);
 //////////
 
 // Roboto
-$fontPoppins: 'Poppins', 'Roboto', sans-serif;
+$fontPoppins: "Poppins", "Roboto", sans-serif;
 
-$fontOswald: 'Oswald', 'Roboto', sans-serif;
+$fontOswald: "Oswald", "Roboto", sans-serif;
 
 ////////////////
 // FONT WEIGHT

@@ -1,5 +1,5 @@
-@import '../../../../styles/tools/variables';
-@import '../../../../styles/tools/mixins';
+@import "../../../../styles/tools/variables";
+@import "../../../../styles/tools/mixins";
 
 .spinner {
   margin: auto;
@@ -10,7 +10,7 @@
   flex-flow: column;
 }
 
-input[type='file'] {
+input[type="file"] {
   visibility: hidden;
   width: 0;
 }
@@ -28,7 +28,6 @@ input[type='file'] {
   margin: 0 auto 1rem;
   border-radius: 100px;
   border: 5px solid $color-primary;
-  box-shadow: 0 0 10px 0px #616161;
   overflow: hidden;
   img {
     width: 100%;
