@@ -335,8 +335,6 @@ export class SubscriptionView implements OnInit {
       this.showCardPaymentValidation = false;
       this.showOtherPaymentValidation = false;
       this.showSubscriptionValidation = false;
-      // this.formuleForm.updateValueAndValidity();
-      // this.subscriptionForm.updateValueAndValidity();
 
       this._getFormules();
     }
