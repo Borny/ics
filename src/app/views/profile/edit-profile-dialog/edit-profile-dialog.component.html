@@ -1,7 +1,12 @@
 <h2 mat-dialog-title>Modification de mes informations</h2>
 
 <section class="profile-form__container">
-  <mat-spinner class="spinner" *ngIf="isLoading"></mat-spinner>
+  <mat-spinner
+    class="spinner"
+    color="accent"
+    diameter="50"
+    *ngIf="isLoading"
+  ></mat-spinner>
   <p class="error-message" *ngIf="!isLoading && userError">
     Les informations n'ont pas pu être chargées
   </p>
@@ -13,7 +18,7 @@
     [formGroup]="editProfileForm"
     (ngSubmit)="onSubmit()"
   >
-    <div class="profile-image__container">
+    <!-- <div class="profile-image__container">
       <div class="image-preview">
         <img
           *ngIf="imagePreview && imagePreview !== ''"
@@ -37,7 +42,7 @@
         </button>
         <input type="file" #filePicker (change)="onImagepicked($event)" />
       </div>
-    </div>
+    </div> -->
     <mat-form-field>
       <mat-label>Prénom</mat-label>
       <input
@@ -70,7 +75,7 @@
         >Veuillez renseigner votre nom</mat-error
       >
     </mat-form-field>
-    <mat-form-field>
+    <!-- <mat-form-field>
       <mat-label>Surnom de capoeira</mat-label>
       <input
         matInput
@@ -85,7 +90,7 @@
         "
         >Veuillez renseigner votre surnom</mat-error
       >
-    </mat-form-field>
+    </mat-form-field> -->
   </form>
 </section>
 

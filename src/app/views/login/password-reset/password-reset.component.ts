@@ -22,7 +22,7 @@ export class PasswordResetView implements OnInit {
   public doesNotMatch = false;
 
   public readonly RELOAD_BTN_TEXT = 'Réessayer';
-  public readonly SUBMIT_BTN_TEXT = 'Créer';
+  public readonly SUBMIT_BTN_TEXT = 'Mettre à jour';
 
   constructor(
     private authService: AuthService,

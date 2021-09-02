@@ -23,7 +23,14 @@ export class SubscriptionService {
     environment.apiUrl + '/subscription/kid';
   public readonly ADULT_SUBSCRIPTION_URL =
     environment.apiUrl + '/subscription/adult';
-  public readonly SUBSCRIPTION_URL = environment.apiUrl + '/subscription/';
+  // public readonly SUBSCRIPTION_URL = environment.apiUrl + '/subscription/';
+  public readonly SUBSCRIPTION_CREDIT_CARD_URL =
+    environment.apiUrl + '/subscription/credit-card';
+  public readonly PAYMENT_CREDIT_CARD_URL =
+    environment.apiUrl + '/subscription/payment-credit-card';
+  public readonly SUBSCRIPTION_OTHER_PAYMENT_URL =
+    environment.apiUrl + '/subscription/other';
+  public readonly EMAIL_URL = environment.apiUrl + '/subscription/email';
   public readonly COUPON_URL = environment.apiUrl + '/subscription/coupon';
 
   constructor(private http: HttpClient, private router: Router) {}
@@ -47,18 +54,18 @@ export class SubscriptionService {
   }
 
   // POST
-  public addSubscription(data: any): Observable<any> {
-    return this.http.post(this.SUBSCRIPTION_URL, data);
+  public validateSubscriptionOtherPayment(data: any): Observable<any> {
+    return this.http.post(this.SUBSCRIPTION_OTHER_PAYMENT_URL, data);
   }
 
-  // GET DATA
-  // public getNurseryData(): Observable<any> {
-  //   return this.http.get<any>(`${this.NURSERY_SUBSCRIPTION_URL}`);
-  // }
+  public validateSubscriptionCardPayment(data: any): Observable<any> {
+    return this.http.post(this.SUBSCRIPTION_CREDIT_CARD_URL, data);
+  }
 
-  // public getElementaryData(): Observable<any> {
-  //   return this.http.get<any>(`${this.ELEMENTARY_SUBSCRIPTION_URL}`);
-  // }
+  public makeCardPayment(data: any): Observable<any> {
+    console.log(data)
+    return this.http.post(this.PAYMENT_CREDIT_CARD_URL, data);
+  }
 
   // GET ONE
   public getKid(memberId: string): Observable<any> {
@@ -91,11 +98,6 @@ export class SubscriptionService {
       map((response) => response['data'])
     );
   }
-
-  // public fetchExcelFile(): void {
-  //   console.log('gettting the excel file');
-  //   this.router.navigate([`${this.ADULT_SUBSCRIPTION_URL}/excel`]);
-  // }
 
   // UPDATE
   public updateKid(member: KidSubscription): Observable<any> {
@@ -130,19 +132,16 @@ export class SubscriptionService {
     couponInput: string,
     formuleId: string
   ): Observable<{ message: string; valid: boolean; couponValue?: number }> {
-    // console.log('coupon value', couponInput);
     const code = { couponInput, formuleId };
-    return this.http
-      .post<{ message: string; valid: boolean; amount?: number }>(
-        this.COUPON_URL,
-        code
-      )
-      .pipe
-      // tap((res) => console.log(res['message']))
-      // catchError((err) => {
-      //   console.log(res['message']);
-      //   return err;
-      // })
-      ();
+    return this.http.post<{ message: string; valid: boolean; amount?: number }>(
+      this.COUPON_URL,
+      code
+    );
+  }
+
+  // EMAIL
+  public checkEmail(email: string): Observable<{ message: string }> {
+    const emailValue = { email };
+    return this.http.post<{ message: string }>(this.EMAIL_URL, emailValue);
   }
 }

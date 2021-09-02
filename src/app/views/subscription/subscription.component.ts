@@ -1,4 +1,10 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -21,6 +27,7 @@ import {
   StepperSelectionEvent,
 } from '@angular/cdk/stepper';
 import { BreakpointObserver } from '@angular/cdk/layout';
+import { PaymentMethodEnum } from 'src/app/models/payment-method.enum';
 
 @Component({
   selector: 'subscription',
@@ -28,14 +35,18 @@ import { BreakpointObserver } from '@angular/cdk/layout';
   styleUrls: ['subscription.component.scss'],
 })
 export class SubscriptionView implements OnInit {
+  @ViewChild('creditCardElement') creditCardElement: ElementRef;
+
   public loading = false;
   public couponLoading = false;
   public subscriptionLoading = false;
+  public checkEmailLoading = false;
+  public paymentLoading = false;
   public formuleForm: FormGroup;
   public subscriptionForm: FormGroup = new FormGroup({});
   public subscriptionAdultForm: FormGroup = new FormGroup({});
   public subscriptionKidForm: FormGroup = new FormGroup({});
-  public paymentForm: FormGroup = new FormGroup({});
+  // public paymentForm: FormGroup = new FormGroup({});
   public showSubscriptionForm = false;
   public showAdultSubscriptionForm = false;
   public showKidSubscriptionForm = false;
@@ -56,15 +67,12 @@ export class SubscriptionView implements OnInit {
   public multipleSubscriptionDiscount = false;
   public couponDiscount = false;
   public subscriptionsData: any;
-  public showValidation = false;
-  public showUserExist = false;
+  public showCardPaymentValidation = false;
+  public showOtherPaymentValidation = false;
+  public showSubscriptionValidation = false;
 
   public stepperOrientation$: Observable<StepperOrientation>;
   public isVertical = 'vertical';
-
-  @HostListener('window:resize') onWindowResize() {
-    this.isVertical = window.innerWidth <= 768 ? 'vertical' : 'horizontal';
-  }
 
   public formules$: Observable<Formule[]>;
 
@@ -72,6 +80,20 @@ export class SubscriptionView implements OnInit {
   public readonly PROGRAM_BTN_TEXT = 'Nos programmes';
   public readonly RELOAD_BTN_TEXT = 'Réessayer';
   public readonly USER = 'user';
+  public readonly PAY_BUTTON_TEXT = 'Régler';
+
+  // STRIPE
+  public isCardValid = false;
+  public cardErrors: string;
+  private stripe: any; // : stripe.Stripe;
+  private creditCardContainer: any;
+  // Card number
+  private readonly FRENCH_CARD_NUMBER = 4000002500000003;
+  private readonly DECLINED_PAYMENT_CARD_NUMBER = 4000000000009995;
+
+  @HostListener('window:resize') onWindowResize() {
+    this.isVertical = window.innerWidth <= 768 ? 'vertical' : 'horizontal';
+  }
 
   constructor(
     private subscriptionService: SubscriptionService,
@@ -165,43 +187,26 @@ export class SubscriptionView implements OnInit {
     this._scrollToTop();
   }
 
-  public scrollToTop(): void {
-    window.scrollTo(0, 0);
-  }
+  public onCheckEmail(stepper: MatStepper): void {
+    this.checkEmailLoading = true;
 
-  public onSubmitSubscriptionForm(stepper: MatStepper): void {
-    // console.log('submit sub form');
-    // console.log(this.subscriptionForm.value);
-    this.subscriptionLoading = true;
-
-    this.subscriptionsData = {
-      formValues: this.subscriptionForm.value,
-      totalPrice: this.totalPrice,
-    };
-    console.log([this.subscriptionsData, this.totalPrice]);
+    console.log(this.subscriptionForm.value);
 
     this.subscriptionService
-      .addSubscription(this.subscriptionsData)
-      .pipe(
-        finalize(() => {
-          this.subscriptionLoading = false;
-        })
-      )
+      .checkEmail(this.subscriptionForm.value.accountCreation.email)
+      .pipe(finalize(() => (this.checkEmailLoading = false)))
       .subscribe(
         (res) => {
-          console.log(res);
-          console.log(this.subscriptionsData);
           stepper.next();
-          this.showValidation = true;
           this._scrollToTop();
-          this.subscriptionForm.reset();
-          this.formuleForm.reset();
+          setTimeout(() => {
+            this._initStripe();
+          }, 2000);
         },
         (error) => {
           console.log('sub error', error.error.message);
           if (error.error.message === 'User already exists') {
             // TODO: add error on email input
-            // this.showUserExist = true;
 
             this._snackBar.open(
               `L'adresse email existe déjà. Veuillez la modifier`
@@ -214,7 +219,84 @@ export class SubscriptionView implements OnInit {
   }
 
   // PAYMENT
-  public onValidateSubscriptions(): void {}
+  public async onCardPayment(): Promise<void> {
+    if (this.subscriptionForm.invalid) {
+      return;
+    }
+
+    const result = await this.stripe.createToken(this.creditCardContainer);
+
+    this.subscriptionsData = {
+      formValues: this.subscriptionForm.value,
+      totalPrice: this.totalPrice,
+      token: result.token,
+      paymentMethod: PaymentMethodEnum.CARD,
+    };
+    // console.log([this.subscriptionsData, this.totalPrice]);
+
+    if (result.error) {
+      this.cardErrors = result.error.message;
+    } else {
+      this.paymentLoading = true;
+      this.subscriptionService
+        .validateSubscriptionCardPayment(this.subscriptionsData)
+        .pipe(
+          finalize(() => {
+            this.paymentLoading = false;
+          })
+        )
+        .subscribe(
+          (res) => {
+            this.showCardPaymentValidation = true;
+            this.showSubscriptionValidation = true;
+            this._scrollToTop();
+            this.subscriptionForm.reset();
+            this.formuleForm.reset();
+          },
+          (error) => {
+            console.log('sub error', error.error.message);
+            this._snackBar.open(`Une erreur est survenue, veuillez réessayer`);
+            setTimeout(() => {
+              this._initStripe();
+            }, 2000);
+          }
+        );
+    }
+  }
+
+  public onOtherPayment(): void {
+    if (this.subscriptionForm.invalid) {
+      return;
+    }
+
+    this.subscriptionsData = {
+      formValues: this.subscriptionForm.value,
+      totalPrice: this.totalPrice,
+      paymentMethod: PaymentMethodEnum.OTHER,
+    };
+
+    this.paymentLoading = true;
+    this.subscriptionService
+      .validateSubscriptionOtherPayment(this.subscriptionsData)
+      .pipe(
+        finalize(() => {
+          this.paymentLoading = false;
+        })
+      )
+      .subscribe(
+        (res) => {
+          this.showOtherPaymentValidation = true;
+          this.showSubscriptionValidation = true;
+          this._scrollToTop();
+          this.subscriptionForm.reset();
+          this.formuleForm.reset();
+        },
+        (error) => {
+          console.log('sub error', error.error.message);
+          this._snackBar.open(`Une erreur est survenue, veuillez réessayer`);
+        }
+      );
+  }
 
   // SUBSCRIPTION FORM
   public onUpdateCardFormule(formule: Formule): void {
@@ -234,7 +316,9 @@ export class SubscriptionView implements OnInit {
   public onBackToFormules(stepEvent?: StepperSelectionEvent): void {
     if (stepEvent && stepEvent.selectedIndex === 0) {
       this.subscriptionForm.reset();
+      this.subscriptionForm.clearValidators();
       this.formuleForm.reset();
+      this.formuleForm.clearValidators();
       this.selectedFormules = [];
       this.totalPrice = 0;
       this.initialTotalPrice = 0;
@@ -248,8 +332,9 @@ export class SubscriptionView implements OnInit {
       this.multipleSubscriptionDiscount = false;
       this.couponDiscount = false;
       this.totalFormules = 0;
-      // this.showUserExist = false;
-      this.showValidation = false;
+      this.showCardPaymentValidation = false;
+      this.showOtherPaymentValidation = false;
+      this.showSubscriptionValidation = false;
 
       this._getFormules();
     }
@@ -268,9 +353,6 @@ export class SubscriptionView implements OnInit {
     couponCheckbox: MatCheckboxChange,
     subscription: any
   ): void {
-    // console.log('sub', couponCheckbox);
-    // console.log('sub', subscription);
-    // console.log('sub', subscription.value.formule.hasCoupon);
     if (subscription.value.formule.hasCoupon) {
       subscription.showCoupon = couponCheckbox.checked;
     }
@@ -285,7 +367,7 @@ export class SubscriptionView implements OnInit {
 
     this.subscriptionService
       .validateCoupon(
-        subscription.value.couponInput,
+        subscription.value.couponInput.trim(),
         subscription.value.formule.id
       )
       .pipe(finalize(() => (this.couponLoading = false)))
@@ -328,6 +410,27 @@ export class SubscriptionView implements OnInit {
   ////////////
   // PRIVATE
   ////////////
+  // Calling stripe and creating the card input element
+  private _initStripe(): void {
+    // Importing the key
+    // 'pk_test_51Iv7cDBNp46nE7OQLPrY4PmFtM6AoYRFY4Evu88HbrQlP52yu5gJtF66Wjejq1I5inWvY0lJvvcOvhSvArEKyiAg00vVh5wPtf'
+    this.stripe = Stripe(
+      'pk_live_51Iv78DInlL2kaZj1snSdVBtKW8YD4LWQU4m2MHONj5S6mRHGg4rTQ2Hq8l6eH2PGI6OeFWzFeGJShTl1XLDV7zc400j47Y0wE9'
+    );
+
+    // Creating the element
+    const elements = this.stripe.elements({ locale: 'fr' });
+
+    this.creditCardContainer = elements.create('card');
+    this.creditCardContainer.mount(this.creditCardElement.nativeElement);
+
+    this.creditCardContainer.addEventListener('change', (callback) => {
+      console.log('callback', callback);
+
+      this.cardErrors = callback.error && callback.error.message;
+      this.isCardValid = callback.complete;
+    });
+  }
 
   private _stepperDirectionUpdate(): void {
     this.isVertical = window.innerWidth <= 768 ? 'vertical' : 'horizontal';
@@ -421,11 +524,23 @@ export class SubscriptionView implements OnInit {
     };
   }
 
+  // FORMS
   private _initSubscriptionForm(): void {
     this.subscriptionForm = this.formBuilder.group({
       adultsForms: this.formBuilder.array([]),
       kidsForms: this.formBuilder.array([]),
       accountCreation: this.formBuilder.group(
+        // {
+        //   firstName: this.formBuilder.control(null),
+        //   lastName: this.formBuilder.control(null),
+        //   email: this.formBuilder.control(null, [
+        //     Validators.required,
+        //     Validators.email,
+        //   ]),
+        //   password: this.formBuilder.control(null),
+        //   passwordConfirmation: this.formBuilder.control(null),
+        //   signUpDate: this.formBuilder.control(new Date()),
+        // }
         {
           firstName: this.formBuilder.control(null, [Validators.required]),
           lastName: this.formBuilder.control(null, [Validators.required]),
@@ -450,6 +565,7 @@ export class SubscriptionView implements OnInit {
           ),
         }
       ),
+      // termsAndConditions: this.formBuilder.control(false),
       termsAndConditions: this.formBuilder.control(
         false,
         Validators.requiredTrue
@@ -459,6 +575,28 @@ export class SubscriptionView implements OnInit {
 
   private _initSubscriptionAdultForm(formule: Formule): FormGroup {
     return this.formBuilder.group({
+      // memberLastName: this.formBuilder.control(null),
+      // memberFirstName: this.formBuilder.control(null),
+      // birthdate: this.formBuilder.control(null),
+      // gender: this.formBuilder.control(null),
+      // phone: this.formBuilder.control(null),
+      // renew: this.formBuilder.control(false),
+      // extraInfo: this.formBuilder.control(null),
+      // imageRights: this.formBuilder.control(false),
+      // couponInput: this.formBuilder.control(''),
+      // couponCodeValid: this.formBuilder.control(null),
+      // couponValue: this.formBuilder.control(null),
+      // subscriptionAmount: this.formBuilder.control(formule.price),
+      // subscriptionDate: this.formBuilder.control(new Date()),
+      // formule: this.formBuilder.group({
+      //   id: this.formBuilder.control(formule._id),
+      //   title: this.formBuilder.control(formule.title),
+      //   ageGroup: this.formBuilder.control(formule.ageGroup),
+      //   price: this.formBuilder.control(formule.price),
+      //   location: this.formBuilder.control(formule.location),
+      //   street: this.formBuilder.control(formule.street),
+      //   hasCoupon: this.formBuilder.control(formule.hasCoupon),
+      // }),
       memberLastName: this.formBuilder.control(null, Validators.required),
       memberFirstName: this.formBuilder.control(null, Validators.required),
       birthdate: this.formBuilder.control(null, Validators.required),
@@ -547,4 +685,6 @@ export class SubscriptionView implements OnInit {
       finalize(() => (this.loading = false))
     );
   }
+
+  // PAYMENT
 }

@@ -24,11 +24,16 @@ export class ProgramView implements OnInit {
   public readonly CONTACT_BTN_TEXT = 'Nous contacter';
   public readonly SUBSCRIPTIONS_BTN_TEXT = 'Inscriptions';
 
-
   constructor(private router: Router, private formuleService: FormuleService) {}
 
   ngOnInit() {
     this._getFormules();
+
+    // private _scrollToTop(): void {
+    // TODO: improve this
+    const sidenavContent = document.getElementsByTagName('mat-sidenav-content');
+    sidenavContent[0].scrollTo(0, 0);
+    // }
   }
 
   public onNavigateContact(event: Event): void {

@@ -19,6 +19,7 @@ export class OrganismAdminUsers implements OnInit {
   public users: User[] = [];
   public ageGroupEnum = AgeGroupEnum;
   public isLoading = false;
+  public search = '';
 
   public users$: Observable<User[]>;
 
@@ -27,6 +28,15 @@ export class OrganismAdminUsers implements OnInit {
   ngOnInit(): void {
     this._getUsers();
   }
+
+  public onUpdateUsers(): void {
+    this._getUsers();
+  }
+
+  // public onSearch(): void {
+  //   console.log(this.search);
+  //   const obs = this.users.filter(({ email }) => email === this.search);
+  // }
 
   private _getUsers(): void {
     this.isLoading = true;

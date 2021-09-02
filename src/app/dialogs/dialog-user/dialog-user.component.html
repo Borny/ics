@@ -56,7 +56,6 @@
         <mat-label>E-mail</mat-label>
         <input
           matInput
-          disabled
           type="email"
           name="email"
           formControlName="email"
@@ -73,6 +72,122 @@
           required
         />
       </mat-form-field>
+
+      <mat-checkbox class="margin-bottom-1" formControlName="paymentMade">
+        Status du paiement :
+        <strong
+          [ngClass]="
+            userForm.get('paymentMade').value ? 'color-primary' : 'danger'
+          "
+        >
+          {{ userForm.get("paymentMade").value ? "OK" : "A régler" }}
+        </strong>
+      </mat-checkbox>
+
+      <mat-form-field class="form__group">
+        <mat-label>Méthode de paiement</mat-label>
+        <mat-select name="ageGroup" formControlName="paymentMethod" required>
+          <mat-option
+            *ngFor="let paymentMethod of paymentMethods"
+            [value]="paymentMethod"
+          >
+            {{ paymentMethod }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <ng-container
+        *ngIf="
+          userForm.get('paymentMethod').value === paymentMethodsEnum.OTHER ||
+          userForm.get('paymentMethod').value === paymentMethodsEnum.MULTIPLE
+        "
+      >
+        <mat-form-field
+          *ngIf="
+            userForm.get('paymentMethod').value === paymentMethodsEnum.MULTIPLE
+          "
+        >
+          <mat-label>Carte</mat-label>
+          <input
+            matInput
+            type="number"
+            name="cardAmount"
+            formControlName="cardAmount"
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Chèque</mat-label>
+          <input
+            matInput
+            type="number"
+            name="checkAmount"
+            formControlName="checkAmount"
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Chèque Vacances</mat-label>
+          <input
+            matInput
+            type="number"
+            name="holidayCheckAmount"
+            formControlName="holidayCheckAmount"
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Espèce</mat-label>
+          <input
+            matInput
+            type="number"
+            name="cashAmount"
+            formControlName="cashAmount"
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Pass 92</mat-label>
+          <input
+            matInput
+            type="number"
+            name="pass92Amount"
+            formControlName="pass92Amount"
+          />
+        </mat-form-field>
+      </ng-container>
+
+      <mat-form-field>
+        <mat-label>Info supplémentaire</mat-label>
+        <textarea
+          matInput
+          name="extraInfo"
+          formControlName="extraInfo"
+        ></textarea>
+      </mat-form-field>
+
+      <p class="color-primary-font margin-top-1">
+        <strong>Inscriptions associées :</strong> (Prix total :
+        {{ user.totalPrice | currency }})
+      </p>
+      <div
+        *ngFor="let formule of user.subscriptionAssociated; let idx = index"
+        class="margin-bottom-1"
+      >
+        <p>
+          <span class="color-primary-font">{{ idx + 1 }} - </span>
+          <span class="color-primary-font">Formule :</span>
+          {{ formule.formuleTitle }}
+        </p>
+        <p>
+          <span class="color-primary-font">Prénom :</span>
+          {{ formule.firstName }}
+        </p>
+        <p>
+          <span class="color-primary-font">Nom :</span>
+          {{ formule.lastName }}
+        </p>
+        <p>
+          <span class="color-primary-font">Groupe d'âge :</span>
+          {{ formule.formuleAgeGroup }}
+        </p>
+      </div>
     </div>
   </form>
 </mat-dialog-content>

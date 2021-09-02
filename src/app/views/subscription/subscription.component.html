@@ -1,5 +1,5 @@
 <section class="title__container">
-  <p class="title-xl">
+  <p class="title-md">
     {{ "Inscriptions" | uppercase }}
   </p>
 </section>
@@ -96,7 +96,7 @@
       <form
         *ngIf="showSubscriptionForm"
         [formGroup]="subscriptionForm"
-        (ngSubmit)="onSubmitSubscriptionForm(stepper)"
+        (ngSubmit)="onCheckEmail(stepper)"
       >
         <!-- ADULT FORMS -->
         <ng-container
@@ -123,23 +123,6 @@
               <p class="form-section__label">Adhérent</p>
               <div class="form-group">
                 <mat-form-field>
-                  <mat-label>Nom</mat-label>
-                  <input
-                    matInput
-                    type="text"
-                    name="memberLastName"
-                    formControlName="memberLastName"
-                    required
-                  />
-                  <mat-error
-                    *ngIf="
-                      subscription.get('memberLastName').invalid &&
-                      subscription.get('memberLastName').touched
-                    "
-                    >Veuillez renseigner le nom</mat-error
-                  >
-                </mat-form-field>
-                <mat-form-field>
                   <mat-label>Prénom</mat-label>
                   <input
                     matInput
@@ -154,6 +137,24 @@
                       subscription.get('memberFirstName').touched
                     "
                     >Veuillez renseigner le prénom</mat-error
+                  >
+                </mat-form-field>
+
+                <mat-form-field>
+                  <mat-label>Nom</mat-label>
+                  <input
+                    matInput
+                    type="text"
+                    name="memberLastName"
+                    formControlName="memberLastName"
+                    required
+                  />
+                  <mat-error
+                    *ngIf="
+                      subscription.get('memberLastName').invalid &&
+                      subscription.get('memberLastName').touched
+                    "
+                    >Veuillez renseigner le nom</mat-error
                   >
                 </mat-form-field>
 
@@ -233,8 +234,8 @@
                 <mat-checkbox class="form__group" formControlName="imageRights">
                   {{
                     subscription.get("imageRights").value
-                      ? "Je soussigné(e), adhérent ou représentant légal de l'adhérent, autorise ACDO et ACDOIDFP, groupe ICS France, à utiliser l'image de mon enfant, à des fins de communication des activités du groupe ICS France"
-                      : "Je soussigné(e), adhérent ou représentant légal de l'adhérent, n'autorise pas ACDO et ACDOIDFP, groupe ICS France, à utiliser l'image de mon enfant, à des fins de communication des activités du groupe ICS France"
+                      ? "J'autorise ACDO et ACDOIDFP, groupe ICS France, à utiliser mon image à des fins de communication des activités du groupe ICS France"
+                      : "Je n'autorise pas ACDO et ACDOIDFP, groupe ICS France, à utiliser mon image à des fins de communication des activités du groupe ICS France"
                   }}
                 </mat-checkbox>
               </div>
@@ -348,23 +349,6 @@
               <p class="form-section__label">Adhérent</p>
               <div class="form-group">
                 <mat-form-field>
-                  <mat-label>Nom</mat-label>
-                  <input
-                    matInput
-                    type="text"
-                    name="memberLastName"
-                    formControlName="memberLastName"
-                    required
-                  />
-                  <mat-error
-                    *ngIf="
-                      subscription.get('memberLastName').invalid &&
-                      subscription.touched
-                    "
-                    >Veuillez renseigner le nom</mat-error
-                  >
-                </mat-form-field>
-                <mat-form-field>
                   <mat-label>Prénom</mat-label>
                   <input
                     matInput
@@ -379,6 +363,23 @@
                       subscription.touched
                     "
                     >Veuillez renseigner le prénom</mat-error
+                  >
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Nom</mat-label>
+                  <input
+                    matInput
+                    type="text"
+                    name="memberLastName"
+                    formControlName="memberLastName"
+                    required
+                  />
+                  <mat-error
+                    *ngIf="
+                      subscription.get('memberLastName').invalid &&
+                      subscription.touched
+                    "
+                    >Veuillez renseigner le nom</mat-error
                   >
                 </mat-form-field>
                 <mat-form-field appearance="fill" class="date-picker">
@@ -515,8 +516,8 @@
                 <mat-checkbox class="form__group" formControlName="imageRights">
                   {{
                     subscription.get("imageRights").value
-                      ? "Je soussigné(e), adhérent ou représentant légal de l'adhérent, autorise ACDO et ACDOIDFP, groupe ICS France, à utiliser mon image / celle de mon enfant, à des fins de communication des activités du groupe ICS France"
-                      : "Je soussigné(e), adhérent ou représentant légal de l'adhérent, n'autorise pas ACDO et ACDOIDFP, groupe ICS France, à utiliser mon image / celle de mon enfant, à des fins de communication des activités du groupe ICS France"
+                      ? "Je soussigné(e), adhérent ou représentant légal de l'adhérent, autorise ACDO et ACDOIDFP, groupe ICS France, à utiliser l'image de mon enfant, à des fins de communication des activités du groupe ICS France"
+                      : "Je soussigné(e), adhérent ou représentant légal de l'adhérent, n'autorise pas ACDO et ACDOIDFP, groupe ICS France, à utiliser l'image de mon enfant, à des fins de communication des activités du groupe ICS France"
                   }}
                 </mat-checkbox>
               </div>
@@ -662,7 +663,7 @@
                 >
               </mat-form-field>
               <mat-form-field>
-                <mat-label>Mot de passe (six charactères min)</mat-label>
+                <mat-label>Mot de passe (six caractères min)</mat-label>
                 <input
                   matInput
                   type="password"
@@ -720,7 +721,7 @@
             class="form__group"
             formControlName="termsAndConditions"
           >
-            Je confirme avoir pris connaissance et accepter le réglement
+            Je confirme avoir pris connaissance et accepté le réglement
           </mat-checkbox>
         </div>
 
@@ -737,13 +738,13 @@
 
         <!-- SPINNER -->
         <atom-spinner
-          *ngIf="subscriptionLoading"
+          *ngIf="checkEmailLoading"
           [color]="'accent'"
           class="spinner--xs"
         ></atom-spinner>
 
         <!-- BTNS -->
-        <div *ngIf="!subscriptionLoading" class="btn__container">
+        <div *ngIf="!checkEmailLoading" class="btn__container">
           <button
             type="button"
             mat-raised-button
@@ -753,76 +754,277 @@
           >
             Retour
           </button>
-          <!-- <button
-            mat-raised-button
-            type="submit"
-            color="primary"
-            matStepperNext
-            [disabled]="subscriptionForm.invalid"
-          >
-            Suivant
-          </button> -->
-
-          <!-- TODO: delete when payment is ready -->
           <button
             mat-raised-button
             type="submit"
             color="primary"
             [disabled]="subscriptionForm.invalid"
           >
-            Valider
+            Suivant
           </button>
-
-          <!-- <button
-            mat-raised-button
-            type="submit"
-            color="primary"
-            matStepperNext
-            [disabled]="subscriptionForm.invalid"
-          >
-            Valider
-          </button> -->
         </div>
       </form>
     </ng-template>
   </mat-step>
 
   <!-- PAYMENT -->
-  <!--  TODO: update the label when payment is ready  -->
-  <!-- <mat-step [stepControl]="paymentForm" label="Paiement"> -->
-  <mat-step [stepControl]="paymentForm" label="Confirmation">
+  <mat-step [stepControl]="subscriptionForm" label="Paiement">
     <ng-template matStepContent>
-      <!-- DETAILS -->
+      <!-- RECAP -->
 
-      <!-- LOADER -->
       <atom-spinner
-        *ngIf="subscriptionLoading"
+        *ngIf="paymentLoading"
         [color]="'accent'"
         class="spinner"
       ></atom-spinner>
 
-      <div *ngIf="!subscriptionLoading && showValidation">
+      <div *ngIf="!paymentLoading && !showSubscriptionValidation">
+        <h3 class="text-center color-primary-font">
+          <strong> Récapitulatif </strong>
+        </h3>
+
+        <!-- Adult subscriptions -->
+        <div *ngIf="subscriptionForm.value.adultsForms.length">
+          <p class="color-primary-font">
+            <strong>Inscriptions adulte :</strong>
+          </p>
+          <div
+            *ngFor="
+              let adultForm of subscriptionForm.value.adultsForms;
+              let idx = index
+            "
+            class="margin-bottom-1"
+          >
+            <p>
+              <span class="color-primary-font">{{ idx + 1 }} - </span>
+              <span class="color-primary-font">Formule :</span>
+              {{ adultForm.formule.title }}
+            </p>
+            <p>
+              <span class="color-primary-font">Prénom :</span>
+              {{ adultForm.memberFirstName }}
+            </p>
+            <p>
+              <span class="color-primary-font">Nom :</span>
+              {{ adultForm.memberLastName }}
+            </p>
+          </div>
+        </div>
+
+        <!-- Kids subscriptions -->
+        <div *ngIf="subscriptionForm.value.kidsForms.length; let idx = index">
+          <p class="color-primary-font">
+            <strong>Inscriptions enfant/ado :</strong>
+          </p>
+          <div
+            *ngFor="
+              let kidForm of subscriptionForm.value.kidsForms;
+              let idx = index
+            "
+            class="margin-bottom-1"
+          >
+            <p>
+              <span class="color-primary-font">{{ idx + 1 }} - </span>
+              <span class="color-primary-font">Formule :</span>
+              {{ kidForm.formule.title }} - {{ kidForm.formule.ageGroup }}
+            </p>
+            <p>
+              <span class="color-primary-font">Prénom :</span>
+              {{ kidForm.memberFirstName }}
+            </p>
+            <p>
+              <span class="color-primary-font">Nom :</span>
+              {{ kidForm.memberLastName }}
+            </p>
+            <p>
+              <span class="color-primary-font"
+                >Prénom du représentant légal :</span
+              >
+              {{ kidForm.guardianFirstName }}
+            </p>
+            <p>
+              <span class="color-primary-font"
+                >Nom du représentant légal :</span
+              >
+              {{ kidForm.guardianLastName }}
+            </p>
+            <p>
+              <span class="color-primary-font"
+                >Email du représentant légal :</span
+              >
+              {{ kidForm.guardianEmail }}
+            </p>
+            <p>
+              <span class="color-primary-font"
+                >Numéro de téléphone du représentant légal :</span
+              >
+              {{ kidForm.guardianPhone }}
+            </p>
+          </div>
+        </div>
+
+        <!-- Account creation -->
+        <div class="margin-top-1">
+          <p class="color-primary-font">
+            <strong>Création du compte :</strong>
+          </p>
+          <p>
+            <span class="color-primary-font">Prénom :</span>
+            {{ subscriptionForm.value.accountCreation.firstName }}
+          </p>
+          <p>
+            <span class="color-primary-font">Nom :</span>
+            {{ subscriptionForm.value.accountCreation.lastName }}
+          </p>
+          <p>
+            <span class="color-primary-font">Email :</span>
+            {{ subscriptionForm.value.accountCreation.email }}
+          </p>
+        </div>
+
+        <div class="btn__container">
+          <button mat-raised-button color="accent" matStepperPrevious>
+            Modifier les informations
+          </button>
+        </div>
+
+        <!-- Price -->
+        <div class="price__container">
+          <p class="price__label">Montant total des inscriptions:</p>
+          <p class="price__amount">{{ totalPrice }}€</p>
+          <p class="price__off" *ngIf="priceOff">
+            (<strong>{{ priceOff }}€</strong> de réduction)
+          </p>
+          <p *ngIf="couponDiscount">Réduction de coupon inclus</p>
+          <p *ngIf="multipleSubscriptionDiscount">-10% de réduction inclus</p>
+        </div>
+
+        <!-- PAYMENT -->
+        <p class="text-center color-primary-font">
+          <strong>Je choisis ma méthode de paiement</strong>
+        </p>
+        <mat-tab-group mat-align-tabs="center" animationDuration="0ms">
+          <mat-tab label="En ligne">
+            <p class="text-center margin-top-1">
+              Votre inscription sera validée dès le paiement effectué
+            </p>
+            <p class="color-primary-font text-center bold margin-top-1">
+              Veuillez remplir les informations de votre carte
+            </p>
+
+            <!-- CREDIT CARD INPUT -->
+            <div class="credit-card__input" #creditCardElement></div>
+            <!-- CARD ERROR -->
+            <p class="credit-card__error">{{ cardErrors }}</p>
+
+            <!-- Submit button -->
+            <div
+              class="
+                btn__container btn__container--block btn__container--submit
+              "
+            >
+              <button
+                mat-raised-button
+                type="submit"
+                (click)="onCardPayment()"
+                color="primary"
+                [disabled]="
+                  subscriptionForm.invalid || totalPrice === 0 || !isCardValid
+                "
+              >
+                {{ PAY_BUTTON_TEXT }} {{ totalPrice | currency }}
+              </button>
+            </div>
+          </mat-tab>
+          <mat-tab label="Autre">
+            <p class="text-center margin-top-1">
+              Votre inscription ne sera validée que lorsque le paiement sera
+              effectué
+            </p>
+            <!-- <p>Veuillez renseigner le montant de chaque méthode de paiement:</p> -->
+            <p class="text-center margin-top-1">
+              Vous pourrez régler l'inscription à l'aide des méthodes suivantes
+              :
+            </p>
+            <ul class="text-center margin-top-1 payment-other--options">
+              <li>Chèque</li>
+              <li>Espèce</li>
+              <li>Chèques-vacances</li>
+              <li>Pass 92</li>
+            </ul>
+
+            <!-- Submit button -->
+            <div
+              class="
+                btn__container btn__container--block btn__container--submit
+              "
+            >
+              <button
+                mat-raised-button
+                type="submit"
+                (click)="onOtherPayment()"
+                color="primary"
+                [disabled]="subscriptionForm.invalid || totalPrice === 0"
+              >
+                Confirmer l'inscription
+              </button>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+
+      <!-- SHOW VALIDATION CARD PAYMENT -->
+      <div *ngIf="!paymentLoading && showCardPaymentValidation">
         <h2 class="margin-bottom-1 text-center">
-          Inscription validée!
+          Paiement et inscription validés!
           <br />
           Merci, un email vient d'être envoyé à
+          <br />
           <span class="color-primary-font">
-            {{ subscriptionsData.formValues.accountCreation.email }} </span
-          >.
+            {{ subscriptionsData.formValues.accountCreation.email }}
+          </span>
         </h2>
 
-        <!-- <p class="margin-bottom-1">
+        <p class="margin-bottom-1">
           Vous pouvez également trouver les détails dans votre espace privé.
           Connectez-vous en utilisant votre email
           {{ subscriptionsData.formValues.accountCreation.email }} ainsi que le
           mot de passe associé.
-        </p> -->
+        </p>
       </div>
 
-      <div class="btn__container">
-        <!-- <button mat-raised-button color="accent" matStepperPrevious>
-          Retour
-        </button> -->
+      <!-- SHOW VALIDATION OTHER PAYMENT -->
+      <div *ngIf="!paymentLoading && showOtherPaymentValidation">
+        <h2 class="margin-bottom-1 text-center">
+          Inscription enregistrée!
+          <br />
+          Merci, un email vient d'être envoyé à
+          <br />
+          <span class="color-primary-font">
+            {{ subscriptionsData.formValues.accountCreation.email }}
+          </span>
+        </h2>
+
+        <p class="margin-bottom-1">
+          Vous pouvez également trouver les détails dans votre espace privé.
+          Connectez-vous en utilisant votre email
+          {{ subscriptionsData.formValues.accountCreation.email }} ainsi que le
+          mot de passe associé.
+        </p>
+      </div>
+
+      <div
+        *ngIf="!paymentLoading && showSubscriptionValidation"
+        class="btn__container"
+      >
+        <button
+          mat-raised-button
+          color="accent"
+          type="button"
+          (click)="onNavigateHome()"
+        >
+          Accueil
+        </button>
         <!-- <button
           mat-raised-button
           color="accent"
@@ -831,17 +1033,6 @@
         >
           Connexion
         </button> -->
-        <button mat-raised-button color="primary" (click)="onNavigateHome()">
-          Accueil
-        </button>
-        <!-- <button
-        mat-raised-button
-        color="primary"
-        (click)="onValidateSubscriptions()"
-      >
-        Valider
-      </button> -->
-        <!-- <button mat-raised-button  (click)="stepper.reset()">Annuler</button> -->
       </div>
     </ng-template>
   </mat-step>

@@ -32,7 +32,7 @@
   .mat-horizontal-stepper-header-container {
     @include screen-sm {
       position: sticky;
-      top: 159px;
+      top: 111px;
       z-index: 4;
       margin: 0 0 2rem;
       background: $white;
@@ -241,7 +241,7 @@
 // PRICE SECTION
 .price {
   &__container {
-    max-width: $screen-sm;
+    max-width: 400px;
     margin: 3rem auto;
     display: flex;
     flex-direction: column;
@@ -253,5 +253,22 @@
   &__amount {
     color: $color-primary;
     font-weight: $fontWeightBold;
+  }
+}
+
+// PAYMENT
+.credit-card {
+  &__input {
+    width: 300px;
+    margin: 2rem auto 0;
+    border: 1px solid $color-primary;
+    border-radius: 4px;
+    padding: 1rem;
+  }
+  &__error {
+    width: 300px;
+    color: $color-danger;
+    font-size: 0.8rem;
+    margin: 0 auto;
   }
 }

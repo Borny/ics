@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { tap } from 'rxjs/operators';
 import { AdultSubscription } from 'src/app/models/adultSubscription.model';
@@ -15,6 +15,8 @@ import { DialogMember } from '../../dialogs/dialog-member/dialog-member.componen
 export class MemberDataTable {
   @Input() membersData: AdultSubscription[] | KidSubscription[];
   @Input() subscriptionAgeMode: SubscriptionAgeMode;
+
+  @Output() updateTable$: EventEmitter<any> = new EventEmitter();
 
   private readonly _DELETE = 'delete';
   private readonly _CONFIRM = 'confirm';
@@ -40,7 +42,7 @@ export class MemberDataTable {
         ) {
           this.subscriptionService
             .updateAdult(result.member)
-            .pipe(tap(() => location.reload()))
+            .pipe(tap(() => this.updateTable$.emit()))
             .subscribe();
         } else if (
           this.subscriptionAgeMode ===
@@ -48,7 +50,7 @@ export class MemberDataTable {
         ) {
           this.subscriptionService
             .updateKid(result.member)
-            .pipe(tap(() => location.reload()))
+            .pipe(tap(() => this.updateTable$.emit()))
             .subscribe();
         }
       } else if (result.action === this._DELETE) {
@@ -58,7 +60,7 @@ export class MemberDataTable {
         ) {
           this.subscriptionService
             .deleteAdult(result.memberId)
-            .pipe(tap(() => location.reload()))
+            .pipe(tap(() => this.updateTable$.emit()))
             .subscribe();
         } else if (
           this.subscriptionAgeMode ===
@@ -66,7 +68,7 @@ export class MemberDataTable {
         ) {
           this.subscriptionService
             .deleteKid(result.memberId)
-            .pipe(tap(() => location.reload()))
+            .pipe(tap(() => this.updateTable$.emit()))
             .subscribe();
         }
       }

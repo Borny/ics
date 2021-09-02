@@ -34,7 +34,7 @@
           routerLinkActive="active"
           >Contact</a
         >
-        <!-- <a
+        <a
           *ngIf="isUserAuthenticated || isAdminUserAuthenticated"
           mat-list-item
           class="nav-item"
@@ -71,7 +71,7 @@
           routerLink="/accueil"
         >
           {{ LOGOUT_BTN_TEXT }}
-        </a> -->
+        </a>
       </mat-nav-list>
     </mat-sidenav>
 
@@ -138,8 +138,11 @@
                 >Contact</a
               >
             </li>
-            <!-- <li>{{ user?.profileImagePath }}</li> -->
-            <!-- <li class="nav-item">
+            <!-- <li class="nav-item">{{ user?.profileImagePath }}</li> -->
+            <!-- <li class="nav-item" *ngIf="user?.firstName">
+              {{ user?.firstName }}
+            </li> -->
+            <li class="nav-item">
               <button mat-button [matMenuTriggerFor]="menu">
                 <img
                   *ngIf="user && user.profileImagePath"
@@ -147,9 +150,9 @@
                   class="nav-item__picture"
                   alt="profile picture"
                 />
-                <mat-icon *ngIf="!user?.profileImagePath"
-                  >account_circle</mat-icon
-                >
+                <mat-icon *ngIf="!user?.profileImagePath">{{
+                  isUserAuthenticated ? "account_circle" : "login"
+                }}</mat-icon>
               </button>
               <mat-menu #menu="matMenu">
                 <a
@@ -170,14 +173,14 @@
                 >
                   Admin
                 </a>
-                <a
+                <!-- <a
                   *ngIf="isUserAuthenticated || isAdminUserAuthenticated"
                   mat-menu-item
                   routerLink="/boutique"
                   routerLinkActive="active"
                 >
                   Boutique
-                </a>
+                </a> -->
                 <a
                   *ngIf="isUserAuthenticated || isAdminUserAuthenticated"
                   class="nav-item"
@@ -195,7 +198,7 @@
                   Déconnexion
                 </button>
               </mat-menu>
-            </li> -->
+            </li>
           </ul>
         </nav>
       </mat-toolbar>
