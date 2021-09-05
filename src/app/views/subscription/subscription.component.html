@@ -985,7 +985,7 @@
           </span>
         </h2>
 
-        <p class="margin-bottom-1">
+        <p class="margin-bottom-1 text-center">
           Vous pouvez également trouver les détails dans votre espace privé.
           Connectez-vous en utilisant votre email
           {{ subscriptionsData.formValues.accountCreation.email }} ainsi que le
@@ -1005,7 +1005,8 @@
           </span>
         </h2>
 
-        <p class="margin-bottom-1">
+        <!-- TODO: this is duplicate code -->
+        <p class="margin-bottom-1 text-center">
           Vous pouvez également trouver les détails dans votre espace privé.
           Connectez-vous en utilisant votre email
           {{ subscriptionsData.formValues.accountCreation.email }} ainsi que le
@@ -1019,20 +1020,20 @@
       >
         <button
           mat-raised-button
-          color="accent"
+          color="primary"
           type="button"
           (click)="onNavigateHome()"
         >
           Accueil
         </button>
-        <!-- <button
+        <button
           mat-raised-button
           color="accent"
           type="button"
           (click)="onNavigateSignIn()"
         >
           Connexion
-        </button> -->
+        </button>
       </div>
     </ng-template>
   </mat-step>
