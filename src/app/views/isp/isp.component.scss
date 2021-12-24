@@ -1,0 +1,275 @@
+@import "../../../styles/tools/variables";
+@import "../../../styles/tools/mixins";
+
+:host {
+  display: flex;
+  flex-flow: column;
+  min-height: calc(100% - (56px + 132px));
+
+  @include screen-sm {
+    min-height: calc(100% - (64px + 114px));
+  }
+}
+
+// TITLE
+.title__container {
+  @include screen-sm {
+    position: sticky;
+    top: 64px;
+    z-index: 5;
+    background: $white;
+  }
+}
+
+// STEPPER
+.mat-stepper-horizontal {
+  max-width: 992px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+::ng-deep {
+  .mat-horizontal-stepper-header-container {
+    @include screen-sm {
+      position: sticky;
+      top: 111px;
+      z-index: 4;
+      margin: 0 0 2rem;
+      padding: 0 10rem;
+      background: $white;
+      box-shadow: 0 3px 12px 0px rgb(0 0 0 / 50%);
+    }
+  }
+}
+
+.forms__container {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+
+  .spinner,
+  .message {
+    margin: 4rem auto;
+  }
+
+  .btn-container {
+    display: flex;
+    flex-flow: column;
+    margin: 0 auto 4rem;
+
+    @include screen-sm {
+      flex-flow: row;
+      justify-content: center;
+    }
+  }
+
+  .btn {
+    display: flex;
+    justify-content: center;
+    margin: 1rem;
+  }
+}
+
+.mat-expansion-panel {
+  @include screen-sm {
+    max-width: $screen-sm;
+    margin: 1rem auto;
+    border-radius: 4px;
+  }
+}
+
+.mat-expansion-panel-header-title {
+  font-size: 1.2rem;
+  color: $color-primary;
+  font-weight: $fontWeightBold;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+.expansion-panel--small {
+  display: flex;
+  align-items: center;
+  padding: 0 0 0 1rem;
+  color: $color-secondary;
+}
+
+// RADIO BUTTONS
+.radio-button {
+  // border-radius: 100px;
+  // margin: 0 0 1rem;
+  // padding: 0.5rem 1rem;
+  // min-width: 280px;
+  // background-color: $color-primary;
+  // color: $white;
+}
+
+.subscription-amount__container {
+  // display: flex;
+  // flex-flow: column;
+  // align-items: center;
+  // padding: 1rem;
+
+  // @include screen-sm {
+  //   max-width: $screen-sm;
+  //   margin: 0 auto;
+  //   border-radius: 4px;
+  //   border: 1px solid $color-secondary;
+  // }
+
+  // .btn {
+  //   margin: 1rem 0;
+  // }
+}
+
+// CARDS
+.card__container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+}
+
+// BTNS
+.btn__container {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 1rem auto;
+  width: 320px;
+}
+
+//////////////
+
+.form-section__label {
+  padding: 0.5rem 1rem;
+  background: $color-primary;
+  color: $white;
+
+  @include screen-sm {
+    padding: 0.5rem 2rem;
+  }
+}
+
+.form-section__subscription-amount {
+  text-align: center;
+  padding: 1rem;
+
+  @include screen-sm {
+    padding: 1rem 3rem;
+  }
+  span {
+    color: $color-primary;
+    font-weight: $fontWeightBold;
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-flow: column;
+  padding: 1rem;
+
+  @include screen-sm {
+    padding: 1rem 3rem;
+  }
+}
+
+.btn {
+  margin: 0 auto 2rem;
+  display: block;
+}
+
+// RADIO BUTTONS
+// .checkbox-list,
+// .radio-group {
+//   display: flex;
+//   flex-flow: column;
+//   padding: 1rem;
+//   justify-content: stretch;
+// }
+
+// .checkbox-item,
+.radio-button {
+  padding: 0.5rem 0;
+
+  @include screen-sm {
+    padding: 0.5rem 1rem;
+  }
+}
+
+.date-picker {
+  width: 250px;
+}
+
+.legal-guardian-checkbox {
+  margin: 1rem auto;
+}
+
+.img-rights-checkbox {
+  .mat-checkbox-inner-container {
+    margin-top: 4px;
+  }
+}
+
+// COUPON
+.coupon__input {
+  display: flex;
+  align-items: center;
+  button {
+    margin: 0 0 0 1rem;
+  }
+}
+
+// ACCOUNT CREATION
+.account-creation__container {
+  width: 100%;
+  max-width: $screen-sm;
+  margin: 0 auto;
+  border: 3px solid$color-primary;
+  border-radius: 4px;
+}
+
+// TERMS
+.terms {
+  &__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    > * {
+      margin: 1rem 0 0;
+    }
+  }
+}
+
+// PRICE SECTION
+.price {
+  &__container {
+    max-width: 400px;
+    margin: 3rem auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    border: 3px solid $color-primary;
+    border-radius: 4px;
+  }
+  &__amount {
+    color: $color-primary;
+    font-weight: $fontWeightBold;
+  }
+}
+
+// PAYMENT
+.credit-card {
+  &__input {
+    width: 300px;
+    margin: 2rem auto 0;
+    border: 1px solid $color-primary;
+    border-radius: 4px;
+    padding: 1rem;
+  }
+  &__error {
+    width: 300px;
+    color: $color-danger;
+    font-size: 0.8rem;
+    margin: 0 auto;
+  }
+}

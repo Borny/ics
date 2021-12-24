@@ -91,6 +91,11 @@ const routes: Routes = [
     data: { animation: 'AdminLoginPage' },
   },
   {
+    path: 'isp',
+    loadChildren: () =>
+      import('./views/isp/isp.module').then((m) => m.IspViewModule),
+  },
+  {
     path: '',
     redirectTo: 'accueil',
     pathMatch: 'full',

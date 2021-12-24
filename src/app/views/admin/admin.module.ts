@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { MaterialModule } from '../../angular-material/angular-material.module';
 import { SharedModule } from '../../shared/shared.module';
-import { AdminRoutingModule } from './admin-routing.module';
+import { AdminRoutingModule } from './admin.routing';
 
 import { AdminView } from './admin.component';
 import { MemberDataTable } from 'src/app/organisms/member-data-table/member-data-table.component';
