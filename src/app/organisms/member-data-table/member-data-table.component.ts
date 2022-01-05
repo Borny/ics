@@ -4,6 +4,7 @@ import { tap } from 'rxjs/operators';
 import { AdultSubscription } from 'src/app/models/adultSubscription.model';
 import { KidSubscription } from 'src/app/models/kidSubscription.model';
 import { SubscriptionAgeMode } from 'src/app/models/SubscriptionAgeMode.enum';
+import { ISPService } from 'src/app/services/subscription/isp.service';
 import { SubscriptionService } from 'src/app/services/subscription/subscription.service';
 import { DialogMember } from '../../dialogs/dialog-member/dialog-member.component';
 
@@ -15,6 +16,7 @@ import { DialogMember } from '../../dialogs/dialog-member/dialog-member.componen
 export class MemberDataTable {
   @Input() membersData: AdultSubscription[] | KidSubscription[];
   @Input() subscriptionAgeMode: SubscriptionAgeMode;
+  @Input() isp: boolean;
 
   @Output() updateTable$: EventEmitter<any> = new EventEmitter();
 
@@ -23,18 +25,24 @@ export class MemberDataTable {
 
   constructor(
     public dialog: MatDialog,
-    private subscriptionService: SubscriptionService
+    private subscriptionService: SubscriptionService,
+    private ispService: ISPService
   ) {}
 
   public onOpenModalUpdate(member: AdultSubscription | KidSubscription): void {
-    console.log(member);
+    console.log('on open edit modal', member);
     const dialogRef = this.dialog.open(DialogMember, {
       minWidth: '320px',
       maxWidth: '600px',
       width: '100%',
-      data: { memberId: member._id, ageMode: this.subscriptionAgeMode },
+      data: {
+        memberId: member._id,
+        ageMode: this.subscriptionAgeMode,
+        ISP: this.isp,
+      },
     });
     dialogRef.beforeClosed().subscribe((result) => {
+      // CONFIRM UPDATE
       if (result.action === this._CONFIRM) {
         if (
           this.subscriptionAgeMode ===
@@ -46,6 +54,15 @@ export class MemberDataTable {
             .subscribe();
         } else if (
           this.subscriptionAgeMode ===
+            SubscriptionAgeMode.SubscriptionAgeModeKids &&
+          this.isp
+        ) {
+          this.ispService
+            .updateKid(result.member)
+            .pipe(tap(() => this.updateTable$.emit()))
+            .subscribe();
+        } else if (
+          this.subscriptionAgeMode ===
           SubscriptionAgeMode.SubscriptionAgeModeKids
         ) {
           this.subscriptionService
@@ -53,6 +70,7 @@ export class MemberDataTable {
             .pipe(tap(() => this.updateTable$.emit()))
             .subscribe();
         }
+        // DELETE
       } else if (result.action === this._DELETE) {
         if (
           this.subscriptionAgeMode ===
@@ -60,6 +78,15 @@ export class MemberDataTable {
         ) {
           this.subscriptionService
             .deleteAdult(result.memberId)
+            .pipe(tap(() => this.updateTable$.emit()))
+            .subscribe();
+        } else if (
+          this.subscriptionAgeMode ===
+            SubscriptionAgeMode.SubscriptionAgeModeKids &&
+          this.isp
+        ) {
+          this.ispService
+            .deleteKid(result.memberId)
             .pipe(tap(() => this.updateTable$.emit()))
             .subscribe();
         } else if (

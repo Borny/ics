@@ -7,14 +7,18 @@
 <mat-stepper
   linear
   #stepper
-  (selectionChange)="onBackToFormules($event)"
+  (selectionChange)="onBackToSubscription($event)"
   labelPosition="bottom"
   [orientation]="(stepperOrientation$ | async)!"
 >
   <!-- SUBSCRIPTIONS -->
   <mat-step [stepControl]="subscriptionForm" label="Formulaire d'inscription">
     <ng-template matStepContent>
-      <form [formGroup]="subscriptionForm" (ngSubmit)="onCheckEmail(stepper)">
+      <form
+        [formGroup]="subscriptionForm"
+        (ngSubmit)="onCheckEmail(stepper)"
+        *ngIf="!loading"
+      >
         <!-- KIDS FORMS -->
         <ng-container formGroupName="kidsForm">
           <mat-expansion-panel [expanded]="true">
@@ -64,31 +68,32 @@
                   <mat-label>Date de naissance / Birthday</mat-label>
                   <input
                     matInput
-                    [matDatepicker]="picker"
                     formControlName="birthdate"
-                    required
+                    [matDatepicker]="picker"
+                    (dateChange)="onBirthdateSelected($event)"
                   />
-                  <!-- disabled -->
                   <mat-datepicker-toggle matSuffix [for]="picker">
                   </mat-datepicker-toggle>
                   <mat-datepicker #picker disabled="false"></mat-datepicker>
                 </mat-form-field>
 
-                <mat-label>Genre / Gender *</mat-label>
-                <mat-radio-group
-                  class="radio-group"
-                  aria-label="Genre"
-                  formControlName="gender"
-                  required
-                >
-                  <mat-radio-button
-                    *ngFor="let gender of genders; let idx = index"
-                    class="radio-button"
-                    [value]="idx"
+                <div class="form__group">
+                  <mat-label>Genre / Gender *</mat-label>
+                  <mat-radio-group
+                    class="radio-group"
+                    aria-label="Genre"
+                    formControlName="gender"
+                    required
                   >
-                    {{ gender }}
-                  </mat-radio-button>
-                </mat-radio-group>
+                    <mat-radio-button
+                      *ngFor="let gender of genders; let idx = index"
+                      class="radio-button"
+                      [value]="idx"
+                    >
+                      {{ gender }}
+                    </mat-radio-button>
+                  </mat-radio-group>
+                </div>
 
                 <!-- RENEWAL -->
                 <mat-checkbox class="form__group" formControlName="renew">
@@ -210,27 +215,6 @@
                 </mat-checkbox>
               </div>
             </div>
-
-            <div class="form-section">
-              <p class="form-section__subscription-amount">
-                Montant de l'inscription :
-                <!-- <span
-                  >{{
-                    subscriptionForm.get("kidsForm").get("formule").get("price")
-                      .value
-                  }}€</span
-                > -->
-                <span
-                  *ngIf="
-                    subscriptionForm.get('kidsForm').get('couponCodeValid')
-                      .value === true
-                  "
-                  >({{
-                    subscriptionForm.get("kidsForm").get("couponValue").value
-                  }}€ de réduction)</span
-                >
-              </p>
-            </div>
           </mat-expansion-panel>
         </ng-container>
 
@@ -291,9 +275,23 @@
                   *ngIf="
                     subscriptionForm.get('accountCreation').get('email')
                       .invalid &&
-                    subscriptionForm.get('accountCreation').get('email').touched
+                    subscriptionForm.get('accountCreation').get('email')
+                      .touched &&
+                    !subscriptionForm
+                      .get('accountCreation')
+                      .get('email')
+                      .hasError('notUnique')
                   "
                   >Veuillez renseigner votre email</mat-error
+                >
+                <mat-error
+                  *ngIf="
+                    subscriptionForm
+                      .get('accountCreation')
+                      .get('email')
+                      .hasError('notUnique')
+                  "
+                  >Veuillez renseigner un email différent</mat-error
                 >
               </mat-form-field>
               <mat-form-field>
@@ -388,34 +386,6 @@
           <strong> Récapitulatif / recap</strong>
         </h3>
 
-        <!-- Adult subscriptions -->
-        <!-- <div *ngIf="subscriptionForm.value.adultsForms.length">
-          <p class="color-primary-font">
-            <strong>Inscriptions adulte :</strong>
-          </p>
-          <div
-            *ngFor="
-              let adultForm of subscriptionForm.value.adultsForms;
-              let idx = index
-            "
-            class="margin-bottom-1"
-          >
-            <p>
-              <span class="color-primary-font">{{ idx + 1 }} - </span>
-              <span class="color-primary-font">Formule :</span>
-              {{ adultForm.formule.title }}
-            </p>
-            <p>
-              <span class="color-primary-font">Prénom :</span>
-              {{ adultForm.memberFirstName }}
-            </p>
-            <p>
-              <span class="color-primary-font">Nom :</span>
-              {{ adultForm.memberLastName }}
-            </p>
-          </div>
-        </div> -->
-
         <!-- Kids subscriptions -->
         <div>
           <p class="color-primary-font">
@@ -484,18 +454,17 @@
 
         <!-- Price -->
         <div class="price__container">
-          <p class="price__label">Montant total des inscriptions:</p>
+          <p class="price__label">Montant total de l'nscription:</p>
           <p class="price__amount">{{ totalPrice }}€</p>
-          <p class="price__off" *ngIf="priceOff">
-            (<strong>{{ priceOff }}€</strong> de réduction)
-          </p>
         </div>
 
         <!-- PAYMENT -->
         <p class="text-center color-primary-font">
           <strong>Je choisis ma méthode de paiement</strong>
         </p>
+
         <mat-tab-group mat-align-tabs="center" animationDuration="0ms">
+          <!-- CARD PAYMENT -->
           <mat-tab label="En ligne">
             <p class="text-center margin-top-1">
               Votre inscription sera validée dès le paiement effectué
@@ -509,25 +478,25 @@
             <!-- CARD ERROR -->
             <p class="credit-card__error">{{ cardErrors }}</p>
 
-            <!-- Submit button -->
+            <!-- SUBMIT BUTTON -->
             <div
-              class="
-                btn__container btn__container--block btn__container--submit
-              "
+              class="btn__container btn__container--block btn__container--submit"
             >
-              <!-- <button
+              <button
                 mat-raised-button
                 type="submit"
                 (click)="onCardPayment()"
                 color="primary"
                 [disabled]="
-                  subscriptionForm.invalid || totalPrice === 0 || !isCardValid
+                  subscriptionForm.invalid || totalPrice === 0 || !isCardValid || cardPaymentBtnDisabled
                 "
               >
                 {{ PAY_BUTTON_TEXT }} {{ totalPrice | currency }}
-              </button> -->
+              </button>
             </div>
           </mat-tab>
+
+          <!-- OTHER PAYMENT -->
           <mat-tab label="Autre">
             <p class="text-center margin-top-1">
               Votre inscription ne sera validée que lorsque le paiement sera
@@ -547,11 +516,9 @@
 
             <!-- Submit button -->
             <div
-              class="
-                btn__container btn__container--block btn__container--submit
-              "
+              class="btn__container btn__container--block btn__container--submit"
             >
-              <!-- <button
+              <button
                 mat-raised-button
                 type="submit"
                 (click)="onOtherPayment()"
@@ -559,7 +526,7 @@
                 [disabled]="subscriptionForm.invalid || totalPrice === 0"
               >
                 Confirmer l'inscription
-              </button> -->
+              </button>
             </div>
           </mat-tab>
         </mat-tab-group>

@@ -12,15 +12,14 @@ import { KidSubscription } from 'src/app/models/kidSubscription.model';
   providedIn: 'root',
 })
 export class ISPService {
-  public readonly ISP_SUBSCRIPTION_URL =
-    environment.apiUrl + '/subscription/isp';
-  public readonly SUBSCRIPTION_PRICE_URL =
-    environment.apiUrl + '/subscription/isp/price';
+  public readonly ISP_SUBSCRIPTION_URL = environment.apiUrl + '/isp';
+  public readonly ISP_SUBSCRIPTION_PRICE_URL =
+    environment.apiUrl + '/isp/price';
   public readonly EMAIL_URL = environment.apiUrl + '/subscription/email';
   public readonly SUBSCRIPTION_CREDIT_CARD_URL =
-    environment.apiUrl + '/subscription/credit-card';
+    environment.apiUrl + '/isp/credit-card';
   public readonly SUBSCRIPTION_OTHER_PAYMENT_URL =
-    environment.apiUrl + '/subscription/other';
+    environment.apiUrl + '/isp/other';
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -29,8 +28,39 @@ export class ISPService {
   //   return this.http.post(this.ADULT_SUBSCRIPTION_URL, formValues);
   // }
 
-  public getSubscriptionPrice(): Observable<any> {
-    return this.http.get<any>(this.SUBSCRIPTION_PRICE_URL);
+  public getSubscriptionPrice(): Observable<{
+    message: string;
+    priceObject: { price: number };
+  }> {
+    return this.http.get<{ message: string; priceObject: { price: number } }>(
+      this.ISP_SUBSCRIPTION_PRICE_URL
+    );
+  }
+
+  public updateISPSubscriptionPrice(price: number): Observable<{
+    message: string;
+  }> {
+    return this.http.put<{ message: string }>(
+      `${this.ISP_SUBSCRIPTION_PRICE_URL}`,
+      { price }
+    );
+  }
+
+  // GET
+  public getSubscriptionData(): Observable<any> {
+    return this.http.get<any>(this.ISP_SUBSCRIPTION_URL);
+  }
+
+  public getMember(memberId: string): Observable<any> {
+    return this.http
+      .get<any>(`${this.ISP_SUBSCRIPTION_URL}/${memberId}`)
+      .pipe(map((response) => response['data']));
+  }
+
+  // EMAIL
+  public checkEmail(email: string): Observable<{ message: string }> {
+    const emailValue = { email };
+    return this.http.post<{ message: string }>(this.EMAIL_URL, emailValue);
   }
 
   // POST
@@ -42,45 +72,17 @@ export class ISPService {
     return this.http.post(this.SUBSCRIPTION_CREDIT_CARD_URL, data);
   }
 
-  // public makeCardPayment(data: any): Observable<any> {
-  //   console.log(data)
-  //   return this.http.post(this.PAYMENT_CREDIT_CARD_URL, data);
-  // }
-
-  // GET ONE
-  // public getKid(memberId: string): Observable<any> {
-  //   return this.http.get<any>(`${this.ISP_SUBSCRIPTION_URL}/${memberId}`).pipe(
-  //     // tap((response) => console.log(response.message)),
-  //     map((response) => response['data'])
-  //   );
-  // }
-
-  // GET ALL
-  // public getKidData(): Observable<any> {
-  //   return this.http.get<any>(`${this.ISP_SUBSCRIPTION_URL}`).pipe(
-  //     // tap((response) => console.log(response.message)),
-  //     map((response) => response['data'])
-  //   );
-  // }
-
   // UPDATE
-  // public updateKid(member: KidSubscription): Observable<any> {
-  //   // console.log(member);
-  //   return this.http
-  //     .put<any>(`${this.ISP_SUBSCRIPTION_URL}/${member._id}`, member)
-  //     .pipe(tap((response) => console.log(response.message)));
-  // }
+  public updateKid(member: KidSubscription): Observable<any> {
+    return this.http
+      .put<any>(`${this.ISP_SUBSCRIPTION_URL}/${member._id}`, member)
+      .pipe(tap((response) => console.log(response.message)));
+  }
 
   // DELETE
-  // public deleteKid(memberId: string): Observable<any> {
-  //   return this.http
-  //     .delete<any>(`${this.ISP_SUBSCRIPTION_URL}/${memberId}`)
-  //     .pipe(tap((response) => console.log(response.message)));
-  // }
-
-  // EMAIL
-  public checkEmail(email: string): Observable<{ message: string }> {
-    const emailValue = { email };
-    return this.http.post<{ message: string }>(this.EMAIL_URL, emailValue);
+  public deleteKid(memberId: string): Observable<any> {
+    return this.http
+      .delete<any>(`${this.ISP_SUBSCRIPTION_URL}/${memberId}`)
+      .pipe(tap((response) => console.log(response.message)));
   }
 }

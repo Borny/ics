@@ -183,7 +183,7 @@
           <span class="color-primary-font">Nom :</span>
           {{ formule.lastName }}
         </p>
-        <p>
+        <p *ngIf="formule.formuleTitle !== 'ISP'">
           <span class="color-primary-font">Groupe d'âge :</span>
           {{ formule.formuleAgeGroup }}
         </p>

@@ -23,6 +23,7 @@ import { KidSubscription } from 'src/app/models/kidSubscription.model';
 import { GenderEnum } from 'src/app/models/gender.enum';
 import { YesNoEnum } from 'src/app/models/yesNoEnum.enum';
 import { DialogDeleteConfirm } from '../dialog-delete-confirm/dialog-delete-confirm.component';
+import { ISPService } from 'src/app/services/subscription/isp.service';
 
 @Component({
   selector: 'dialog-member',
@@ -51,9 +52,14 @@ export class DialogMember {
     public dialog: MatDialog,
     private formBuilder: FormBuilder,
     private subscriptionService: SubscriptionService,
+    private ispService: ISPService,
     public dialogRef: MatDialogRef<DialogMember>,
     @Inject(MAT_DIALOG_DATA)
-    public data: { memberId: string; ageMode: SubscriptionAgeMode }
+    public data: {
+      memberId: string;
+      ageMode: SubscriptionAgeMode;
+      ISP?: boolean;
+    }
   ) {
     this.loading = true;
     this.ageMode = data.ageMode;
@@ -65,11 +71,29 @@ export class DialogMember {
           this.adult = adultData;
           this._initAdultForm(this.adult);
         });
+    } else if (
+      data.ageMode === SubscriptionAgeMode.SubscriptionAgeModeKids &&
+      data.ISP
+    ) {
+      this.ispService.getMember(data.memberId).subscribe(
+        (kidData) => {
+          this.kid = kidData;
+          this._initKidForm(this.kid);
+        },
+        (err) => {
+          console.error('could not get the kid', err);
+        }
+      );
     } else if (data.ageMode === SubscriptionAgeMode.SubscriptionAgeModeKids) {
-      this.subscriptionService.getKid(data.memberId).subscribe((kidData) => {
-        this.kid = kidData;
-        this._initKidForm(this.kid);
-      });
+      this.subscriptionService.getKid(data.memberId).subscribe(
+        (kidData) => {
+          this.kid = kidData;
+          this._initKidForm(this.kid);
+        },
+        (err) => {
+          console.error('could not get the kid', err);
+        }
+      );
     }
   }
 
@@ -82,12 +106,12 @@ export class DialogMember {
       return;
     }
     if (this.ageMode === this.subscriptionAgeMode.SubscriptionAgeModeAdults) {
-      this.member = this.adultForm.value;
+      this.member = this.adultForm.getRawValue();
       this.member._id = this.memberId;
     } else if (
       this.ageMode === this.subscriptionAgeMode.SubscriptionAgeModeKids
     ) {
-      this.member = this.kidForm.value;
+      this.member = this.kidForm.getRawValue();
       this.member._id = this.memberId;
     }
     this.dialogRef.close({ action: this._CONFIRM, member: this.member });
@@ -126,10 +150,10 @@ export class DialogMember {
         kidData.memberFirstName,
         Validators.required
       ),
-      birthdate: this.formBuilder.control(
-        kidData.birthdate,
-        Validators.required
-      ),
+      birthdate: [
+        { value: kidData.birthdate, disabled: true },
+        Validators.required,
+      ],
       gender: this.formBuilder.control(gender, Validators.required),
       subscriptionDate: this.formBuilder.control(
         {
@@ -184,10 +208,10 @@ export class DialogMember {
         adultData.memberFirstName,
         Validators.required
       ),
-      birthdate: this.formBuilder.control(
-        adultData.birthdate,
-        Validators.required
-      ),
+      birthdate: [
+        { value: adultData.birthdate, disabled: true },
+        Validators.required,
+      ],
       gender: this.formBuilder.control(gender, Validators.required),
       phone: this.formBuilder.control(adultData.phone, [
         Validators.required,

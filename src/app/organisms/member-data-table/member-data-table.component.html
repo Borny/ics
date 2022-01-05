@@ -1,4 +1,5 @@
 <ul class="data-table__container">
+  <!-- LABELS -->
   <li class="data-table__row data-table__row-header">
     <div class="first-column"></div>
     <div></div>
@@ -28,18 +29,24 @@
     </ng-container>
 
     <div>Info Supplémentaire</div>
-    <div>Utilisation coupon</div>
-    <div>Valeur coupon</div>
+    <ng-container *ngIf="!isp">
+      <div>Utilisation coupon</div>
+      <div>Valeur coupon</div>
+    </ng-container>
     <div>Tarif Inscription</div>
     <div>Compte Associé</div>
     <div></div>
   </li>
+
+  <!-- NO DATA -->
   <li
     *ngIf="!membersData.length"
     class="data-table__row data-table__row-body data-table__row-body--no-data"
   >
     Aucune inscription
   </li>
+
+  <!-- LIST -->
   <li
     class="data-table__row data-table__row-body"
     [ngClass]="{ odd: odd, even: even }"
@@ -98,8 +105,10 @@
       </div> -->
     </ng-container>
     <div>{{ member.extraInfo || "-" }}</div>
-    <div>{{ member.couponCodeValid ? "Oui" : "Non" }}</div>
-    <div>{{ member.couponValue || "-" }}</div>
+    <ng-container *ngIf="!isp">
+      <div>{{ member.couponCodeValid ? "Oui" : "Non" }}</div>
+      <div>{{ member.couponValue || "-" }}</div>
+    </ng-container>
     <div>{{ member.subscriptionAmount }}</div>
     <div>{{ member.userEmail }}</div>
     <div>

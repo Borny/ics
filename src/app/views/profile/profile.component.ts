@@ -163,9 +163,9 @@ export class ProfileView implements OnInit {
   // Calling stripe and creating the card input element
   private _initStripe(): void {
     // Importing the key
-    // 'pk_test_51Iv7cDBNp46nE7OQLPrY4PmFtM6AoYRFY4Evu88HbrQlP52yu5gJtF66Wjejq1I5inWvY0lJvvcOvhSvArEKyiAg00vVh5wPtf'
+    // 'pk_live_51Iv78DInlL2kaZj1snSdVBtKW8YD4LWQU4m2MHONj5S6mRHGg4rTQ2Hq8l6eH2PGI6OeFWzFeGJShTl1XLDV7zc400j47Y0wE9'
     this.stripe = Stripe(
-      'pk_live_51Iv78DInlL2kaZj1snSdVBtKW8YD4LWQU4m2MHONj5S6mRHGg4rTQ2Hq8l6eH2PGI6OeFWzFeGJShTl1XLDV7zc400j47Y0wE9'
+      'pk_test_51Iv7cDBNp46nE7OQLPrY4PmFtM6AoYRFY4Evu88HbrQlP52yu5gJtF66Wjejq1I5inWvY0lJvvcOvhSvArEKyiAg00vVh5wPtf'
     );
 
     // Creating the element
