@@ -1,0 +1,47 @@
+<mat-spinner
+  *ngIf="isLoading"
+  class="spinner"
+  color="accent"
+  diameter="50"
+></mat-spinner>
+
+<section
+  class="price-input__container"
+  *ngIf="!isLoading && ISPSubscriptionPrice"
+>
+  <form [formGroup]="ISPPriceForm" (ngSubmit)="onSubmit()">
+    <p>Prix de l'inscription:</p>
+    <mat-form-field>
+      <mat-label>Prix</mat-label>
+      <input
+        formControlName="price"
+        matInput
+        type="number"
+        [value]="ISPSubscriptionPrice"
+      />
+    </mat-form-field>
+    <button
+      mat-raised-button
+      type="submit"
+      color="primary"
+      [disabled]="ISPPriceForm.invalid"
+    >
+      Modifier
+    </button>
+  </form>
+</section>
+
+<!-- NO MEMBERS -->
+<section class="tab-section" *ngIf="!isLoading && !subscriptionData.length">
+  <p>Aucune inscription</p>
+</section>
+
+<!-- MEMBERS TABLE -->
+<section class="tab-section" *ngIf="!isLoading && subscriptionData.length">
+  <member-data-table
+    [subscriptionAgeMode]="subscriptionAgeMode"
+    [isp]="true"
+    [membersData]="subscriptionData"
+    (updateTable$)="onUpdateUsers()"
+  ></member-data-table>
+</section>

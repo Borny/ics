@@ -1,0 +1,599 @@
+<section class="title__container">
+  <p class="title-md">
+    {{ "Inscriptions ISP" | uppercase }}
+  </p>
+</section>
+
+<mat-stepper
+  linear
+  #stepper
+  (selectionChange)="onBackToSubscription($event)"
+  labelPosition="bottom"
+  [orientation]="(stepperOrientation$ | async)!"
+>
+  <!-- SUBSCRIPTIONS -->
+  <mat-step [stepControl]="subscriptionForm" label="Formulaire d'inscription">
+    <ng-template matStepContent>
+      <form
+        [formGroup]="subscriptionForm"
+        (ngSubmit)="onCheckEmail(stepper)"
+        *ngIf="!loading"
+      >
+        <!-- KIDS FORMS -->
+        <ng-container formGroupName="kidsForm">
+          <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+              <mat-panel-title> Inscription </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <!-- MEMBER INFO -->
+            <div class="form-section">
+              <p class="form-section__label">Enfant / Child</p>
+              <div class="form-group">
+                <mat-form-field>
+                  <mat-label>Prénom / Name</mat-label>
+                  <input
+                    matInput
+                    type="text"
+                    name="memberFirstName"
+                    formControlName="memberFirstName"
+                    required
+                  />
+                  <mat-error
+                    *ngIf="
+                      subscriptionForm.get('kidsForm').get('memberFirstName')
+                        .invalid && subscriptionForm.get('kidsForm').touched
+                    "
+                    >Veuillez renseigner le prénom</mat-error
+                  >
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Nom / Surname</mat-label>
+                  <input
+                    matInput
+                    type="text"
+                    name="memberLastName"
+                    formControlName="memberLastName"
+                    required
+                  />
+                  <mat-error
+                    *ngIf="
+                      subscriptionForm.get('kidsForm').get('memberLastName')
+                        .invalid && subscriptionForm.get('kidsForm').touched
+                    "
+                    >Veuillez renseigner le nom</mat-error
+                  >
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="date-picker">
+                  <mat-label>Date de naissance / Birthday</mat-label>
+                  <input
+                    matInput
+                    formControlName="birthdate"
+                    [matDatepicker]="picker"
+                    (dateChange)="onBirthdateSelected($event)"
+                  />
+                  <mat-datepicker-toggle matSuffix [for]="picker">
+                  </mat-datepicker-toggle>
+                  <mat-datepicker #picker disabled="false"></mat-datepicker>
+                </mat-form-field>
+
+                <div class="form__group">
+                  <mat-label>Genre / Gender *</mat-label>
+                  <mat-radio-group
+                    class="radio-group"
+                    aria-label="Genre"
+                    formControlName="gender"
+                    required
+                  >
+                    <mat-radio-button
+                      *ngFor="let gender of genders; let idx = index"
+                      class="radio-button"
+                      [value]="idx"
+                    >
+                      {{ gender }}
+                    </mat-radio-button>
+                  </mat-radio-group>
+                </div>
+
+                <!-- RENEWAL -->
+                <mat-checkbox class="form__group" formControlName="renew">
+                  Réinscription / Re-registration
+                </mat-checkbox>
+              </div>
+            </div>
+
+            <!-- LEGAL GUARDIAN -->
+            <div class="form-section">
+              <p class="form-section__label">
+                Représentant Légal / Legal Representative
+              </p>
+              <div class="form-group">
+                <mat-form-field>
+                  <mat-label>Nom / Surname</mat-label>
+                  <input
+                    matInput
+                    type="text"
+                    name="guardianLastName"
+                    formControlName="guardianLastName"
+                    required
+                  />
+                  <mat-error
+                    *ngIf="
+                      subscriptionForm.get('kidsForm').get('guardianLastName')
+                        .invalid &&
+                      subscriptionForm.get('kidsForm').get('guardianLastName')
+                        .touched
+                    "
+                    >Veuillez renseigner un nom</mat-error
+                  >
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Prénom / Name</mat-label>
+                  <input
+                    matInput
+                    type="text"
+                    name="guardianFirstName"
+                    formControlName="guardianFirstName"
+                    required
+                  />
+                  <mat-error
+                    *ngIf="
+                      subscriptionForm.get('kidsForm').get('guardianFirstName')
+                        .invalid &&
+                      subscriptionForm.get('kidsForm').get('guardianFirstName')
+                        .touched
+                    "
+                    >Veuillez renseigner un prénom</mat-error
+                  >
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Email</mat-label>
+                  <input
+                    matInput
+                    type="email"
+                    name="guardianEmail"
+                    formControlName="guardianEmail"
+                    required
+                  />
+                  <mat-error
+                    *ngIf="
+                      subscriptionForm.get('kidsForm').get('guardianEmail')
+                        .invalid &&
+                      subscriptionForm.get('kidsForm').get('guardianEmail')
+                        .touched
+                    "
+                    >Veuillez renseigner un email valid</mat-error
+                  >
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Téléphone / Phone number</mat-label>
+                  <input
+                    matInput
+                    type="text"
+                    name="guardianPhone"
+                    formControlName="guardianPhone"
+                    required
+                  />
+                  <mat-error
+                    *ngIf="
+                      subscriptionForm.get('kidsForm').get('guardianPhone')
+                        .invalid &&
+                      subscriptionForm.get('kidsForm').get('guardianPhone')
+                        .touched
+                    "
+                    >Veuillez renseigner un numéro de téléphone
+                    valide</mat-error
+                  >
+                </mat-form-field>
+              </div>
+            </div>
+
+            <!-- EXTRA INFO -->
+            <div class="form-section">
+              <p class="form-section__label">
+                Informations supplémentaires / Extra info
+              </p>
+              <div class="form-group">
+                <mat-form-field>
+                  <mat-label>Détails</mat-label>
+                  <textarea
+                    matInput
+                    name="extraInfo"
+                    formControlName="extraInfo"
+                  ></textarea>
+                </mat-form-field>
+
+                <!-- IMAGE RIGHTS -->
+                <mat-checkbox class="form__group" formControlName="imageRights">
+                  {{
+                    subscriptionForm.get("kidsForm").get("imageRights").value
+                      ? "Je soussigné(e), adhérent ou représentant légal de l'adhérent, autorise ACDO et ACDOIDFP, groupe ICS France, à utiliser l'image de mon enfant, à des fins de communication des activités du groupe ICS France. /
+                      I, the undersigned, legal representative of the child, authorize ACDO to use his/her image for communication purposes in favor of the ICS France group."
+                      : "Je soussigné(e), adhérent ou représentant légal de l'adhérent, n'autorise pas ACDO et ACDOIDFP, groupe ICS France, à utiliser l'image de mon enfant, à des fins de communication des activités du groupe ICS France. /
+                      I, the undersigned, legal representative of the child, do not authorized ACDO to use his/her image for communication purposes in favor of the ICS France group."
+                  }}
+                </mat-checkbox>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </ng-container>
+
+        <!-- ACCOUNT CREATION -->
+        <ng-container formGroupName="accountCreation">
+          <div class="form-section account-creation__container">
+            <p class="form-section__label">Création du compte / Sign Up</p>
+
+            <div class="form-group">
+              <mat-form-field>
+                <mat-label>Prénom / Name</mat-label>
+                <input
+                  matInput
+                  type="text"
+                  name="firstName"
+                  formControlName="firstName"
+                  required
+                />
+                <mat-error
+                  *ngIf="
+                    subscriptionForm.get('accountCreation').get('firstName')
+                      .invalid &&
+                    subscriptionForm.get('accountCreation').get('firstName')
+                      .touched
+                  "
+                  >Veuillez renseigner votre prénom</mat-error
+                >
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Nom / Surname</mat-label>
+                <input
+                  matInput
+                  type="text"
+                  name="lastName"
+                  formControlName="lastName"
+                  required
+                />
+                <mat-error
+                  *ngIf="
+                    subscriptionForm.get('accountCreation').get('lastName')
+                      .invalid &&
+                    subscriptionForm.get('accountCreation').get('lastName')
+                      .touched
+                  "
+                  >Veuillez renseigner votre nom</mat-error
+                >
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>E-mail</mat-label>
+                <input
+                  matInput
+                  type="email"
+                  name="email"
+                  formControlName="email"
+                  required
+                />
+                <mat-error
+                  *ngIf="
+                    subscriptionForm.get('accountCreation').get('email')
+                      .invalid &&
+                    subscriptionForm.get('accountCreation').get('email')
+                      .touched &&
+                    !subscriptionForm
+                      .get('accountCreation')
+                      .get('email')
+                      .hasError('notUnique')
+                  "
+                  >Veuillez renseigner votre email</mat-error
+                >
+                <mat-error
+                  *ngIf="
+                    subscriptionForm
+                      .get('accountCreation')
+                      .get('email')
+                      .hasError('notUnique')
+                  "
+                  >Veuillez renseigner un email différent</mat-error
+                >
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label
+                  >Mot de passe (six caractères min) / Password</mat-label
+                >
+                <input
+                  matInput
+                  type="password"
+                  name="password"
+                  formControlName="password"
+                  required
+                />
+                <mat-error
+                  *ngIf="
+                    subscriptionForm.get('accountCreation').get('password')
+                      .invalid &&
+                    subscriptionForm.get('accountCreation').get('password')
+                      .touched
+                  "
+                  >Veuillez renseigner un mot de passe</mat-error
+                >
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label
+                  >Confirmation du mot de passe / Confirm password</mat-label
+                >
+                <input
+                  matInput
+                  type="password"
+                  name="passwordConfirmation"
+                  formControlName="passwordConfirmation"
+                  required
+                />
+                <mat-error
+                  *ngIf="
+                    subscriptionForm
+                      .get('accountCreation')
+                      .get('passwordConfirmation').invalid &&
+                    subscriptionForm
+                      .get('accountCreation')
+                      .get('passwordConfirmation').touched
+                  "
+                  >Les champs mot de passe doivent être identiques</mat-error
+                >
+              </mat-form-field>
+            </div>
+          </div>
+        </ng-container>
+
+        <!-- SUBSCRIPTION TOTAL PRICE CONTAINER -->
+        <div class="price__container">
+          <p class="price__label">Montant de l'inscription / Total amount:</p>
+          <p class="price__amount">{{ totalPrice }}€</p>
+        </div>
+
+        <!-- SPINNER -->
+        <atom-spinner
+          *ngIf="checkEmailLoading"
+          [color]="'accent'"
+          class="spinner--xs"
+        ></atom-spinner>
+
+        <!-- BTNS -->
+        <div *ngIf="!checkEmailLoading" class="btn__container">
+          <button
+            mat-raised-button
+            type="submit"
+            color="primary"
+            [disabled]="subscriptionForm.invalid"
+          >
+            Suivant / Next
+          </button>
+        </div>
+      </form>
+    </ng-template>
+  </mat-step>
+
+  <!-- PAYMENT -->
+  <mat-step [stepControl]="subscriptionForm" label="Paiement">
+    <ng-template matStepContent>
+      <!-- RECAP -->
+
+      <atom-spinner
+        *ngIf="paymentLoading"
+        [color]="'accent'"
+        class="spinner"
+      ></atom-spinner>
+
+      <div *ngIf="!paymentLoading && !showSubscriptionValidation">
+        <h3 class="text-center color-primary-font">
+          <strong> Récapitulatif / recap</strong>
+        </h3>
+
+        <!-- Kids subscriptions -->
+        <div>
+          <p class="color-primary-font">
+            <strong>Inscription :</strong>
+          </p>
+          <div class="margin-bottom-1">
+            <p>
+              <span class="color-primary-font">Prénom :</span>
+              {{ subscriptionForm.value.kidsForm.memberFirstName }}
+            </p>
+            <p>
+              <span class="color-primary-font">Nom :</span>
+              {{ subscriptionForm.value.kidsForm.memberLastName }}
+            </p>
+            <p>
+              <span class="color-primary-font"
+                >Prénom du représentant légal :</span
+              >
+              {{ subscriptionForm.value.kidsForm.guardianFirstName }}
+            </p>
+            <p>
+              <span class="color-primary-font"
+                >Nom du représentant légal :</span
+              >
+              {{ subscriptionForm.value.kidsForm.guardianLastName }}
+            </p>
+            <p>
+              <span class="color-primary-font"
+                >Email du représentant légal :</span
+              >
+              {{ subscriptionForm.value.kidsForm.guardianEmail }}
+            </p>
+            <p>
+              <span class="color-primary-font"
+                >Numéro de téléphone du représentant légal :</span
+              >
+              {{ subscriptionForm.value.kidsForm.guardianPhone }}
+            </p>
+          </div>
+        </div>
+
+        <!-- Account creation -->
+        <div class="margin-top-1">
+          <p class="color-primary-font">
+            <strong>Création du compte :</strong>
+          </p>
+          <p>
+            <span class="color-primary-font">Prénom :</span>
+            {{ subscriptionForm.value.accountCreation.firstName }}
+          </p>
+          <p>
+            <span class="color-primary-font">Nom :</span>
+            {{ subscriptionForm.value.accountCreation.lastName }}
+          </p>
+          <p>
+            <span class="color-primary-font">Email :</span>
+            {{ subscriptionForm.value.accountCreation.email }}
+          </p>
+        </div>
+
+        <div class="btn__container">
+          <button mat-raised-button color="accent" matStepperPrevious>
+            Modifier les informations
+          </button>
+        </div>
+
+        <!-- Price -->
+        <div class="price__container">
+          <p class="price__label">Montant total de l'nscription:</p>
+          <p class="price__amount">{{ totalPrice }}€</p>
+        </div>
+
+        <!-- PAYMENT -->
+        <p class="text-center color-primary-font">
+          <strong>Je choisis ma méthode de paiement</strong>
+        </p>
+
+        <mat-tab-group mat-align-tabs="center" animationDuration="0ms">
+          <!-- CARD PAYMENT -->
+          <mat-tab label="En ligne">
+            <p class="text-center margin-top-1">
+              Votre inscription sera validée dès le paiement effectué
+            </p>
+            <p class="color-primary-font text-center bold margin-top-1">
+              Veuillez remplir les informations de votre carte
+            </p>
+
+            <!-- CREDIT CARD INPUT -->
+            <div class="credit-card__input" #creditCardElement></div>
+            <!-- CARD ERROR -->
+            <p class="credit-card__error">{{ cardErrors }}</p>
+
+            <!-- SUBMIT BUTTON -->
+            <div
+              class="btn__container btn__container--block btn__container--submit"
+            >
+              <button
+                mat-raised-button
+                type="submit"
+                (click)="onCardPayment()"
+                color="primary"
+                [disabled]="
+                  subscriptionForm.invalid || totalPrice === 0 || !isCardValid || cardPaymentBtnDisabled
+                "
+              >
+                {{ PAY_BUTTON_TEXT }} {{ totalPrice | currency }}
+              </button>
+            </div>
+          </mat-tab>
+
+          <!-- OTHER PAYMENT -->
+          <mat-tab label="Autre">
+            <p class="text-center margin-top-1">
+              Votre inscription ne sera validée que lorsque le paiement sera
+              effectué
+            </p>
+            <!-- <p>Veuillez renseigner le montant de chaque méthode de paiement:</p> -->
+            <p class="text-center margin-top-1">
+              Vous pourrez régler l'inscription à l'aide des méthodes suivantes
+              :
+            </p>
+            <ul class="text-center margin-top-1 payment-other--options">
+              <li>Chèque</li>
+              <li>Espèce</li>
+              <li>Chèques-vacances</li>
+              <li>Pass 92</li>
+            </ul>
+
+            <!-- Submit button -->
+            <div
+              class="btn__container btn__container--block btn__container--submit"
+            >
+              <button
+                mat-raised-button
+                type="submit"
+                (click)="onOtherPayment()"
+                color="primary"
+                [disabled]="subscriptionForm.invalid || totalPrice === 0"
+              >
+                Confirmer l'inscription
+              </button>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+
+      <!-- SHOW VALIDATION CARD PAYMENT -->
+      <div *ngIf="!paymentLoading && showCardPaymentValidation">
+        <h2 class="margin-bottom-1 text-center">
+          Paiement et inscription validés!
+          <br />
+          Merci, un email vient d'être envoyé à
+          <br />
+          <span class="color-primary-font">
+            {{ subscriptionsData.formValues.accountCreation.email }}
+          </span>
+        </h2>
+
+        <p class="margin-bottom-1 text-center">
+          Vous pouvez également trouver les détails dans votre espace privé.
+          Connectez-vous en utilisant votre email
+          {{ subscriptionsData.formValues.accountCreation.email }} ainsi que le
+          mot de passe associé.
+        </p>
+      </div>
+
+      <!-- SHOW VALIDATION OTHER PAYMENT -->
+      <div *ngIf="!paymentLoading && showOtherPaymentValidation">
+        <h2 class="margin-bottom-1 text-center">
+          Inscription enregistrée!
+          <br />
+          Merci, un email vient d'être envoyé à
+          <br />
+          <span class="color-primary-font">
+            {{ subscriptionsData.formValues.accountCreation.email }}
+          </span>
+        </h2>
+
+        <!-- TODO: this is duplicate code -->
+        <p class="margin-bottom-1 text-center">
+          Vous pouvez également trouver les détails dans votre espace privé.
+          Connectez-vous en utilisant votre email
+          {{ subscriptionsData.formValues.accountCreation.email }} ainsi que le
+          mot de passe associé.
+        </p>
+      </div>
+
+      <div
+        *ngIf="!paymentLoading && showSubscriptionValidation"
+        class="btn__container"
+      >
+        <button
+          mat-raised-button
+          color="primary"
+          type="button"
+          (click)="onNavigateHome()"
+        >
+          Accueil
+        </button>
+        <button
+          mat-raised-button
+          color="accent"
+          type="button"
+          (click)="onNavigateSignIn()"
+        >
+          Connexion
+        </button>
+      </div>
+    </ng-template>
+  </mat-step>
+</mat-stepper>

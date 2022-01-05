@@ -135,7 +135,7 @@ export class AuthService {
           this.userDataListener$.next(this._user);
         },
         (err) => {
-          console.log(err);
+          console.error('autoAuthUser error', err);
         }
       );
     }

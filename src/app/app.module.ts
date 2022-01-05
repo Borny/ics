@@ -5,7 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 
-import { AppRoutingModule } from './app-routing.module';
+import { AppRoutingModule } from './app.routing';
 import { MaterialModule } from './angular-material/angular-material.module';
 
 import { SharedModule } from './shared/shared.module';

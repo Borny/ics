@@ -4,6 +4,11 @@
 
 <section class="main-section">
   <mat-tab-group mat-align-tabs="center" animationDuration="0ms">
+    <mat-tab label="ISP">
+      <ng-template matTabContent>
+        <organism-admin-isp></organism-admin-isp>
+      </ng-template>
+    </mat-tab>
     <mat-tab label="Utilisateurs">
       <ng-template matTabContent>
         <organism-admin-users></organism-admin-users>
