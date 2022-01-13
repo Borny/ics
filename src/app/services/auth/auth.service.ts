@@ -129,15 +129,17 @@ export class AuthService {
       this._isAuth = true;
       this._setAuthTimeout(expiresIn);
       this._authStatusListener$.next(true);
-      this.getUser(authInformation.userId).subscribe(
-        (response) => {
-          this._user = response.user;
-          this.userDataListener$.next(this._user);
-        },
-        (err) => {
-          console.error('autoAuthUser error', err);
-        }
-      );
+      if (authInformation.userId) {
+        this.getUser(authInformation.userId).subscribe(
+          (response) => {
+            this._user = response.user;
+            this.userDataListener$.next(this._user);
+          },
+          (err) => {
+            console.error('autoAuthUser error', err);
+          }
+        );
+      }
     }
   }
 

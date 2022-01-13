@@ -62,7 +62,6 @@ export class OrganismAdminISP implements OnInit {
   }
 
   private _getSubscriptionPrice(): void {
-    console.log('get sub price');
     this.ispService.getSubscriptionPrice().subscribe(
       ({ priceObject }) => {
         this.ISPSubscriptionPrice = priceObject.price;

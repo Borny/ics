@@ -30,7 +30,6 @@ export class MemberDataTable {
   ) {}
 
   public onOpenModalUpdate(member: AdultSubscription | KidSubscription): void {
-    console.log('on open edit modal', member);
     const dialogRef = this.dialog.open(DialogMember, {
       minWidth: '320px',
       maxWidth: '600px',

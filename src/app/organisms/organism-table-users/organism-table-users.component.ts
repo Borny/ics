@@ -32,7 +32,6 @@ export class OrganismTableUsers {
     this.users$ = of(
       this.users.filter((user) => {
         const searchTerm = this.search.trim().toLowerCase();
-        console.log(user.lastName, searchTerm === user.lastName);
         return (
           user.email === searchTerm ||
           user.firstName.toLowerCase() === searchTerm ||
@@ -73,7 +72,6 @@ export class OrganismTableUsers {
           .pipe(tap(() => this.updateTable$.emit()))
           .subscribe();
       } else if (result.action === ActionLabel.DELETE) {
-        console.log('delete', result.userId);
         this.authService
           .deleteUser(result.userId)
           .pipe(tap(() => this.updateTable$.emit()))

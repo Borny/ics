@@ -23,6 +23,7 @@ import { GenderEnum } from 'src/app/models/gender.enum';
 import { PaymentMethodEnum } from 'src/app/models/payment-method.enum';
 import { ISPService } from 'src/app/services/subscription/isp.service';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'isp',
@@ -233,10 +234,7 @@ export class IspView implements OnInit {
   // Calling stripe and creating the card input element
   private _initStripe(): void {
     // Importing the key
-    this.stripe = Stripe(
-      'pk_test_51Iv7cDBNp46nE7OQLPrY4PmFtM6AoYRFY4Evu88HbrQlP52yu5gJtF66Wjejq1I5inWvY0lJvvcOvhSvArEKyiAg00vVh5wPtf'
-      // 'pk_live_51Iv78DInlL2kaZj1snSdVBtKW8YD4LWQU4m2MHONj5S6mRHGg4rTQ2Hq8l6eH2PGI6OeFWzFeGJShTl1XLDV7zc400j47Y0wE9'
-    );
+    this.stripe = Stripe(environment.stripePublicKey);
 
     // Creating the element
     const elements = this.stripe.elements({ locale: 'fr' });
